@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KR900 LCD</string>
+    <string name="menu_about">About</string>
+    <string name="menu_exit">Exit</string>
+    
+    <string name="menu_setting">Setting</string><string name="hex_string">0123456789ABCDEF</string><string-array name="bank">
+	<item>RESERVED</item>
+	<item>EPC</item>
+	<item>TID</item>
+	<item>USER</item>
+	</string-array>
+
+
+
+</resources>

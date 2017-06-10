@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="fill_parent"
+  android:orientation="vertical" android:layout_width="fill_parent" android:layout_gravity="fill_horizontal">
+
+
+	<LinearLayout android:id="@+id/LinearLayout01" 
+	android:layout_height="wrap_content" 
+	android:orientation="horizontal" android:layout_gravity="fill_horizontal" android:layout_width="fill_parent">
+	
+		<TextView android:text="RF Atten : " 
+		android:id="@+id/TextView01" 
+		android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#FFFFFF"
+		android:layout_width="wrap_content" android:gravity="right|center_vertical" android:width="130px"></TextView>
+		<EditText android:text="0" 
+		android:id="@+id/editRFAtten" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:selectAllOnFocus = "true"
+		android:maxLength="2"
+		android:layout_weight="1" android:inputType="number" android:gravity="right|center_vertical"></EditText>
+		<LinearLayout android:layout_width="30px" android:layout_height="wrap_content" android:background="#7474D2"></LinearLayout>
+		<Button android:text="SET" 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:id="@+id/idSetAtten" android:width="120px" android:gravity="center|center_vertical"></Button>
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/LinearLayout02" 
+	android:layout_height="wrap_content" 
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_gravity="fill_horizontal">
+	
+		<TextView android:text="Q Value : " 
+		android:id="@+id/TextView01" 
+		android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#FFFFFF"
+		android:layout_width="wrap_content" android:gravity="right|center_vertical" android:width="130px"></TextView>
+		<EditText android:text="6" 
+		android:id="@+id/editQValue" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:selectAllOnFocus = "true"
+		android:maxLength="2"
+		android:layout_weight="1" android:inputType="number" android:gravity="right|center_vertical"></EditText>
+		<LinearLayout android:layout_width="30px" android:layout_height="wrap_content" android:background="#7474D2"></LinearLayout>
+		<Button android:text="SET" 
+		android:layout_height="wrap_content" 
+		android:id="@+id/idSetQ" 
+		android:layout_gravity="center|center_vertical" 
+		android:layout_width="wrap_content" android:width="120px"></Button>
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/LinearLayout03" 
+	android:layout_height="50px" 
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_gravity="fill_horizontal">
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/LinearLayout04" 
+	android:layout_height="wrap_content" 
+	android:orientation="vertical" 
+	android:layout_width="fill_parent" 
+	android:layout_gravity="fill_horizontal">
+	
+		<LinearLayout android:id="@+id/LinearLayoutSendString" 
+		android:layout_height="wrap_content" 
+		android:orientation="horizontal" android:layout_gravity="fill_horizontal" android:layout_width="fill_parent">
+		
+			<TextView android:text="ASCII : " 
+			android:id="@+id/idTextViewAscii" 
+			android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#FFFFFF"
+			android:layout_width="wrap_content" android:gravity="right|center_vertical" android:width="130px"></TextView>
+			<EditText android:text="" 
+			android:id="@+id/idEditAscii" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:selectAllOnFocus = "true"
+			android:inputType="textVisiblePassword"
+			android:layout_weight="1" android:gravity="right|center_vertical"></EditText>
+			<LinearLayout android:layout_width="30px" android:layout_height="wrap_content" android:background="#7474D2"></LinearLayout>
+			<Button android:text="Send" 
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content" 
+			android:id="@+id/idButtonSend" android:width="120px" android:gravity="center|center_vertical"></Button>
+		</LinearLayout>
+		
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/LinearLayout05" 
+	android:layout_height="50px" 
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_gravity="fill_horizontal">
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/LinearLayout06" 
+	android:layout_height="wrap_content" 
+	android:orientation="vertical" 
+	android:layout_width="fill_parent" 
+	android:layout_gravity="fill_horizontal">
+	
+		<LinearLayout android:id="@+id/LinearLayoutReg01" 
+		android:layout_height="wrap_content" 
+		android:orientation="horizontal" android:layout_gravity="fill_horizontal" android:layout_width="fill_parent">
+		
+			<TextView android:text="Addr(hex) : " 
+			android:id="@+id/idTextViewAddress" 
+			android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#FFFFFF"
+			android:layout_width="wrap_content" android:gravity="right|center_vertical" android:width="130px"></TextView>
+			<EditText android:text="00" 
+			android:id="@+id/idEditAddress" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:inputType="textVisiblePassword|textCapCharacters"
+			android:selectAllOnFocus = "true"
+			android:maxLength="2"
+			android:digits="@string/hex_string"
+			android:layout_weight="1" android:gravity="right|center_vertical"></EditText>
+			<LinearLayout android:layout_width="30px" android:layout_height="wrap_content" android:background="#7474D2"></LinearLayout>
+			<Button android:text="HS" 
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content" 
+			android:id="@+id/idButtonHS" android:width="120px" android:gravity="center|center_vertical"></Button>
+		</LinearLayout>
+		
+		<LinearLayout android:id="@+id/LinearLayoutReg02" 
+		android:layout_height="wrap_content" 
+		android:orientation="horizontal" android:layout_gravity="fill_horizontal" android:layout_width="fill_parent">
+		
+			<TextView android:text="Val(hex) : " 
+			android:id="@+id/idTextViewAddress" 
+			android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#FFFFFF"
+			android:layout_width="wrap_content" android:gravity="right|center_vertical" android:width="130px"></TextView>
+			<EditText android:text="0000" 
+			android:id="@+id/idEditValue" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:selectAllOnFocus = "true"
+			android:digits="@string/hex_string"
+			android:maxLength="4"
+			android:inputType="textVisiblePassword|textCapCharacters"
+			android:layout_weight="1" android:gravity="right|center_vertical"></EditText>
+			<LinearLayout android:layout_width="30px" android:layout_height="wrap_content" android:background="#7474D2"></LinearLayout>
+			<Button android:text="HR" 
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content" 
+			android:id="@+id/idButtonHR" android:width="120px" android:gravity="center|center_vertical"></Button>
+		</LinearLayout>
+		
+	</LinearLayout>
+
+<!-- 
+	<LinearLayout android:id="@+id/LinearLayout04" 
+	android:layout_height="wrap_content" 
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_gravity="fill_horizontal">
+	
+		<Button android:text="Default" 
+		android:layout_height="wrap_content" 
+		android:id="@+id/idDefault" 
+		android:layout_gravity="center|center_vertical" 
+		android:layout_width="wrap_content" android:width="220px"></Button>
+		<LinearLayout android:id="@+id/LinearLayout03" 
+		android:layout_height="wrap_content" 
+		android:layout_width="40px" 
+		android:layout_gravity="fill_horizontal">
+		</LinearLayout>
+		<Button android:text="Save" 
+		android:layout_height="wrap_content" 
+		android:id="@+id/idSave" 
+		android:layout_gravity="center|center_vertical" 
+		android:layout_width="wrap_content" android:width="220px"></Button>
+		
+	</LinearLayout>
+ -->
+
+</LinearLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="fill_parent" 
+  android:orientation="vertical" 
+  android:layout_gravity="fill_vertical">
+<LinearLayout android:id="@+id/LinearLayout01" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:orientation="horizontal">
+<TextView android:id="@+id/TextView01" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:text="Start :" 
+android:width="60px" 
+android:gravity="right">
+</TextView>
+<EditText android:text="4" 
+android:id="@+id/idStartPos" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:inputType="numberDecimal" 
+android:width="70px" 
+android:gravity="right">
+</EditText>
+<TextView android:id="@+id/TextView01" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:text="Size :" 
+android:width="60px" 
+android:gravity="right">
+</TextView>
+<EditText android:text="12" 
+android:id="@+id/idSize" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:inputType="numberDecimal" 
+android:width="70px" 
+android:gravity="right">
+</EditText>
+<TextView android:id="@+id/TextView02" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:text="Bank :" 
+android:width="60px" 
+android:gravity="right">
+</TextView>
+
+<Spinner android:id="@+id/idBank" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content">
+</Spinner>
+</LinearLayout>
+<TextView android:id="@+id/TextView01" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content" 
+android:text="[Read Memory]"/>
+<LinearLayout 
+android:id="@+id/LinearLayout02" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content" 
+android:orientation="vertical">
+<Button 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:layout_gravity="right" 
+android:width="200px" 
+android:text="Read Memory" 
+android:id="@+id/idReadMemory">
+</Button>
+<EditText android:text="" 
+android:id="@+id/idReadMemoryValue" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content">
+</EditText>
+</LinearLayout>
+<TextView android:id="@+id/TextView01" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content" 
+android:text="[Write Memory]"/>
+<LinearLayout 
+android:id="@+id/LinearLayout02" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content" 
+android:orientation="vertical">
+<Button 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:layout_gravity="right" 
+android:width="200px" 
+android:text="Write Memory" 
+android:id="@+id/idWriteMemory">
+</Button>
+<EditText android:text="11 22 33 44 55 66 77 88 99 00 AA BB" 
+android:id="@+id/idWriteMemoryValue" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content">
+</EditText>
+</LinearLayout>
+
+<TextView android:id="@+id/TextView01" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content" 
+android:text=""/>
+<LinearLayout 
+android:id="@+id/LinearLayout02" 
+android:layout_width="fill_parent" 
+android:orientation="horizontal"
+android:layout_gravity="bottom" android:layout_height="wrap_content">
+<TextView android:id="@+id/TextView01" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:text="Read/Write Status :" 
+android:gravity="right">
+</TextView>
+<EditText android:text="Ready!" 
+android:id="@+id/idRWStatus" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:layout_weight="1">
+</EditText>
+</LinearLayout>
+<LinearLayout 
+android:id="@+id/LinearLayout03" 
+android:layout_width="fill_parent" 
+android:orientation="horizontal"
+android:layout_gravity="bottom" android:layout_height="wrap_content">
+<CheckBox android:id="@+id/idcheckUsePassword" 
+android:layout_width="44dp" 
+android:layout_height="wrap_content">
+</CheckBox>
+<TextView android:id="@+id/TextView02" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:text="Access Password :" 
+android:gravity="right">
+</TextView>
+<EditText android:text="00 00 00 00" 
+android:id="@+id/idAccessPassword" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:layout_weight="1">
+</EditText>
+</LinearLayout>
+</LinearLayout>
