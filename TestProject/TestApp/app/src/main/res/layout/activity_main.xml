@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.test.juicy.testapp.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <Button
+        android:id="@+id/subBtn"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="SUB"
+        android:onClick="SubClick"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/mulBtn"
+        android:layout_marginStart="30dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintLeft_toRightOf="@+id/addBtn"
+        android:layout_marginLeft="30dp" />
+
+    <Button
+        android:id="@+id/mulBtn"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="MUL"
+        android:onClick="MulClick"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/addBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/divBtn"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="DIV"
+        android:onClick="DivClick"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        android:layout_marginStart="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/result"
+        android:layout_marginTop="95dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="96dp"
+        app:layout_constraintLeft_toLeftOf="@+id/subBtn"
+        app:layout_constraintTop_toTopOf="@+id/subBtn"
+        android:layout_marginLeft="31dp"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:text="Add"
+        android:onClick="AddClick"
+        android:layout_marginStart="43dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/subBtn"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="43dp" />
+
+    <EditText
+        android:id="@+id/number2"
+        android:layout_width="206dp"
+        android:layout_height="51dp"
+        android:ems="10"
+        android:hint="second number"
+        android:inputType="textPersonName"
+        app:layout_constraintRight_toLeftOf="@+id/subBtn"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/addBtn"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/number1"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintLeft_toLeftOf="@+id/subBtn"
+        tools:layout_editor_absoluteY="86dp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/number1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="first number"
+        android:inputType="textPersonName"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="32dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/number2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="229dp"
+        android:layout_height="48dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        tools:layout_constraintBottom_creator="1"
+        android:layout_marginStart="47dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="164dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="40dp" />
+
+</android.support.constraint.ConstraintLayout>
