@@ -1,75 +1,42 @@
 package com.example.administrator.healthking_teacher;
 
-import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import org.w3c.dom.Text;
 
-    TextView textview;
-    Button readButton;
-    Button endButton;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-       boolean isConnect = RFIDDevice.getInstance().set();
+    public void SettingClick(View v){
+        TextView text = (TextView)findViewById(R.id.ResultText);
 
-        if(isConnect) {
-            Log.d("Debug", "Success");
-        }
-        else
-        {
-            Log.d("Debug", "false");
-        }
+        text.setText("설정 버튼을 눌렀습니다.");
+    }
 
+    public void AddStudent(View v){
+        TextView text = (TextView)findViewById(R.id.ResultText);
 
+        text.setText("학생등록 버튼을 눌렀습니다.");
+    }
 
-        textview = (TextView) findViewById(R.id.tagView);
-        readButton = (Button) findViewById(R.id.readButton);
-        endButton = (Button) findViewById(R.id.endButton);
+    public void WagleClick(View v){
 
+        TextView text = (TextView)findViewById(R.id.ResultText);
 
-        readButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RFIDDevice.getInstance().beginReadTag();
-            }
-        });
+        text.setText("와글와글 버튼을 눌렀습니다.");
 
-        endButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String[] tagList = RFIDDevice.getInstance().getTagList();
-
-                Log.d("Debug", String.valueOf(RFIDDevice.getInstance().getTagList().length));
-
-                StringBuilder sb = new StringBuilder();
-
-                if(tagList != null)
-                {
-                    for(int i=0; i<tagList.length; ++i)
-                    {
-                        sb.append(tagList[i].toString());
-                        sb.append("\n");
-                    }
-                }
-                textview.setText(sb.toString());
-                RFIDDevice.getInstance().finishReadTag();
-            }
-    });
-
-
-
-
-
-
+    }
+    public void MissionClick(View v){
+        TextView text = (TextView)findViewById(R.id.ResultText);
+        text.setText("미션 버튼을 눌렀습니다.");
     }
 }
