@@ -1,0 +1,3 @@
+set solib-search-path /cygdrive/d/Work/Workspace/u9_4x00_api/bin/ndk/local/armeabi
+directory /home/DRYOON/android-ndk/build/platforms/android-5/arch-arm/usr/include
+directory /cygdrive/d/Work/Workspace/u9_4x00_api/jni
