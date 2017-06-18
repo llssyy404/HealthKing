@@ -8,6 +8,8 @@ package com.example.administrator.healthking_teacher;
         import java.lang.reflect.Method;
 
         import java.util.Set;
+
+        import android.os.Debug;
         import android.util.Log;
 
         import android.bluetooth.BluetoothAdapter;
@@ -20,21 +22,27 @@ package com.example.administrator.healthking_teacher;
 
 public class RFIDDevice {
 
-    static private ConnectSocket _instance;
-    static public ConnectSocket getInstance() {
+    static private RFIDDevice _instance;
+    static public RFIDDevice getInstance() {
         if (_instance == null) {
-            _instance = new ConnectSocket();
+            _instance = new RFIDDevice();
+            _instance.Init();
         }
         return _instance;
     }
 
-    static public ConnectSocket deviceEnum;
+    private ConnectSocket connectSocket;
 
-    public boolean Set() {
+    private void Init()
+    {
+        connectSocket = new ConnectSocket();
+    }
+
+    public boolean set() {
 
         try {
-            if (_instance.ConnectReader() == false) {
-                ConnectSocket.connectBluetoothState state = _instance.GetBluetoothState();
+            if (connectSocket.ConnectReader() == false) {
+                ConnectSocket.connectBluetoothState state = connectSocket.GetBluetoothState();
 
                 if (state == ConnectSocket.connectBluetoothState.btsNotAvalibleBluetooth) {
                     //Toast.makeText(this, "Bluetooth is not available.", Toast.LENGTH_LONG).show();
@@ -70,4 +78,19 @@ public class RFIDDevice {
 		return  false;
     }
 
+    public void beginReadTag()
+    {
+        connectSocket.BeginRead();
+    }
+
+    public void finishReadTag()
+    {
+        connectSocket.FinishRead();
+        connectSocket.ClearTagList();
+    }
+
+    public String[] getTagList()
+    {
+       return connectSocket.GetTagList();
+    }
 }
