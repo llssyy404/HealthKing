@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AppManager : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    PAPSTableManager papsTableManager;
+    // Use this for initialization
+    void Start () {
+        papsTableManager = new PAPSTableManager();
+        papsTableManager.ReadTableFile();
+    }
 	
 	// Update is called once per frame
 	void Update () {
