@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UserInfo {
-    private string _schoolName;
-    private int _schoolGrade;
-    private int _classNum;
-    private int _number;
-    private string _name;
-    private string _gender;
+    private string _schoolName = null;
+    private int _schoolGrade = 0;
+    private int _classNum = 0;
+    private int _number = 0;
+    private string _name = null;
+    private string _gender = null;
 
     public bool InitUserInfo(string schoolName, int schoolGrade, int classNum, int number, string name, string gender)
     {

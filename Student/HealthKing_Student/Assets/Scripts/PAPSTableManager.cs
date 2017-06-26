@@ -53,33 +53,33 @@ public class PAPSTableManager
             TextAsset data = Resources.Load(_tableName[i]) as TextAsset;
             StringReader sr = new StringReader(data.text);
 
-            string source = sr.ReadLine();
-            string[] values;
+            string line = sr.ReadLine();
+            string[] words;
             PAPSTable papsTable = new PAPSTable();
-            while (source != null)
+            while (line != null)
             {
-                values = source.Split(',');
-                if (values.Length == 0)
+                words = line.Split(',');
+                if (words.Length == 0)
                 {
                     sr.Close();
                     return;
                 }
 
-                if (values.Length != (int)TABLE_INFO.MAX_TABLE_INFO)
+                if (words.Length != (int)TABLE_INFO.MAX_TABLE_INFO)
                 {
                     Debug.Log("table length != 6");
                     return;
                 }
 
-                int index = System.Convert.ToInt32(values[(int)TABLE_INFO.INDEX].Trim());
-                int gender = System.Convert.ToInt32(values[(int)TABLE_INFO.GENDER].Trim());
-                int schoolGrade = System.Convert.ToInt32(values[(int)TABLE_INFO.SCHOOL_GRADE].Trim());
-                int PAPSGrade = System.Convert.ToInt32(values[(int)TABLE_INFO.PAPS_GRADE].Trim());
-                float min = System.Convert.ToSingle(values[(int)TABLE_INFO.MIN].Trim());
-                float max = System.Convert.ToSingle(values[(int)TABLE_INFO.MAX].Trim());
+                int index = System.Convert.ToInt32(words[(int)TABLE_INFO.INDEX].Trim());
+                int gender = System.Convert.ToInt32(words[(int)TABLE_INFO.GENDER].Trim());
+                int schoolGrade = System.Convert.ToInt32(words[(int)TABLE_INFO.SCHOOL_GRADE].Trim());
+                int papsGrade = System.Convert.ToInt32(words[(int)TABLE_INFO.PAPS_GRADE].Trim());
+                float min = System.Convert.ToSingle(words[(int)TABLE_INFO.MIN].Trim());
+                float max = System.Convert.ToSingle(words[(int)TABLE_INFO.MAX].Trim());
 
-                papsTable.AddPAPSSriptInfo(index, gender, (SCHOOL_GRADE)schoolGrade, (PAPS_GRADE)PAPSGrade, min, max);
-                source = sr.ReadLine();
+                papsTable.AddPAPSSriptInfo(index, gender, (SCHOOL_GRADE)schoolGrade, (PAPS_GRADE)papsGrade, min, max);
+                line = sr.ReadLine();
             }
 
             _dicPAPSScript.Add((TABLE_TYPE)i, papsTable);

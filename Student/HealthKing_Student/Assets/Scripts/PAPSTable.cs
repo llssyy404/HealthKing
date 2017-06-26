@@ -43,7 +43,7 @@ public class PAPSTable
         }
     }
 
-    private List<PAPSTableInfo> _PAPSScriptInfo;
+    private List<PAPSTableInfo> _listPAPSScriptInfo;
 
     public PAPSTable()
     {
@@ -52,7 +52,7 @@ public class PAPSTable
 
     public void Init()
     {
-        _PAPSScriptInfo = new List<PAPSTableInfo>();
+        _listPAPSScriptInfo = new List<PAPSTableInfo>();
     }
 
     public void AddPAPSSriptInfo(int index, int gender, SCHOOL_GRADE schoolGrade, PAPS_GRADE PAPSGrade, float min, float max)
@@ -70,7 +70,7 @@ public class PAPSTable
         }
 
         PAPSTableInfo PAPSScriptInfo = new PAPSTableInfo(index, gender, schoolGrade, PAPSGrade, min, max);
-        _PAPSScriptInfo.Add(PAPSScriptInfo);
+        _listPAPSScriptInfo.Add(PAPSScriptInfo);
     }
 
     private PAPS_GRADE FindPAPSGrade(PAPSTableInfo PAPSScriptInfo, int gender, SCHOOL_GRADE schoolGrade, float value)
@@ -81,7 +81,6 @@ public class PAPSTable
         if (PAPSScriptInfo._schoolGrade != schoolGrade)
             return PAPS_GRADE.NONE;
 
-        Debug.Log(PAPSScriptInfo._min + ", " + value + ", "+ PAPSScriptInfo._max);
         if (PAPSScriptInfo._min <= value && value <= PAPSScriptInfo._max)
             return PAPSScriptInfo._PAPSGrade;
 
@@ -91,10 +90,10 @@ public class PAPSTable
     public PAPS_GRADE FindPAPSGrade(int gender, SCHOOL_GRADE schoolGrade, float value)
     {
         PAPS_GRADE grade = PAPS_GRADE.NONE;
-        Debug.Log(_PAPSScriptInfo.Count);
-        for (int i = 0; i < _PAPSScriptInfo.Count; ++i)
+        Debug.Log(_listPAPSScriptInfo.Count);
+        for (int i = 0; i < _listPAPSScriptInfo.Count; ++i)
         {
-            grade = FindPAPSGrade(_PAPSScriptInfo[i], gender, schoolGrade, value);
+            grade = FindPAPSGrade(_listPAPSScriptInfo[i], gender, schoolGrade, value);
             if (grade != PAPS_GRADE.NONE)
                 break;
         }

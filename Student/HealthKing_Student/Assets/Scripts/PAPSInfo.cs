@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PAPSInfo {
-    private CardiovascularEndurance _cardiovascularEndurance;   // 심폐지구력
-    private Agility                 _agility;                   // 순발력
-    private MuscularEndurance       _muscularEndurance;         // 근지구력
-    private Flexibility             _flexibility;               // 유연성
-    private BMI                     _BMI;                       // BMI
+    private CardiovascularEnduranceInfo _cardiovascularEndurance;   // 심폐지구력
+    private AgilityInfo _agility;                   // 순발력
+    private MuscularEnduranceInfo _muscularEndurance;         // 근지구력
+    private FlexibilityInfo _flexibility;               // 유연성
+    private BMIInfo _BMI;                       // BMI
 }
 
 // 심폐지구력
-public class CardiovascularEndurance
+public class CardiovascularEnduranceInfo
 {
-    private int _repeatLongRunningCount;
-    private int _longRunningMinute;
-    private int _longRunningSecond;
+    private int _repeatLongRunningCount = 0;
+    private int _longRunningMinute = 0;
+    private int _longRunningSecond = 0;
     //
-    private int _grade;
+    private int _grade = 0;
 
     public bool InitInfo(int repeatLongRunningCount, int longRunningMinute, int longRunningSecond)
     {
@@ -30,14 +30,14 @@ public class CardiovascularEndurance
 }
 
 // 순발력
-public class Agility
+public class AgilityInfo
 {
-    private int _fiftyMRunningSecond;
-    private int _standingBroadJumpCm;
+    private int _fiftyMRunningSecond = 0;
+    private float _standingBroadJumpCm = 0;
     //
-    private int _grade;
+    private int _grade = 0;
 
-    public bool InitInfo(int fiftyMRunningSecond, int standingBroadJumpCm)
+    public bool InitInfo(int fiftyMRunningSecond, float standingBroadJumpCm)
     {
         _fiftyMRunningSecond = fiftyMRunningSecond;
         _standingBroadJumpCm = standingBroadJumpCm;
@@ -47,14 +47,15 @@ public class Agility
 }
 
 // 근지구력
-public class MuscularEndurance {
-    private int _sitUpCount;
-    private int _gripRightKG;
-    private int _gripLeftKG;
+public class MuscularEnduranceInfo
+{
+    private int _sitUpCount = 0;
+    private float _gripRightKG = 0;
+    private float _gripLeftKG = 0;
     //
-    private int _grade;
+    private int _grade = 0;
 
-    public bool SetInfo(int sitUpCount, int gripRightKG, int gripLeftKG)
+    public bool SetInfo(int sitUpCount, float gripRightKG, float gripLeftKG)
     {
         _sitUpCount = sitUpCount;
         _gripRightKG = gripRightKG;
@@ -65,13 +66,13 @@ public class MuscularEndurance {
 }
 
 // 유연성
-public class Flexibility
+public class FlexibilityInfo
 {
-    private int _sitUpperBodyFrontBendCm;
+    private float _sitUpperBodyFrontBendCm;
     //
-    private int _grade;
+    private int _grade = 0;
 
-    public bool SetInfo(int sitUpperBodyFrontBendCm)
+    public bool SetInfo(float sitUpperBodyFrontBendCm)
     {
         _sitUpperBodyFrontBendCm = sitUpperBodyFrontBendCm;
 
@@ -79,12 +80,12 @@ public class Flexibility
     }
 }
 
-public class BMI
+public class BMIInfo
 {
-    private int _height;
-    private int _weight;
+    private float _height = 0;
+    private float _weight = 0;
     //
-    private int _grade;
+    private int _grade = 0;
 
     public bool SetInfo(int height, int weight)
     {
