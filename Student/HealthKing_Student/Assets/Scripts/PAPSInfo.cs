@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PAPSInfo {
-    private CardiovascularEnduranceInfo _cardiovascularEndurance;   // 심폐지구력
-    private AgilityInfo _agility;                   // 순발력
-    private MuscularEnduranceInfo _muscularEndurance;         // 근지구력
-    private FlexibilityInfo _flexibility;               // 유연성
-    private BMIInfo _BMI;                       // BMI
+    public CardiovascularEnduranceInfo _cardiovascularEndurance;   // 심폐지구력
+    public AgilityInfo _agility;                   // 순발력
+    public MuscularEnduranceInfo _muscularEndurance;         // 근지구력
+    public FlexibilityInfo _flexibility;               // 유연성
+    public BMIInfo _BMI;                       // BMI
+
+    public PAPSInfo()
+    {
+        _cardiovascularEndurance = new CardiovascularEnduranceInfo();
+        _agility = new AgilityInfo();
+        _muscularEndurance = new MuscularEnduranceInfo();
+        _flexibility = new FlexibilityInfo();
+        _BMI = new BMIInfo();
+    }
 }
 
 // 심폐지구력
@@ -19,11 +28,11 @@ public class CardiovascularEnduranceInfo
     //
     private int _grade = 0;
 
-    public bool InitInfo(int repeatLongRunningCount, int longRunningMinute, int longRunningSecond)
+    public bool InitInfo(List<string> listString)
     {
-        _repeatLongRunningCount = repeatLongRunningCount;
-        _longRunningMinute = longRunningMinute;
-        _longRunningSecond = longRunningSecond;
+        _repeatLongRunningCount = System.Convert.ToInt32(listString[0].Trim());
+        _longRunningMinute = System.Convert.ToInt32(listString[1].Trim());
+        _longRunningSecond = System.Convert.ToInt32(listString[2].Trim());
 
         return true;
     }
@@ -37,10 +46,10 @@ public class AgilityInfo
     //
     private int _grade = 0;
 
-    public bool InitInfo(int fiftyMRunningSecond, float standingBroadJumpCm)
+    public bool InitInfo(List<string> listString)
     {
-        _fiftyMRunningSecond = fiftyMRunningSecond;
-        _standingBroadJumpCm = standingBroadJumpCm;
+        _fiftyMRunningSecond = System.Convert.ToInt32(listString[0].Trim());
+        _standingBroadJumpCm = System.Convert.ToSingle(listString[1].Trim());
 
         return true;
     }
@@ -55,11 +64,11 @@ public class MuscularEnduranceInfo
     //
     private int _grade = 0;
 
-    public bool SetInfo(int sitUpCount, float gripRightKG, float gripLeftKG)
+    public bool InitInfo(List<string> listString)
     {
-        _sitUpCount = sitUpCount;
-        _gripRightKG = gripRightKG;
-        _gripLeftKG = gripLeftKG;
+        _sitUpCount = System.Convert.ToInt32(listString[0].Trim());
+        _gripRightKG = System.Convert.ToSingle(listString[1].Trim());
+        _gripLeftKG = System.Convert.ToSingle(listString[2].Trim());
 
         return true;
     }
@@ -72,9 +81,9 @@ public class FlexibilityInfo
     //
     private int _grade = 0;
 
-    public bool SetInfo(float sitUpperBodyFrontBendCm)
+    public bool InitInfo(List<string> listString)
     {
-        _sitUpperBodyFrontBendCm = sitUpperBodyFrontBendCm;
+        _sitUpperBodyFrontBendCm = System.Convert.ToSingle(listString[0].Trim());
 
         return true;
     }
@@ -87,10 +96,10 @@ public class BMIInfo
     //
     private int _grade = 0;
 
-    public bool SetInfo(int height, int weight)
+    public bool InitInfo(List<string> listString)
     {
-        _height = height;
-        _weight = weight;
+        _height = System.Convert.ToSingle(listString[0].Trim());
+        _weight = System.Convert.ToSingle(listString[1].Trim());
 
         return true;
     }

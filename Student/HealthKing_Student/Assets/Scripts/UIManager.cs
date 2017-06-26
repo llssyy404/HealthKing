@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
@@ -65,10 +66,43 @@ public class UIManager : MonoBehaviour {
         _obj[_prevSelNum].SetActive(false);
         _obj[_selNum].SetActive(true);
 
-        if(_prevSelNum == 2)
+        switch(_prevSelNum)
         {
-            AppManager.GetInstance().SetUserInfo(_listString);
+            case 2:
+                AppManager.GetInstance().SetUserInfo(_listString);
+                break;
+            case 4:
+                AppManager.GetInstance().SetCardiovascularEnduranceInfo(_listString);
+                break;
+            case 5:
+                AppManager.GetInstance().SetAgilityInfo(_listString);
+                break;
+            case 6:
+                AppManager.GetInstance().SetMuscularEnduranceInfo(_listString);
+                break;
+            case 7:
+                AppManager.GetInstance().SetFlexibilityInfo(_listString);
+                break;
+            case 8:
+                AppManager.GetInstance().SetBMIInfo(_listString);
+                break;
+            default:
+                break;
         }
         _listString.Clear();
+
+        if(_selNum == 9)
+        {
+            GameObject[] go = GameObject.FindGameObjectsWithTag("DisplayGrade");
+            Debug.Log(go.Length);
+            for (int i = 0; i < go.Length; ++i)
+            {
+                //if(go[i].name == "CardiGrade")
+                //{
+                    go[i].GetComponent<Text>().text = "1등급";
+                    //Debug.Log("dd");
+                //}
+            }
+        }
     }
 }
