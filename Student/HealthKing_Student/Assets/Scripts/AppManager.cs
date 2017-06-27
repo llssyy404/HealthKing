@@ -11,8 +11,11 @@ public class AppManager : MonoBehaviour {
     }
 
     private UserInfo _userInfo;
+    public UserInfo userInfo { get { return _userInfo; } set { _userInfo = userInfo; } }
     private PAPSInfo _papsInfo;
+    public PAPSInfo papsInfo { get { return _papsInfo; } set { _papsInfo = papsInfo; } }
     private PAPSTableManager _papsTableManager;
+    public PAPSTableManager papsTableManager { get { return _papsTableManager; } set { _papsTableManager = papsTableManager; } }
 
     private const int _maxCount = 6;
     private const int _maxCount1 = 3;
@@ -101,7 +104,6 @@ public class AppManager : MonoBehaviour {
 
         _papsInfo._BMI.InitInfo(listString);
     }
-
     //
 
     // Update is called once per frame

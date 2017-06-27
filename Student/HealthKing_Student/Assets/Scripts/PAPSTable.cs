@@ -12,13 +12,18 @@ public enum SCHOOL_GRADE
 
 public enum PAPS_GRADE
 {
-    NONE,
-    ONE,
+    ONE = 1,
     TWO,
     THREE,
     FOUR,
-    FIVE
+    FIVE,
+    NONE
 }
+
+//public enum BMI_GRADE
+//{
+
+//}
 
 //
 public class PAPSTable

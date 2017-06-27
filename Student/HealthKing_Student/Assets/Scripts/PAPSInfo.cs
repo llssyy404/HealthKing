@@ -25,8 +25,6 @@ public class CardiovascularEnduranceInfo
     private int _repeatLongRunningCount = 0;
     private int _longRunningMinute = 0;
     private int _longRunningSecond = 0;
-    //
-    private int _grade = 0;
 
     public bool InitInfo(List<string> listString)
     {
@@ -36,22 +34,40 @@ public class CardiovascularEnduranceInfo
 
         return true;
     }
+
+    public int GetRepeatLongRunningCount()
+    {
+        return _repeatLongRunningCount;
+    }
+
+    public int GetLongRunningSecond()
+    {
+        return (_longRunningMinute * 60) + _longRunningSecond;
+    }
 }
 
 // 순발력
 public class AgilityInfo
 {
-    private int _fiftyMRunningSecond = 0;
+    private float _fiftyMRunningSecond = 0;
     private float _standingBroadJumpCm = 0;
-    //
-    private int _grade = 0;
 
     public bool InitInfo(List<string> listString)
     {
-        _fiftyMRunningSecond = System.Convert.ToInt32(listString[0].Trim());
+        _fiftyMRunningSecond = System.Convert.ToSingle(listString[0].Trim());
         _standingBroadJumpCm = System.Convert.ToSingle(listString[1].Trim());
 
         return true;
+    }
+
+    public float GetFiftyMRunningSecond()
+    {
+        return _fiftyMRunningSecond;
+    }
+
+    public float GetStandingBroadJumpCm()
+    {
+        return _standingBroadJumpCm;
     }
 }
 
@@ -61,8 +77,6 @@ public class MuscularEnduranceInfo
     private int _sitUpCount = 0;
     private float _gripRightKG = 0;
     private float _gripLeftKG = 0;
-    //
-    private int _grade = 0;
 
     public bool InitInfo(List<string> listString)
     {
@@ -72,14 +86,22 @@ public class MuscularEnduranceInfo
 
         return true;
     }
+
+    public int GetSitUpCount()
+    {
+        return _sitUpCount;
+    }
+
+    public float GetGrip()
+    {
+        return _gripLeftKG > _gripRightKG ? _gripLeftKG : _gripRightKG;
+    }
 }
 
 // 유연성
 public class FlexibilityInfo
 {
     private float _sitUpperBodyFrontBendCm;
-    //
-    private int _grade = 0;
 
     public bool InitInfo(List<string> listString)
     {
@@ -87,14 +109,17 @@ public class FlexibilityInfo
 
         return true;
     }
+
+    public float GetFlexibility()
+    {
+        return _sitUpperBodyFrontBendCm;
+    }
 }
 
 public class BMIInfo
 {
     private float _height = 0;
     private float _weight = 0;
-    //
-    private int _grade = 0;
 
     public bool InitInfo(List<string> listString)
     {
@@ -102,5 +127,10 @@ public class BMIInfo
         _weight = System.Convert.ToSingle(listString[1].Trim());
 
         return true;
+    }
+
+    public float GetBMI()
+    {
+        return _weight / (_height / 0.01f * _height * 0.01f);
     }
 }

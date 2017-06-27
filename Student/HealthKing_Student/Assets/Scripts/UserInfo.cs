@@ -8,7 +8,7 @@ public class UserInfo {
     private int _classNum = 0;
     private int _number = 0;
     private string _name = null;
-    private string _gender = null;
+    private int _gender = 0;
 
     public bool InitUserInfo(List<string> listString)
     {
@@ -53,8 +53,11 @@ public class UserInfo {
         _classNum = System.Convert.ToInt32(listString[2].Trim());
         _number = System.Convert.ToInt32(listString[3].Trim());
         _name = listString[4];
-        _gender = listString[5];
+        _gender = System.Convert.ToInt32(listString[5].Trim());
 
         return true;
     }
+
+    public int GetGender() { return _gender; }
+    public int GetSchoolGrade() { return _schoolGrade; } 
 }

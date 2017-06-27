@@ -93,16 +93,17 @@ public class UIManager : MonoBehaviour {
 
         if(_selNum == 9)
         {
-            GameObject[] go = GameObject.FindGameObjectsWithTag("DisplayGrade");
-            Debug.Log(go.Length);
-            for (int i = 0; i < go.Length; ++i)
-            {
-                //if(go[i].name == "CardiGrade")
-                //{
-                    go[i].GetComponent<Text>().text = "1등급";
-                    //Debug.Log("dd");
-                //}
-            }
+            GameObject cardiGrade = GameObject.Find("CardiGrade");
+            GameObject agilityGrade = GameObject.Find("AgilityGrade");
+            GameObject musGrade = GameObject.Find("MusGrade");
+            GameObject flexibilityGrade = GameObject.Find("FlexibilityGrade");
+            GameObject bmiGrade = GameObject.Find("BMIGrade");
+
+            cardiGrade.GetComponent<Text>().text = Grade.GetCardiGrade().ToString();
+            agilityGrade.GetComponent<Text>().text = Grade.GetAgilityGrade().ToString();
+            musGrade.GetComponent<Text>().text = Grade.GetMusGrade().ToString();
+            flexibilityGrade.GetComponent<Text>().text = Grade.GetFlexibilityGrade().ToString();
+            bmiGrade.GetComponent<Text>().text = Grade.GetBMIGrade().ToString();
         }
     }
 }
