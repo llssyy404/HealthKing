@@ -1,11 +1,11 @@
 package com.example.administrator.healthking_teacher.Manage;
 
-import android.content.Context;
+
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,10 +15,27 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.administrator.healthking_teacher.Data.StudentData;
+import com.example.administrator.healthking_teacher.Network.RegisterRequest;
+import com.example.administrator.healthking_teacher.Network.ValidateRequest;
 import com.example.administrator.healthking_teacher.R;
+
+import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
 
+
+    private EditText idText;
+    private EditText passwordText;
+    private EditText nameText;
+
+    private RadioGroup genderGroup;
+
+    private Button validateButton;
+    private Button registerButton;
 
     private ArrayAdapter schoolAdapter;
     private Spinner schoolSpinner;
@@ -38,12 +55,14 @@ public class RegisterActivity extends AppCompatActivity {
     private String school; // 초,중,고등학교
     private String grade; //학년
     private String classroomNumber; //반
-    private boolean validate;
+
+    private boolean validate =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         Init();
     }
 
@@ -51,18 +70,20 @@ public class RegisterActivity extends AppCompatActivity {
         InitTextViews();
         InitRadioGroup();
         InitSpinners();
-
+        InitButtons();
     }
 
     private void InitTextViews() {
 
-        final EditText idText = (EditText) findViewById(R.id.Register_idText);
-        final EditText passwordText = (EditText) findViewById(R.id.Register_passwordText);
-        final EditText nameText = (EditText) findViewById(R.id.Register_nameText);
+        idText = (EditText) findViewById(R.id.Register_idText);
+        idText.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        passwordText = (EditText) findViewById(R.id.Register_passwordText);
+        nameText = (EditText) findViewById(R.id.Register_nameText);
     }
 
     private void InitRadioGroup() {
-        final RadioGroup genderGroup = (RadioGroup) findViewById(R.id.Register_genderGroup);
+
+        genderGroup = (RadioGroup) findViewById(R.id.Register_genderGroup);
         int genderGroupID = genderGroup.getCheckedRadioButtonId();
         gender = ((RadioButton) findViewById(genderGroupID)).getText().toString();
 
@@ -77,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void InitSpinners() {
+
         schoolSpinner = (Spinner) findViewById(R.id.Register_schoolSpinner);
         schoolAdapter = ArrayAdapter.createFromResource(this, R.array.schoolType, android.R.layout.simple_spinner_dropdown_item);
         schoolSpinner.setAdapter(schoolAdapter);
@@ -114,10 +136,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void InitButtons() {
-        final Button validateButton = (Button) findViewById(R.id.Register_vallidateButton);
+        validateButton = (Button) findViewById(R.id.Register_vallidateButton);
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id = idText.getText().toString();
+
                 if (validate) {
                     return;
                 }
@@ -130,9 +154,130 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                //중복체크 구간
+                ValidateRequest validateRequest = new ValidateRequest(id, GetValidateResponse());
+                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                queue.add(validateRequest);
             }
         });
+
+        registerButton = (Button) findViewById(R.id.Register_registerButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                id = idText.getText().toString();
+                password = passwordText.getText().toString();
+                name = nameText.getText().toString();
+                gender = ((RadioButton) findViewById(genderGroup.getCheckedRadioButtonId())).getText().toString();
+                school = schoolSpinner.getSelectedItem().toString();
+                grade = gradeSpinner.getSelectedItem().toString();
+                classroomNumber = classroomSpinner.getSelectedItem().toString();
+
+                if (!validate) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    dialog = builder.setMessage("먼저 중복체크를 해주세요.")
+                            .setNegativeButton("확인", null)
+                            .create();
+                    dialog.show();
+                    return;
+                }
+
+                if (id.equals("") || password.equals("") || name.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    dialog = builder.setMessage("빈 칸 없이 입력해주세요.")
+                            .setNegativeButton("확인", null)
+                            .create();
+                    dialog.show();
+                    return;
+                }
+
+
+                StudentData studentData = new StudentData(id, password, name, gender, school, grade, classroomNumber);
+                RegisterRequest registerRequest = new RegisterRequest(studentData, GetRegisterResponse());
+                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                queue.add(registerRequest);
+
+            }
+        });
+
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+
+        passwordText=null;
+    }
+// network
+
+    private Response.Listener<String> GetValidateResponse() {
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+                    if (success) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("사용할 수 있는 아이디입니다.")
+                                .setPositiveButton("확인", null)
+                                .create();
+                        dialog.show();
+
+                        idText.setEnabled(false);
+                        idText.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                        validateButton.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                        validate = true;
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("사용할 수 없는 아이디입니다.")
+                                .setNegativeButton("확인", null)
+                                .create();
+                        dialog.show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        return responseListener;
+    }
+
+
+    private Response.Listener<String> GetRegisterResponse() {
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+                    if (success) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("회원 등록에 성공했습니다.")
+                                .setPositiveButton("확인", null)
+                                .create();
+                        dialog.show();
+                        finish();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("회원 등록에 실패했습니다.")
+                                .setNegativeButton("확인", null)
+                                .create();
+                        dialog.show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        return responseListener;
+    }
 }
