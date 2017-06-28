@@ -78,7 +78,9 @@ public class RegisterActivity extends AppCompatActivity {
         idText = (EditText) findViewById(R.id.Register_idText);
         idText.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         passwordText = (EditText) findViewById(R.id.Register_passwordText);
+        passwordText.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         nameText = (EditText) findViewById(R.id.Register_nameText);
+        nameText.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void InitRadioGroup() {
@@ -137,6 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void InitButtons() {
         validateButton = (Button) findViewById(R.id.Register_vallidateButton);
+        validateButton.setBackgroundColor(getResources().getColor(R.color.colorWarning));
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,8 +212,6 @@ public class RegisterActivity extends AppCompatActivity {
             dialog.dismiss();
             dialog = null;
         }
-
-        passwordText=null;
     }
 // network
 
