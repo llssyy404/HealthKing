@@ -53,6 +53,33 @@ public class UIManager : MonoBehaviour {
         Debug.Log(str);
     }
 
+    public void OnClickBtnPlayVideo(int sel)
+    {
+        switch(sel)
+        {
+            case 0:
+                Application.OpenURL("https://youtu.be/tlTLmCZ6GsQ");
+                break;
+            case 1:
+                Application.OpenURL("https://youtu.be/mt_QKF-axdc");
+                break;
+            case 2:
+                Application.OpenURL("https://youtu.be/jTG2Gqivtu0");
+                break;
+            case 3:
+                Application.OpenURL("https://youtu.be/qZAD2a0AhjI");
+                break;
+            case 4:
+                Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");//
+                break;
+            case 5:
+                Application.OpenURL("https://youtu.be/Iybe05oOMGw");
+                break;
+            default:
+                break;
+        }
+    }
+
     public void OnClickStartBtn(int sel)
     {
         if (_selNum == sel)

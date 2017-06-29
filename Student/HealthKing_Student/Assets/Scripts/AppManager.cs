@@ -108,6 +108,12 @@ public class AppManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
-	}
+        if (Application.platform != RuntimePlatform.Android)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
 }
