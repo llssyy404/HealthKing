@@ -3,6 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+enum PAGE_TYPE
+{
+    LOGIN,
+    MAIN,
+    BASE_INFORM,
+    PAPS,
+    CARDI_ENDU,
+    AGILITY,
+    MUSC_ENDU,
+    FLEXIBILITY,
+    BMI,
+    PAPS_RESULT,
+    FITNESS_UP_TIP,
+    MAX_PAGE_TYPE
+}
+
+enum VIDEO_URL
+{
+    CARDI_ENDU,
+    AGILITY,
+    MUSC_ENDU,
+    FLEXIBILITY,
+    BMI,
+    WARMING_UP,
+    MAX_VIDEO_URL
+}
+
 public class UIManager : MonoBehaviour {
 
     private static UIManager _instance;
@@ -13,6 +40,7 @@ public class UIManager : MonoBehaviour {
 
     private GameObject[] _obj = null;
     private int _selNum = 0;
+    public int selPageNum { get { return _selNum; } }
     private int _prevSelNum = 0;
     private List<string> _listString;
 
@@ -26,18 +54,18 @@ public class UIManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        _obj = new GameObject[11];
-        _obj[0] = GameObject.Find("Canvas").transform.Find("Login").gameObject;
-        _obj[1] = GameObject.Find("Canvas").transform.Find("Main").gameObject;
-        _obj[2] = GameObject.Find("Canvas").transform.Find("BaseInform").gameObject;
-        _obj[3] = GameObject.Find("Canvas").transform.Find("PAPS").gameObject;
-        _obj[4] = GameObject.Find("Canvas").transform.Find("CardiovascularEndurance").gameObject;
-        _obj[5] = GameObject.Find("Canvas").transform.Find("Agility").gameObject;
-        _obj[6] = GameObject.Find("Canvas").transform.Find("MuscularEndurance").gameObject;
-        _obj[7] = GameObject.Find("Canvas").transform.Find("Flexibility").gameObject;
-        _obj[8] = GameObject.Find("Canvas").transform.Find("BMI").gameObject;
-        _obj[9] = GameObject.Find("Canvas").transform.Find("PAPSResult").gameObject;
-        _obj[10] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
+        _obj = new GameObject[(int)PAGE_TYPE.MAX_PAGE_TYPE];
+        _obj[(int)PAGE_TYPE.LOGIN] = GameObject.Find("Canvas").transform.Find("Login").gameObject;
+        _obj[(int)PAGE_TYPE.MAIN] = GameObject.Find("Canvas").transform.Find("Main").gameObject;
+        _obj[(int)PAGE_TYPE.BASE_INFORM] = GameObject.Find("Canvas").transform.Find("BaseInform").gameObject;
+        _obj[(int)PAGE_TYPE.PAPS] = GameObject.Find("Canvas").transform.Find("PAPS").gameObject;
+        _obj[(int)PAGE_TYPE.CARDI_ENDU] = GameObject.Find("Canvas").transform.Find("CardiovascularEndurance").gameObject;
+        _obj[(int)PAGE_TYPE.AGILITY] = GameObject.Find("Canvas").transform.Find("Agility").gameObject;
+        _obj[(int)PAGE_TYPE.MUSC_ENDU] = GameObject.Find("Canvas").transform.Find("MuscularEndurance").gameObject;
+        _obj[(int)PAGE_TYPE.FLEXIBILITY] = GameObject.Find("Canvas").transform.Find("Flexibility").gameObject;
+        _obj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject;
+        _obj[(int)PAGE_TYPE.PAPS_RESULT] = GameObject.Find("Canvas").transform.Find("PAPSResult").gameObject;
+        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
 
         _listString = new List<string>();
     }
@@ -55,24 +83,24 @@ public class UIManager : MonoBehaviour {
 
     public void OnClickBtnPlayVideo(int sel)
     {
-        switch(sel)
+        switch((VIDEO_URL)sel)
         {
-            case 0:
+            case VIDEO_URL.CARDI_ENDU:
                 Application.OpenURL("https://youtu.be/tlTLmCZ6GsQ");
                 break;
-            case 1:
+            case VIDEO_URL.FLEXIBILITY:
                 Application.OpenURL("https://youtu.be/mt_QKF-axdc");
                 break;
-            case 2:
+            case VIDEO_URL.MUSC_ENDU:
                 Application.OpenURL("https://youtu.be/jTG2Gqivtu0");
                 break;
-            case 3:
+            case VIDEO_URL.AGILITY:
                 Application.OpenURL("https://youtu.be/qZAD2a0AhjI");
                 break;
-            case 4:
+            case VIDEO_URL.BMI:
                 Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");//
                 break;
-            case 5:
+            case VIDEO_URL.WARMING_UP:
                 Application.OpenURL("https://youtu.be/Iybe05oOMGw");
                 break;
             default:
@@ -93,24 +121,24 @@ public class UIManager : MonoBehaviour {
         _obj[_prevSelNum].SetActive(false);
         _obj[_selNum].SetActive(true);
 
-        switch(_prevSelNum)
+        switch((PAGE_TYPE)_prevSelNum)
         {
-            case 2:
+            case PAGE_TYPE.BASE_INFORM:
                 AppManager.GetInstance().SetUserInfo(_listString);
                 break;
-            case 4:
+            case PAGE_TYPE.CARDI_ENDU:
                 AppManager.GetInstance().SetCardiovascularEnduranceInfo(_listString);
                 break;
-            case 5:
+            case PAGE_TYPE.AGILITY:
                 AppManager.GetInstance().SetAgilityInfo(_listString);
                 break;
-            case 6:
+            case PAGE_TYPE.MUSC_ENDU:
                 AppManager.GetInstance().SetMuscularEnduranceInfo(_listString);
                 break;
-            case 7:
+            case PAGE_TYPE.FLEXIBILITY:
                 AppManager.GetInstance().SetFlexibilityInfo(_listString);
                 break;
-            case 8:
+            case PAGE_TYPE.BMI:
                 AppManager.GetInstance().SetBMIInfo(_listString);
                 break;
             default:
@@ -118,7 +146,7 @@ public class UIManager : MonoBehaviour {
         }
         _listString.Clear();
 
-        if(_selNum == 9)
+        if(_selNum == (int)PAGE_TYPE.PAPS_RESULT)
         {
             GameObject cardiGrade = GameObject.Find("CardiGrade");
             GameObject agilityGrade = GameObject.Find("AgilityGrade");

@@ -11,9 +11,9 @@ public class AppManager : MonoBehaviour {
     }
 
     private UserInfo _userInfo;
-    public UserInfo userInfo { get { return _userInfo; } set { _userInfo = userInfo; } }
+    public UserInfo userInfo { get { return _userInfo; } }
     private PAPSInfo _papsInfo;
-    public PAPSInfo papsInfo { get { return _papsInfo; } set { _papsInfo = papsInfo; } }
+    public PAPSInfo papsInfo { get { return _papsInfo; } }
     private PAPSTableManager _papsTableManager;
     public PAPSTableManager papsTableManager { get { return _papsTableManager; } set { _papsTableManager = papsTableManager; } }
 
@@ -104,16 +104,24 @@ public class AppManager : MonoBehaviour {
 
         _papsInfo._BMI.InitInfo(listString);
     }
-    //
 
-    // Update is called once per frame
-    void Update () {
+    public void ExitApp()
+    {
         if (Application.platform != RuntimePlatform.Android)
+            return;
+
+        if (UIManager.GetInstance().selPageNum != 1)
             return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
+    }
+    //
+
+    // Update is called once per frame
+    void Update () {
+        ExitApp();
     }
 }
