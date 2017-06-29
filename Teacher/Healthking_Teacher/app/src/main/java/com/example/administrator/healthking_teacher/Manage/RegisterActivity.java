@@ -1,6 +1,8 @@
 package com.example.administrator.healthking_teacher.Manage;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -56,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String grade; //학년
     private String classroomNumber; //반
 
-    private boolean validate =false;
+    private boolean validate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,15 +104,15 @@ public class RegisterActivity extends AppCompatActivity {
     private void InitSpinners() {
 
         schoolSpinner = (Spinner) findViewById(R.id.Register_schoolSpinner);
-        schoolAdapter = ArrayAdapter.createFromResource(this, R.array.schoolType, android.R.layout.simple_spinner_dropdown_item);
+        schoolAdapter = ArrayAdapter.createFromResource(RegisterActivity.this, R.array.schoolType, android.R.layout.simple_spinner_dropdown_item);
         schoolSpinner.setAdapter(schoolAdapter);
 
         gradeSpinner = (Spinner) findViewById(R.id.Register_gradeSpinner);
-        gradeAdapter = ArrayAdapter.createFromResource(this, R.array.elementarySchoolGrade, android.R.layout.simple_spinner_dropdown_item);
+        gradeAdapter = ArrayAdapter.createFromResource(RegisterActivity.this, R.array.elementarySchoolGrade, android.R.layout.simple_spinner_dropdown_item);
         gradeSpinner.setAdapter(gradeAdapter);
 
         classroomSpinner = (Spinner) findViewById(R.id.Register_classroomNumberSpinner);
-        classroomAdapter = ArrayAdapter.createFromResource(this, R.array.classroomNumber, android.R.layout.simple_spinner_dropdown_item);
+        classroomAdapter = ArrayAdapter.createFromResource(RegisterActivity.this, R.array.classroomNumber, android.R.layout.simple_spinner_dropdown_item);
         classroomSpinner.setAdapter(classroomAdapter);
 
 
@@ -118,14 +120,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (schoolSpinner.getSelectedItem().equals("초등학교")) {
-                    gradeAdapter = ArrayAdapter.createFromResource(view.getContext(), R.array.elementarySchoolGrade, android.R.layout.simple_spinner_dropdown_item);
+                    gradeAdapter = ArrayAdapter.createFromResource(RegisterActivity.this, R.array.elementarySchoolGrade, android.R.layout.simple_spinner_dropdown_item);
                     gradeSpinner.setAdapter(gradeAdapter);
                 } else if (schoolSpinner.getSelectedItem().equals("중학교")) {
-                    gradeAdapter = ArrayAdapter.createFromResource(view.getContext(), R.array.middleSchoolGrade, android.R.layout.simple_spinner_dropdown_item);
+                    gradeAdapter = ArrayAdapter.createFromResource(RegisterActivity.this, R.array.middleSchoolGrade, android.R.layout.simple_spinner_dropdown_item);
                     gradeSpinner.setAdapter(gradeAdapter);
                 }
                 if (schoolSpinner.getSelectedItem().equals("고등학교")) {
-                    gradeAdapter = ArrayAdapter.createFromResource(view.getContext(), R.array.highSchoolGrade, android.R.layout.simple_spinner_dropdown_item);
+                    gradeAdapter = ArrayAdapter.createFromResource(RegisterActivity.this, R.array.highSchoolGrade, android.R.layout.simple_spinner_dropdown_item);
                     gradeSpinner.setAdapter(gradeAdapter);
                 }
             }
@@ -261,10 +263,16 @@ public class RegisterActivity extends AppCompatActivity {
                     if (success) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                         dialog = builder.setMessage("회원 등록에 성공했습니다.")
-                                .setPositiveButton("확인", null)
+                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(RegisterActivity.this, ManageActivity.class);
+                                        startActivity(intent);
+                                    }
+                                })
                                 .create();
                         dialog.show();
-                        finish();
+
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                         dialog = builder.setMessage("회원 등록에 실패했습니다.")

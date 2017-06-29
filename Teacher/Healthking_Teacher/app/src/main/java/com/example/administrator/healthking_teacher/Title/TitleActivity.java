@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.administrator.healthking_teacher.Board.BoardActivity;
-import com.example.administrator.healthking_teacher.Data.StudentDataManager;
+import com.example.administrator.healthking_teacher.Data.DataManager;
 import com.example.administrator.healthking_teacher.Manage.ManageActivity;
-import com.example.administrator.healthking_teacher.Manage.RegisterActivity;
 import com.example.administrator.healthking_teacher.Mission.MissionActivity;
 import com.example.administrator.healthking_teacher.R;
 import com.example.administrator.healthking_teacher.Record.RecordActivity;
@@ -118,7 +117,7 @@ public class TitleActivity extends AppCompatActivity {
         @Override
         public void onPostExecute(String result) {
 
-            StudentDataManager.getInstance().SetDatas(result);
+            DataManager.getInstance().SetStudentDatas(result);
 
             AlertDialog dialog;
             AlertDialog.Builder builder = new AlertDialog.Builder(TitleActivity.this);

@@ -1,7 +1,5 @@
 package com.example.administrator.healthking_teacher.Data;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,16 +10,16 @@ import java.util.List;
  * Created by admin on 2017-06-29.
  */
 
-public class StudentDataManager {
+public class DataManager {
 
-    private List<StudentData> dataList;
+    private List<StudentData> studentDataList;
+    private List<StudentRecordData> studentRecordDataList;
 
+    static private DataManager _instance;
 
-    static private StudentDataManager _instance;
-
-    static public StudentDataManager getInstance() {
+    static public DataManager getInstance() {
         if (_instance == null) {
-            _instance = new StudentDataManager();
+            _instance = new DataManager();
             _instance.Init();
         }
         return _instance;
@@ -29,12 +27,13 @@ public class StudentDataManager {
 
 
     private void Init() {
-        dataList = new ArrayList<>();
+        studentDataList = new ArrayList<>();
+        studentRecordDataList =new ArrayList<>();
     }
 
-    public void SetDatas(String data) {
+    public void SetStudentDatas(String data) {
 
-        dataList.clear();
+        studentDataList.clear();
         try {
             JSONObject jsonObject = new JSONObject(data);
             JSONArray jsonArray = jsonObject.getJSONArray("response");
@@ -50,7 +49,7 @@ public class StudentDataManager {
                 userGrade = object.getString("userGrade");
                 userClassroom = object.getString("userClassroom");
                 StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom);
-                dataList.add(studentData);
+                studentDataList.add(studentData);
                 ++count;
             }
 
@@ -60,7 +59,18 @@ public class StudentDataManager {
 
     }
 
-    public List<StudentData> getDataList() {
-        return dataList;
+    public List<StudentData> getStudentDataList() {
+        return studentDataList;
     }
+
+
+    public void SetStudentRecodeDatas(String data) {
+        // todo
+    }
+
+
+    public List<StudentRecordData> getStudentRecordDataList() {
+        return studentRecordDataList;
+    }
+
 }
