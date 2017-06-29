@@ -143,7 +143,7 @@ public class Grade
     {
         int gender = AppManager.GetInstance().userInfo.GetGender();
         int schoolGrade = AppManager.GetInstance().userInfo.GetSchoolGrade();
-        int value = AppManager.GetInstance().papsInfo._cardiovascularEndurance.GetRepeatLongRunningCount();
+        float value = AppManager.GetInstance().papsInfo._BMI.GetBMI();
 
         return AppManager.GetInstance().papsTableManager.FindPAPSGrade(TABLE_TYPE.BMI, gender, (SCHOOL_GRADE)schoolGrade, value);
     }

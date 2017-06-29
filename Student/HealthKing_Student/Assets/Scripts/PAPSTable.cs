@@ -20,12 +20,6 @@ public enum PAPS_GRADE
     NONE
 }
 
-//public enum BMI_GRADE
-//{
-
-//}
-
-//
 public class PAPSTable
 {
     public class PAPSTableInfo
@@ -49,6 +43,8 @@ public class PAPSTable
     }
 
     private List<PAPSTableInfo> _listPAPSScriptInfo;
+    private float _min = 0;
+    private float _max = 0;
 
     public PAPSTable()
     {
@@ -86,6 +82,12 @@ public class PAPSTable
         if (PAPSScriptInfo._schoolGrade != schoolGrade)
             return PAPS_GRADE.NONE;
 
+        if (PAPSScriptInfo._PAPSGrade == PAPS_GRADE.ONE)
+            _min = PAPSScriptInfo._min;
+
+        if (PAPSScriptInfo._PAPSGrade == PAPS_GRADE.FIVE)
+            _max = PAPSScriptInfo._max;
+
         if (PAPSScriptInfo._min <= value && value <= PAPSScriptInfo._max)
             return PAPSScriptInfo._PAPSGrade;
 
@@ -94,13 +96,22 @@ public class PAPSTable
 
     public PAPS_GRADE FindPAPSGrade(int gender, SCHOOL_GRADE schoolGrade, float value)
     {
+        _min = 0; _max = 0;
         PAPS_GRADE grade = PAPS_GRADE.NONE;
-        Debug.Log(_listPAPSScriptInfo.Count);
         for (int i = 0; i < _listPAPSScriptInfo.Count; ++i)
         {
             grade = FindPAPSGrade(_listPAPSScriptInfo[i], gender, schoolGrade, value);
             if (grade != PAPS_GRADE.NONE)
-                break;
+                return grade;
+        }
+
+        if (_min < _max)
+        {
+            grade = _min > value ? PAPS_GRADE.ONE : PAPS_GRADE.FIVE;
+        }
+        else
+        {
+            grade = _min < value ? PAPS_GRADE.ONE : PAPS_GRADE.FIVE;
         }
 
         return grade;

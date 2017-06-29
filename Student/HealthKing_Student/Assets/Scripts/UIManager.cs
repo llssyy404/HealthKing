@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour {
     public int selPageNum { get { return _selNum; } }
     private int _prevSelNum = 0;
     private List<string> _listString;
+    private string[] _strPAPSGrade;
+    private string[] _strBMIGrade;
 
     //
     //private string[] _inputString;
@@ -68,10 +70,25 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
 
         _listString = new List<string>();
+        _strPAPSGrade = new string[6];
+        _strPAPSGrade[0] = "1등급";
+        _strPAPSGrade[1] = "2등급";
+        _strPAPSGrade[2] = "3등급";
+        _strPAPSGrade[3] = "4등급";
+        _strPAPSGrade[4] = "5등급";
+        _strPAPSGrade[5] = "NONE";
+
+        _strBMIGrade = new string[6];
+        _strBMIGrade[0] = "마름";
+        _strBMIGrade[1] = "정상";
+        _strBMIGrade[2] = "과체중";
+        _strBMIGrade[3] = "경도비만";
+        _strBMIGrade[4] = "고도비만";
+        _strBMIGrade[5] = "NONE";
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -154,11 +171,11 @@ public class UIManager : MonoBehaviour {
             GameObject flexibilityGrade = GameObject.Find("FlexibilityGrade");
             GameObject bmiGrade = GameObject.Find("BMIGrade");
 
-            cardiGrade.GetComponent<Text>().text = Grade.GetCardiGrade().ToString();
-            agilityGrade.GetComponent<Text>().text = Grade.GetAgilityGrade().ToString();
-            musGrade.GetComponent<Text>().text = Grade.GetMusGrade().ToString();
-            flexibilityGrade.GetComponent<Text>().text = Grade.GetFlexibilityGrade().ToString();
-            bmiGrade.GetComponent<Text>().text = Grade.GetBMIGrade().ToString();
+            cardiGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetCardiGrade()-1];
+            agilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetAgilityGrade() - 1];
+            musGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetMusGrade() - 1];
+            flexibilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetFlexibilityGrade() - 1];
+            bmiGrade.GetComponent<Text>().text = _strBMIGrade[(int)Grade.GetBMIGrade() - 1];
         }
     }
 }
