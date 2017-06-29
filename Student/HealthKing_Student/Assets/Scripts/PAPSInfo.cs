@@ -131,6 +131,8 @@ public class BMIInfo
 
     public float GetBMI()
     {
-        return _weight / (_height / 0.01f * _height * 0.01f);
+        float a = _weight / (_height * 0.01f * _height * 0.01f);
+        Debug.Log(a);
+        return _weight / (_height * 0.01f * _height * 0.01f);
     }
 }
