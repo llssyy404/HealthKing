@@ -105,6 +105,9 @@ public class PAPSTable
                 return grade;
         }
 
+        if (_min == 0 && _max == 0)
+            return grade;
+
         if (_min < _max)
         {
             grade = _min > value ? PAPS_GRADE.ONE : PAPS_GRADE.FIVE;

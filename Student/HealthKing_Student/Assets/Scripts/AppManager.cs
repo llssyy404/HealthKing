@@ -39,15 +39,21 @@ public class AppManager : MonoBehaviour {
     }
 
     //
-    public void SetUserInfo(List<string> listString)
+    public bool SetUserInfo(List<string> listString)
     {
         if (listString.Count != _maxCount)
         {
             Debug.Log("정보를 입력해주세요");
-            return;
+            return false;
         }
 
-        _userInfo.InitUserInfo(listString);
+        if (false == _userInfo.InitUserInfo(listString))
+        {
+            Debug.Log("정보를 입력해주세요");
+            return false;
+        }
+
+        return true;
     }
 
     public void SetCardiovascularEnduranceInfo(List<string> listString)

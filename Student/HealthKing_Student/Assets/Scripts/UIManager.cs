@@ -16,16 +16,26 @@ enum PAGE_TYPE
     BMI,
     PAPS_RESULT,
     FITNESS_UP_TIP,
+    FITNESS_UP_TIP_C,
+    FITNESS_UP_TIP_M,
+    FITNESS_UP_TIP_A,
+    FITNESS_UP_TIP_B,
     MAX_PAGE_TYPE
 }
 
 enum VIDEO_URL
 {
-    CARDI_ENDU,
-    AGILITY,
-    MUSC_ENDU,
+    CARDI_ENDU_1,
+    CARDI_ENDU_2,
     FLEXIBILITY,
-    BMI,
+    MUSC_ENDU_1,
+    MUSC_ENDU_2,
+    MUSC_ENDU_3,
+    MUSC_ENDU_4,
+    AGILITY_1,
+    AGILITY_2,
+    BMI_1,
+    BMI_2,
     WARMING_UP,
     MAX_VIDEO_URL
 }
@@ -45,7 +55,7 @@ public class UIManager : MonoBehaviour {
     private List<string> _listString;
     private string[] _strPAPSGrade;
     private string[] _strBMIGrade;
-
+    private string _input = null;
     //
     //private string[] _inputString;
 
@@ -65,9 +75,13 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.AGILITY] = GameObject.Find("Canvas").transform.Find("Agility").gameObject;
         _obj[(int)PAGE_TYPE.MUSC_ENDU] = GameObject.Find("Canvas").transform.Find("MuscularEndurance").gameObject;
         _obj[(int)PAGE_TYPE.FLEXIBILITY] = GameObject.Find("Canvas").transform.Find("Flexibility").gameObject;
-        _obj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject;
+        _obj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject; 
         _obj[(int)PAGE_TYPE.PAPS_RESULT] = GameObject.Find("Canvas").transform.Find("PAPSResult").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
+        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_C] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Cardi").gameObject;
+        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_M] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Mus").gameObject;
+        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_A] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Agile").gameObject;
+        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
 
         _listString = new List<string>();
         _strPAPSGrade = new string[6];
@@ -94,30 +108,54 @@ public class UIManager : MonoBehaviour {
 
     public void OnEndEdit(string str)
     {
-        _listString.Add(str);
+        //_listString.Add(str);
+        _input = str;
         Debug.Log(str);
+    }
+
+    public void EditNum(int num)
+    {
+        _listString[num] = _input;
     }
 
     public void OnClickBtnPlayVideo(int sel)
     {
         switch((VIDEO_URL)sel)
         {
-            case VIDEO_URL.CARDI_ENDU:
+            case VIDEO_URL.CARDI_ENDU_1:    // 오래달리기 자세
+                Application.OpenURL("https://youtu.be/dA5lJ4p1hL8");
+                break;
+            case VIDEO_URL.CARDI_ENDU_2:    // 오래달리기 호흡법
                 Application.OpenURL("https://youtu.be/tlTLmCZ6GsQ");
                 break;
-            case VIDEO_URL.FLEXIBILITY:
+            case VIDEO_URL.FLEXIBILITY:     // 유연성
                 Application.OpenURL("https://youtu.be/mt_QKF-axdc");
                 break;
-            case VIDEO_URL.MUSC_ENDU:
+            case VIDEO_URL.MUSC_ENDU_1:     // 팔굽혀펴기
                 Application.OpenURL("https://youtu.be/jTG2Gqivtu0");
                 break;
-            case VIDEO_URL.AGILITY:
+            case VIDEO_URL.MUSC_ENDU_2:     // 철봉
+                Application.OpenURL("https://youtu.be/47SxMjjCr20");
+                break;
+            case VIDEO_URL.MUSC_ENDU_3:     // 런지
+                Application.OpenURL("https://youtu.be/liO2ZbTrudI");
+                break;
+            case VIDEO_URL.MUSC_ENDU_4:     // 플랭크
+                Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");
+                break;
+            case VIDEO_URL.AGILITY_1:       // 제자리 높이뛰기
+                Application.OpenURL("https://youtu.be/MOfFtp9Xbn4");
+                break;
+            case VIDEO_URL.AGILITY_2:       // 제자리 멀리뛰기
                 Application.OpenURL("https://youtu.be/qZAD2a0AhjI");
                 break;
-            case VIDEO_URL.BMI:
+            case VIDEO_URL.BMI_1:           // 플랭크
                 Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");//
                 break;
-            case VIDEO_URL.WARMING_UP:
+            case VIDEO_URL.BMI_2:           // 버핏
+                Application.OpenURL("https://youtu.be/7rowIMNUW9s");//
+                break;
+            case VIDEO_URL.WARMING_UP:      // 준비운동
                 Application.OpenURL("https://youtu.be/Iybe05oOMGw");
                 break;
             default:
@@ -133,15 +171,13 @@ public class UIManager : MonoBehaviour {
         if (_obj[_prevSelNum] == null || _obj[_selNum] == null)
             return;
 
-        _prevSelNum = _selNum;
-        _selNum = sel;
-        _obj[_prevSelNum].SetActive(false);
-        _obj[_selNum].SetActive(true);
-
-        switch((PAGE_TYPE)_prevSelNum)
+        switch ((PAGE_TYPE)_selNum)
         {
             case PAGE_TYPE.BASE_INFORM:
-                AppManager.GetInstance().SetUserInfo(_listString);
+                {
+                    if (false == AppManager.GetInstance().SetUserInfo(_listString))
+                        return;
+                }
                 break;
             case PAGE_TYPE.CARDI_ENDU:
                 AppManager.GetInstance().SetCardiovascularEnduranceInfo(_listString);
@@ -161,21 +197,51 @@ public class UIManager : MonoBehaviour {
             default:
                 break;
         }
+
+        _prevSelNum = _selNum;
+        _selNum = sel;
+        _obj[_prevSelNum].SetActive(false);
+        _obj[_selNum].SetActive(true);
+
         _listString.Clear();
 
-        if(_selNum == (int)PAGE_TYPE.PAPS_RESULT)
+        switch ((PAGE_TYPE)_selNum)
         {
-            GameObject cardiGrade = GameObject.Find("CardiGrade");
-            GameObject agilityGrade = GameObject.Find("AgilityGrade");
-            GameObject musGrade = GameObject.Find("MusGrade");
-            GameObject flexibilityGrade = GameObject.Find("FlexibilityGrade");
-            GameObject bmiGrade = GameObject.Find("BMIGrade");
+            case PAGE_TYPE.BASE_INFORM:
+                _listString = AppManager.GetInstance().userInfo.GetInfo();
+                break;
+            case PAGE_TYPE.CARDI_ENDU:
+                _listString = AppManager.GetInstance().papsInfo._cardiovascularEndurance.GetInfo();
+                break;
+            case PAGE_TYPE.AGILITY:
+                _listString = AppManager.GetInstance().papsInfo._agility.GetInfo();
+                break;
+            case PAGE_TYPE.MUSC_ENDU:
+                _listString = AppManager.GetInstance().papsInfo._muscularEndurance.GetInfo();
+                break;
+            case PAGE_TYPE.FLEXIBILITY:
+                _listString = AppManager.GetInstance().papsInfo._flexibility.GetInfo();
+                break;
+            case PAGE_TYPE.BMI:
+                _listString = AppManager.GetInstance().papsInfo._BMI.GetInfo();
+                break;
+            case PAGE_TYPE.PAPS_RESULT:
+                {
+                    GameObject cardiGrade = GameObject.Find("CardiGrade");
+                    GameObject agilityGrade = GameObject.Find("AgilityGrade");
+                    GameObject musGrade = GameObject.Find("MusGrade");
+                    GameObject flexibilityGrade = GameObject.Find("FlexibilityGrade");
+                    GameObject bmiGrade = GameObject.Find("BMIGrade");
 
-            cardiGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetCardiGrade()-1];
-            agilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetAgilityGrade() - 1];
-            musGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetMusGrade() - 1];
-            flexibilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetFlexibilityGrade() - 1];
-            bmiGrade.GetComponent<Text>().text = _strBMIGrade[(int)Grade.GetBMIGrade() - 1];
+                    cardiGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetCardiGrade() - 1];
+                    agilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetAgilityGrade() - 1];
+                    musGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetMusGrade() - 1];
+                    flexibilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetFlexibilityGrade() - 1];
+                    bmiGrade.GetComponent<Text>().text = _strBMIGrade[(int)Grade.GetBMIGrade() - 1];
+                }
+                break;
+            default:
+                break;
         }
     }
 }

@@ -35,6 +35,17 @@ public class CardiovascularEnduranceInfo
         return true;
     }
 
+    public List<string> GetInfo()
+    {
+        List<string> list = new List<string>();
+
+        list.Add(_repeatLongRunningCount.ToString());
+        list.Add(_longRunningMinute.ToString());
+        list.Add(_longRunningSecond.ToString());
+
+        return list;
+    }
+
     public int GetRepeatLongRunningCount()
     {
         return _repeatLongRunningCount;
@@ -49,15 +60,25 @@ public class CardiovascularEnduranceInfo
 // 순발력
 public class AgilityInfo
 {
-    private float _fiftyMRunningSecond = 0;
     private float _standingBroadJumpCm = 0;
+    private float _fiftyMRunningSecond = 0;
 
     public bool InitInfo(List<string> listString)
     {
-        _fiftyMRunningSecond = System.Convert.ToSingle(listString[0].Trim());
-        _standingBroadJumpCm = System.Convert.ToSingle(listString[1].Trim());
+        _standingBroadJumpCm = System.Convert.ToSingle(listString[0].Trim());
+        _fiftyMRunningSecond = System.Convert.ToSingle(listString[1].Trim());
 
         return true;
+    }
+
+    public List<string> GetInfo()
+    {
+        List<string> list = new List<string>();
+
+        list.Add(_standingBroadJumpCm.ToString());
+        list.Add(_fiftyMRunningSecond.ToString());
+
+        return list;
     }
 
     public float GetFiftyMRunningSecond()
@@ -87,6 +108,17 @@ public class MuscularEnduranceInfo
         return true;
     }
 
+    public List<string> GetInfo()
+    {
+        List<string> list = new List<string>();
+
+        list.Add(_sitUpCount.ToString());
+        list.Add(_gripRightKG.ToString());
+        list.Add(_gripLeftKG.ToString());
+
+        return list;
+    }
+
     public int GetSitUpCount()
     {
         return _sitUpCount;
@@ -110,6 +142,15 @@ public class FlexibilityInfo
         return true;
     }
 
+    public List<string> GetInfo()
+    {
+        List<string> list = new List<string>();
+
+        list.Add(_sitUpperBodyFrontBendCm.ToString());
+
+        return list;
+    }
+
     public float GetFlexibility()
     {
         return _sitUpperBodyFrontBendCm;
@@ -129,10 +170,21 @@ public class BMIInfo
         return true;
     }
 
+    public List<string> GetInfo()
+    {
+        List<string> list = new List<string>();
+
+        list.Add(_height.ToString());
+        list.Add(_weight.ToString());
+
+        return list;
+    }
+
     public float GetBMI()
     {
-        float a = _weight / (_height * 0.01f * _height * 0.01f);
-        Debug.Log(a);
+        if (_weight == 0 || _height == 0)
+            return 0;
+
         return _weight / (_height * 0.01f * _height * 0.01f);
     }
 }
