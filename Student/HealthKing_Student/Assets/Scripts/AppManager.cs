@@ -17,12 +17,12 @@ public class AppManager : MonoBehaviour {
     private PAPSTableManager _papsTableManager;
     public PAPSTableManager papsTableManager { get { return _papsTableManager; } set { _papsTableManager = papsTableManager; } }
 
-    private const int _maxCount = 6;
-    private const int _maxCount1 = 3;
-    private const int _maxCount2 = 2;
-    private const int _maxCount3 = 3;
-    private const int _maxCount4 = 1;
-    private const int _maxCount5 = 2;
+    private const int _MAXCOUNT = 6;
+    private const int _MAXCOUNT1 = 3;
+    private const int _MAXCOUNT2 = 2;
+    private const int _MAXCOUNT3 = 3;
+    private const int _MAXCOUNT4 = 1;
+    private const int _MAXCOUNT5 = 2;
 
     void Awake()
     {
@@ -41,7 +41,7 @@ public class AppManager : MonoBehaviour {
     //
     public bool SetUserInfo(List<string> listString)
     {
-        if (listString.Count != _maxCount)
+        if (listString.Count != _MAXCOUNT)
         {
             Debug.Log("정보를 입력해주세요");
             return false;
@@ -58,7 +58,7 @@ public class AppManager : MonoBehaviour {
 
     public void SetCardiovascularEnduranceInfo(List<string> listString)
     {
-        if(listString.Count != _maxCount1)
+        if(listString.Count != _MAXCOUNT1)
         {
             Debug.Log("listString.Count != _maxCount1" + listString.Count);
             return;
@@ -69,7 +69,7 @@ public class AppManager : MonoBehaviour {
 
     public void SetAgilityInfo(List<string> listString)
     {
-        if (listString.Count != _maxCount2)
+        if (listString.Count != _MAXCOUNT2)
         {
             Debug.Log("listString.Count != _maxCount2" + listString.Count);
             return;
@@ -80,7 +80,7 @@ public class AppManager : MonoBehaviour {
 
     public void SetMuscularEnduranceInfo(List<string> listString)
     {
-        if (listString.Count != _maxCount3)
+        if (listString.Count != _MAXCOUNT3)
         {
             Debug.Log("listString.Count != _maxCount3" + listString.Count);
             return;
@@ -91,7 +91,7 @@ public class AppManager : MonoBehaviour {
 
     public void SetFlexibilityInfo(List<string> listString)
     {
-        if (listString.Count != _maxCount4)
+        if (listString.Count != _MAXCOUNT4)
         {
             Debug.Log("listString.Count != _maxCount4" + listString.Count);
             return;
@@ -102,7 +102,7 @@ public class AppManager : MonoBehaviour {
 
     public void SetBMIInfo(List<string> listString)
     {
-        if (listString.Count != _maxCount5)
+        if (listString.Count != _MAXCOUNT5)
         {
             Debug.Log("listString.Count != _maxCount5" + listString.Count);
             return;
@@ -111,23 +111,8 @@ public class AppManager : MonoBehaviour {
         _papsInfo._BMI.InitInfo(listString);
     }
 
-    public void ExitApp()
-    {
-        if (Application.platform != RuntimePlatform.Android)
-            return;
-
-        if (UIManager.GetInstance().selPageNum != 1)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-    }
-    //
-
     // Update is called once per frame
     void Update () {
-        ExitApp();
+        
     }
 }

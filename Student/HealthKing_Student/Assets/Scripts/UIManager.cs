@@ -43,27 +43,14 @@ enum VIDEO_URL
 
 public class UIManager : MonoBehaviour {
 
-    private static UIManager _instance;
-    public static UIManager GetInstance()
-    {
-        return _instance;
-    }
-
     private GameObject[] _obj = null;
     private int _selNum = 0;
-    public int selPageNum { get { return _selNum; } }
     private int _prevSelNum = 0;
     private List<string> _listString;
     private string[] _strPAPSGrade;
     private string[] _strBMIGrade;
     private string _input = null;
-    //
-    //private string[] _inputString;
-
-    void Awake()
-    {
-        _instance = this;
-    }
+    const int _MAX_GRADE_COUNT = 6;
 
     // Use this for initialization
     void Start () {
@@ -85,7 +72,7 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
 
         _listString = new List<string>();
-        _strPAPSGrade = new string[6];
+        _strPAPSGrade = new string[_MAX_GRADE_COUNT];
         _strPAPSGrade[0] = "1등급";
         _strPAPSGrade[1] = "2등급";
         _strPAPSGrade[2] = "3등급";
@@ -93,7 +80,7 @@ public class UIManager : MonoBehaviour {
         _strPAPSGrade[4] = "5등급";
         _strPAPSGrade[5] = "NONE";
 
-        _strBMIGrade = new string[6];
+        _strBMIGrade = new string[_MAX_GRADE_COUNT];
         _strBMIGrade[0] = "마름";
         _strBMIGrade[1] = "정상";
         _strBMIGrade[2] = "과체중";
@@ -104,19 +91,45 @@ public class UIManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
-	}
+        if (Input.GetKeyDown(KeyCode.Escape))
+            BackPage();
+    }
 
+    // UI Function
     public void OnEndEdit(string str)
     {
-        //_listString.Add(str);
+        if (str == null)
+            return;
+
         _input = str;
-        Debug.Log(str);
     }
 
     public void EditNum(int num)
     {
+        if (_listString.Count < num)
+            return;
+
         _listString[num] = _input;
+    }
+
+    public void OnValueChanged(int value)
+    {
+        if (_selNum != (int)PAGE_TYPE.BASE_INFORM)
+            return;
+
+        int input = value + 4;  // 4학년부터라...
+        _listString[1] = input.ToString();
+    }
+
+    public void OnValueChanged(bool isCheck)
+    {
+        if (_selNum != (int)PAGE_TYPE.BASE_INFORM)
+            return;
+
+        if (isCheck)
+            _listString[5] = "0";
+        else
+            _listString[5] = "1";
     }
 
     public void OnClickBtnPlayVideo(int sel)
@@ -163,6 +176,7 @@ public class UIManager : MonoBehaviour {
                 Application.OpenURL("http://cafe.naver.com/unityhub");
                 break;
             default:
+                Debug.Log("Invalid VIDEO_URL TYPE");
                 break;
         }
     }
@@ -175,12 +189,36 @@ public class UIManager : MonoBehaviour {
         if (_obj[_prevSelNum] == null || _obj[_selNum] == null)
             return;
 
+        if (PreSettingPage(sel) == false)
+            return;
+
+        _prevSelNum = _selNum;
+        _selNum = sel;
+        _obj[_prevSelNum].SetActive(false);
+        _obj[_selNum].SetActive(true);
+        _listString.Clear();
+
+        AfterSettingPage();
+    }
+    //
+
+    bool PreSettingPage(int sel)
+    {
+        if (sel == (int)PAGE_TYPE.PAPS && AppManager.GetInstance().userInfo.IsInitInfo() == false)
+        {
+            ShowMessageBox("기본정보 입력 후 사용가능합니다.");
+            return false;
+        }
+
         switch ((PAGE_TYPE)_selNum)
         {
             case PAGE_TYPE.BASE_INFORM:
                 {
                     if (false == AppManager.GetInstance().SetUserInfo(_listString))
-                        return;
+                    {
+                        ShowMessageBox("모든 정보를 입력해주세요.");
+                        return false;
+                    }
                 }
                 break;
             case PAGE_TYPE.CARDI_ENDU:
@@ -202,15 +240,16 @@ public class UIManager : MonoBehaviour {
                 break;
         }
 
-        _prevSelNum = _selNum;
-        _selNum = sel;
-        _obj[_prevSelNum].SetActive(false);
-        _obj[_selNum].SetActive(true);
+        return true;
+    }
 
-        _listString.Clear();
-
+    void AfterSettingPage()
+    {
         switch ((PAGE_TYPE)_selNum)
         {
+            case PAGE_TYPE.PAPS:
+                PAPSUISetting();
+                break;
             case PAGE_TYPE.BASE_INFORM:
                 _listString = AppManager.GetInstance().userInfo.GetInfo();
                 break;
@@ -230,21 +269,101 @@ public class UIManager : MonoBehaviour {
                 _listString = AppManager.GetInstance().papsInfo._BMI.GetInfo();
                 break;
             case PAGE_TYPE.PAPS_RESULT:
-                {
-                    GameObject cardiGrade = GameObject.Find("CardiGrade");
-                    GameObject agilityGrade = GameObject.Find("AgilityGrade");
-                    GameObject musGrade = GameObject.Find("MusGrade");
-                    GameObject flexibilityGrade = GameObject.Find("FlexibilityGrade");
-                    GameObject bmiGrade = GameObject.Find("BMIGrade");
-
-                    cardiGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetCardiGrade() - 1];
-                    agilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetAgilityGrade() - 1];
-                    musGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetMusGrade() - 1];
-                    flexibilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetFlexibilityGrade() - 1];
-                    bmiGrade.GetComponent<Text>().text = _strBMIGrade[(int)Grade.GetBMIGrade() - 1];
-                }
+                PAPSResultUISetting();
                 break;
             default:
+                break;
+        }
+    }
+
+    void PAPSUISetting()
+    {
+        List<string> info = AppManager.GetInstance().userInfo.GetInfo();
+        GameObject obj = GameObject.Find("UserInform");
+        string gender = info[5] == "0" ? "남" : "여";
+        obj.GetComponent<Text>().text = info[0] + "초등학교 " + info[1] + "학년 " + info[2] + "반 " + info[4] + "(" + gender + ")";
+    }
+
+    void PAPSResultUISetting()
+    {
+        GameObject cardiGrade = GameObject.Find("CardiGrade");
+        GameObject agilityGrade = GameObject.Find("AgilityGrade");
+        GameObject musGrade = GameObject.Find("MusGrade");
+        GameObject flexibilityGrade = GameObject.Find("FlexibilityGrade");
+        GameObject bmiGrade = GameObject.Find("BMIGrade");
+
+        cardiGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetCardiGrade() - 1];
+        agilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetAgilityGrade() - 1];
+        musGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetMusGrade() - 1];
+        flexibilityGrade.GetComponent<Text>().text = _strPAPSGrade[(int)Grade.GetFlexibilityGrade() - 1];
+        bmiGrade.GetComponent<Text>().text = _strBMIGrade[(int)Grade.GetBMIGrade() - 1];
+    }
+
+    // MessageBox
+    public void ShowMessageBox(string str)
+    {
+        GameObject obj = GameObject.Find("Canvas").transform.Find("MessageBox").gameObject;
+        obj.SetActive(true);
+        GameObject message = GameObject.Find("Message");
+        message.GetComponent<Text>().text = str;
+    }
+
+    public void ExitMessageBox()
+    {
+        GameObject obj = GameObject.Find("Canvas").transform.Find("MessageBox").gameObject;
+        obj.SetActive(false);
+    }
+    //
+
+    void BackPage()     // 0 - 1 - 2, 3, 10 / 3 - 4, 5, 6, 7, 8, 9 / 10 - 11, 12, 13, 14
+    {
+        switch ((PAGE_TYPE)_selNum)
+        {
+            case PAGE_TYPE.LOGIN:
+            case PAGE_TYPE.MAIN:
+                Application.Quit();
+                break;
+            case PAGE_TYPE.BASE_INFORM:
+                OnClickStartBtn((int)PAGE_TYPE.MAIN);
+                break;
+            case PAGE_TYPE.PAPS:
+                OnClickStartBtn((int)PAGE_TYPE.MAIN);
+                break;
+            case PAGE_TYPE.CARDI_ENDU:
+                OnClickStartBtn((int)PAGE_TYPE.PAPS);
+                break;
+            case PAGE_TYPE.AGILITY:
+                OnClickStartBtn((int)PAGE_TYPE.PAPS);
+                break;
+            case PAGE_TYPE.MUSC_ENDU:
+                OnClickStartBtn((int)PAGE_TYPE.PAPS);
+                break;
+            case PAGE_TYPE.FLEXIBILITY:
+                OnClickStartBtn((int)PAGE_TYPE.PAPS);
+                break;
+            case PAGE_TYPE.BMI:
+                OnClickStartBtn((int)PAGE_TYPE.PAPS);
+                break;
+            case PAGE_TYPE.PAPS_RESULT:
+                OnClickStartBtn((int)PAGE_TYPE.PAPS);
+                break;
+            case PAGE_TYPE.FITNESS_UP_TIP:
+                OnClickStartBtn((int)PAGE_TYPE.MAIN);
+                break;
+            case PAGE_TYPE.FITNESS_UP_TIP_C:
+                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
+                break;
+            case PAGE_TYPE.FITNESS_UP_TIP_M:
+                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
+                break;
+            case PAGE_TYPE.FITNESS_UP_TIP_A:
+                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
+                break;
+            case PAGE_TYPE.FITNESS_UP_TIP_B:
+                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
+                break;
+            default:
+                Debug.Log("Invalid PAGE_TYPE");
                 break;
         }
     }

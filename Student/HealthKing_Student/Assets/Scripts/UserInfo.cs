@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UserInfo {
     private string _schoolName = "";
-    private int _schoolGrade = 0;
+    private int _schoolGrade = 4;
     private int _classNum = 0;
     private int _number = 0;
     private string _name = "";
@@ -19,9 +19,17 @@ public class UserInfo {
         _name = listString[4];
         _gender = System.Convert.ToInt32(listString[5].Trim());
 
+        if (IsInitInfo() == false)
+            return false;
+
+        return true;
+    }
+
+    public bool IsInitInfo()
+    {
         if (_schoolName == "")
         {
-            Debug.Log("이름 안적었어");
+            Debug.Log("학교이름 안적었어");
             return false;
         }
 
@@ -48,12 +56,6 @@ public class UserInfo {
             Debug.Log("이름 안적었어");
             return false;
         }
-
-        //if (_gender == 0)
-        //{
-        //    Debug.Log("성별 안적었어");
-        //    return false;
-        //}
 
         return true;
     }
