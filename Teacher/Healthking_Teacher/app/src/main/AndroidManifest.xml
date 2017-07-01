@@ -23,7 +23,6 @@
         <activity android:name=".Record.RecordActivity" />
         <activity android:name=".Manage.ManageActivity" />
         <activity android:name=".Mission.MissionActivity" />
-        <activity android:name=".Board.BoardActivity" />
         <activity android:name=".Manage.RegisterActivity" />
         <activity android:name=".Manage.ManageInfoActivity"></activity>
     </application>
