@@ -37,6 +37,7 @@ enum VIDEO_URL
     BMI_1,
     BMI_2,
     WARMING_UP,
+    NOTICE_BOARD,
     MAX_VIDEO_URL
 }
 
@@ -150,13 +151,16 @@ public class UIManager : MonoBehaviour {
                 Application.OpenURL("https://youtu.be/qZAD2a0AhjI");
                 break;
             case VIDEO_URL.BMI_1:           // 플랭크
-                Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");//
+                Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");
                 break;
             case VIDEO_URL.BMI_2:           // 버핏
-                Application.OpenURL("https://youtu.be/7rowIMNUW9s");//
+                Application.OpenURL("https://youtu.be/7rowIMNUW9s");
                 break;
             case VIDEO_URL.WARMING_UP:      // 준비운동
                 Application.OpenURL("https://youtu.be/Iybe05oOMGw");
+                break;
+            case VIDEO_URL.NOTICE_BOARD:      // 게시판
+                Application.OpenURL("http://cafe.naver.com/unityhub");
                 break;
             default:
                 break;
