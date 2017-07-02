@@ -28,7 +28,7 @@ public class DataManager {
 
     private void Init() {
         studentDataList = new ArrayList<>();
-        studentRecordDataList =new ArrayList<>();
+        studentRecordDataList = new ArrayList<>();
     }
 
     public void SetStudentDatas(String data) {
@@ -64,10 +64,12 @@ public class DataManager {
     }
 
 
-    public void SetStudentRecodeDatas(String data) {
-        // todo
-    }
 
+    //학생 레코드 데이터
+
+    public void SetStudentRecodeDatas(List<StudentRecordData> datas) {
+        studentRecordDataList = datas;
+    }
 
     public List<StudentRecordData> getStudentRecordDataList() {
         return studentRecordDataList;
