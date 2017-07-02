@@ -25,8 +25,9 @@ public class RecordActivity extends AppCompatActivity {
 
 
      */
-    //private RFIDDevice test; // 이부분이 필요할지 생각해보자.
-    private static TagData[] TagDatalist;
+    //private RFIDDevice test; // 이부분이 필요할지 생각해보자
+
+    private static List<TagData> TagDatalist;
     StudentData studentList;
     TextView textView;
     Button readButton;
@@ -34,7 +35,7 @@ public class RecordActivity extends AppCompatActivity {
 
     Button rfidConnectButton;
     Button settagButton;
-
+    Button finishReadButton;
     TextView tempTextView;
     private static HashMap<TagData,StudentData> maplist = new HashMap<TagData,StudentData>();
 
@@ -58,10 +59,9 @@ public class RecordActivity extends AppCompatActivity {
         endButton = (Button) findViewById(R.id.endButton);
         tempTextView = (TextView)findViewById(R.id.tempTextView);
         settagButton = (Button) findViewById(R.id.settagButton);
+        finishReadButton = (Button)findViewById(R.id.finishReadButton);
 
-
-
-
+        //TagDatalist.clear();
 
 
         readButton.setOnClickListener(new View.OnClickListener() {
@@ -71,16 +71,17 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
 
+        finishReadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RFIDDevice.getInstance().finishReadTag();
+            }
+        });
+
         settagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                String[] str = new String[taglistsize];
-                StringBuilder sb = new StringBuilder();
-                for(int i=0;i<taglistsize;++i){
-                    sb.append(TagDatalist[i].GetTagId().toString());
-                    sb.append("\n");
-                }
-                tempTextView.setText(sb.toString());
+
             }
         });
 
@@ -105,19 +106,19 @@ public class RecordActivity extends AppCompatActivity {
         endButton.setOnClickListener(new View.OnClickListener() { // test 잘되는군 멋지군.
             @Override
             public void onClick(View view) {
-
                 String[] tagList = RFIDDevice.getInstance().getTagList();
-
-                TagDatalist = new TagData[RFIDDevice.getInstance().GetTagListSize()];
 
                 taglistsize = RFIDDevice.getInstance().getTagList().length;
 
-                //for(int i=0; i<taglistsize; ++i){
-                //    TagDatalist[i].SetTagId(tagList[i]);
+                //Log.d("Debug", String.valueOf(RFIDDevice.getInstance().getTagList().length));
+                Log.d("Debug", "hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+                //if(TagDatalist != null){
+                //    TagDatalist.clear();
                 //}
 
-
-                Log.d("Debug", String.valueOf(RFIDDevice.getInstance().getTagList().length));
+                //for(int i=0;i<taglistsize;++i){
+                //    TagDatalist.add(new TagData(tagList[i]));
+                //}
 
                 StringBuilder sb = new StringBuilder();
 
@@ -130,9 +131,8 @@ public class RecordActivity extends AppCompatActivity {
                     }
                 }
                 textView.setText(sb.toString());
-                tempTextView.setText((Integer.toString(taglistsize)));
-                TagDatalist[0].GetTagId();
-                //tempTextView.setText(TagDatalist[0].GetTagId());
+                //tempTextView.setText((Integer.toString(TagDatalist.size())));
+
                 RFIDDevice.getInstance().finishReadTag();
 
             }

@@ -12,6 +12,10 @@ public class TagData {
         this.id = "init";
     }
 
+    public  TagData(String id){
+        this.id = id;
+    }
+
     public void SetTagId(String id){
         this.id = id;
     }
