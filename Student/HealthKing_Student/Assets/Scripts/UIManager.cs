@@ -173,7 +173,7 @@ public class UIManager : MonoBehaviour {
                 Application.OpenURL("https://youtu.be/Iybe05oOMGw");
                 break;
             case VIDEO_URL.NOTICE_BOARD:      // 게시판
-                Application.OpenURL("http://cafe.naver.com/unityhub");
+                Application.OpenURL("https://cafe.naver.com/redu5tc5");
                 break;
             default:
                 Debug.Log("Invalid VIDEO_URL TYPE");
