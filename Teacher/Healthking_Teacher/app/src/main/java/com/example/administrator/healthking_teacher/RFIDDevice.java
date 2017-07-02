@@ -50,7 +50,7 @@ public class RFIDDevice {
                     return true;
                 } else if (state == ConnectSocket.connectBluetoothState.btsNotEnableBluetooth) {
                     //Intent enableBtIntenet = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                   // startActivityForResult(enableBtIntenet, REQUEST_ENABLE_BT);
+                    // startActivityForResult(enableBtIntenet, REQUEST_ENABLE_BT);
                 }
 
                 //Toast.makeText(this, "Connection failure.", Toast.LENGTH_LONG).show();
@@ -71,11 +71,11 @@ public class RFIDDevice {
             e.printStackTrace();
         }
         catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		return  false;
+        return  false;
     }
 
     public void beginReadTag()
@@ -87,10 +87,16 @@ public class RFIDDevice {
     {
         connectSocket.FinishRead();
         connectSocket.ClearTagList();
+
     }
 
     public String[] getTagList()
     {
-       return connectSocket.GetTagList();
+        return connectSocket.GetTagList();
     }
+
+    public int getRfPowerAttenuation(){return connectSocket.GetRfPowerAttenuation();}
+    public boolean SetRfPowerAttenuation(int nAttenuation){return connectSocket.SetRfPowerAttenuation(nAttenuation);}
+    public int GetTagListSize(){return connectSocket.GetTagListSize();}
+    public String[] GetCountList(){return connectSocket.GetCountList();}
 }

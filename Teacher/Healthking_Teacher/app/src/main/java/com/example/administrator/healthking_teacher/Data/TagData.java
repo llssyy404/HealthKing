@@ -7,4 +7,13 @@ package com.example.administrator.healthking_teacher.Data;
 public class TagData {
 
     private String id ; // 16진수 값
+
+    public TagData(){
+        this.id = "init";
+    }
+
+    public void SetTagId(String id){
+        this.id = id;
+    }
+    public String GetTagId(){return this.id;}
 }
