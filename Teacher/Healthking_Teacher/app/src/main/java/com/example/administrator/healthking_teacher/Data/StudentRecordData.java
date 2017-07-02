@@ -10,19 +10,19 @@ import java.util.List;
 public class StudentRecordData {
 
     private String id;      //유저정보
-    private Date recordDate; // 기록한 날짜
+    private Date recordDate;// 기록한 날짜
     private int recordMeter; // 기록한 총 미터수
     private int trackCount; // 기록 총 바퀴수
-    private List<Date> trackTimeData; // 바퀴마다 돈 시간
-    private Date AllTrackTimeData; //총 바퀴시간
+    private List<Date> trackTimeDate; // 바퀴마다 돈 시간
+    private Date allTrackTimeDate; //총 바퀴시간
 
-    public StudentRecordData(String id, Date recordDate, int recordMeter, int trackCount, List<Date> trackTimeData, Date allTrackTimeData) {
+    public StudentRecordData(String id, Date recordDate, int recordMeter, int trackCount, List<Date> trackTimeDate, Date allTrackTimeDate) {
         this.id = id;
         this.recordDate = recordDate;
         this.recordMeter = recordMeter;
         this.trackCount = trackCount;
-        this.trackTimeData = trackTimeData;
-        AllTrackTimeData = allTrackTimeData;
+        this.trackTimeDate = trackTimeDate;
+        this.allTrackTimeDate = allTrackTimeDate;
     }
 
     public String getId() {
@@ -57,19 +57,19 @@ public class StudentRecordData {
         this.trackCount = trackCount;
     }
 
-    public List<Date> getTrackTimeData() {
-        return trackTimeData;
+    public List<Date> getTrackTimeDate() {
+        return trackTimeDate;
     }
 
-    public void setTrackTimeData(List<Date> trackTimeData) {
-        this.trackTimeData = trackTimeData;
+    public void setTrackTimeDate(List<Date> trackTimeDate) {
+        this.trackTimeDate = trackTimeDate;
     }
 
-    public Date getAllTrackTimeData() {
-        return AllTrackTimeData;
+    public Date getAllTrackTimeDate() {
+        return allTrackTimeDate;
     }
 
-    public void setAllTrackTimeData(Date allTrackTimeData) {
-        AllTrackTimeData = allTrackTimeData;
+    public void setAllTrackTimeDate(Date allTrackTimeDate) {
+        this.allTrackTimeDate = allTrackTimeDate;
     }
 }
