@@ -1,6 +1,9 @@
 package com.example.administrator.healthking_teacher.Record;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,13 +11,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.example.administrator.healthking_teacher.Data.StudentData;
+import com.example.administrator.healthking_teacher.Data.StudentRecordData;
 import com.example.administrator.healthking_teacher.Data.TagData;
+import com.example.administrator.healthking_teacher.Manage.ManageActivity;
+import com.example.administrator.healthking_teacher.Manage.RegisterActivity;
+import com.example.administrator.healthking_teacher.Network.RecordDataRequest;
+import com.example.administrator.healthking_teacher.Network.RegisterRequest;
 import com.example.administrator.healthking_teacher.R;
 import com.example.administrator.healthking_teacher.RFIDDevice;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +69,7 @@ public class RecordActivity extends AppCompatActivity {
 
         Button matchButton = (Button) findViewById(R.id.Record_matchButton);
         Button measureButton = (Button) findViewById(R.id.Record_measureButton);
+        Button recordDataSendButton = (Button) findViewById(R.id.Record_recordSendButton);
 
         matchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +86,25 @@ public class RecordActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        recordDataSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                List<Date> dummyDate = new ArrayList<Date>();
+                dummyDate.add(new Date());
+
+                RecordDataRequest recordDataRequest = new RecordDataRequest(new StudentRecordData("1", new Date(), 1, 1,dummyDate,new Date()) , GetUserRecordResponse());
+                RequestQueue queue = Volley.newRequestQueue(RecordActivity.this);
+                queue.add(recordDataRequest);
+
+            }
+        });
+
+
+
+
 
 
         //Old Code
@@ -161,4 +195,39 @@ public class RecordActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
+
+
+    private Response.Listener<String> GetUserRecordResponse()
+    {
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+                    if (success) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RecordActivity.this);
+                        Dialog dialog = builder.setMessage("기록 등록에 성공했습니다.")
+                                .setPositiveButton("확인", null)
+                                .create();
+                        dialog.show();
+
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RecordActivity.this);
+                        Dialog dialog = builder.setMessage("기록 등록에 실패했습니다.")
+                                .setNegativeButton("확인", null)
+                                .create();
+                        dialog.show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        return responseListener;
+    }
+
 }
