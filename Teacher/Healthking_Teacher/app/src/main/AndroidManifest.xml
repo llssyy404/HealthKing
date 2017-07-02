@@ -24,7 +24,9 @@
         <activity android:name=".Manage.ManageActivity" />
         <activity android:name=".Mission.MissionActivity" />
         <activity android:name=".Manage.RegisterActivity" />
-        <activity android:name=".Manage.ManageInfoActivity"></activity>
+        <activity android:name=".Manage.ManageInfoActivity" />
+        <activity android:name=".Record.RecordMatchActivity" />
+        <activity android:name=".Record.RecordMeasureActivity"></activity>
     </application>
 
 </manifest>
