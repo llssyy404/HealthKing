@@ -6,4 +6,91 @@
     android:layout_height="match_parent"
     tools:context="com.example.administrator.healthking_teacher.Record.RecordMeasureActivity">
 
+    <Button
+        android:id="@+id/Record_Startbutton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="19dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:background="#FF4573C4"
+        android:text="기록시작"
+        android:textSize="20dp"
+        android:textColor="#FFFFFFFF"
+        android:onClick="Record_startClick"/>
+
+    <Button
+        android:id="@+id/Record_Stopbutton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#FF4573C4"
+        android:text="기록중지"
+        android:textSize="20dp"
+        android:textColor="#FFFFFFFF"
+        android:onClick="Record_stopClick"
+        android:layout_alignBottom="@+id/Record_Startbutton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/Record_Savebutton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:background="#FF4573C4"
+        android:text="기록저장"
+        android:textSize="20dp"
+        android:textColor="#FFFFFFFF"
+        android:layout_alignBottom="@+id/Record_Stopbutton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="Record_saveClick"/>
+
+    <EditText
+        android:id="@+id/Record_CountInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="바퀴 수 입력"
+        android:inputType="textPersonName"
+        android:layout_above="@+id/Record_Startbutton"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/Record_MeterInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Record_CountInput"
+        android:layout_alignEnd="@+id/Record_CountInput"
+        android:layout_alignRight="@+id/Record_CountInput"
+        android:ems="10"
+        android:hint="미터 수 입력"
+        android:inputType="textPersonName" />
+
+    <ListView
+        android:id="@+id/Record_ListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/Record_MeterInput"
+        android:layout_alignEnd="@+id/Record_Savebutton"
+        android:layout_alignLeft="@+id/Record_Startbutton"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/Record_Savebutton"
+        android:layout_alignStart="@+id/Record_Startbutton"
+        android:layout_marginTop="99dp"
+        android:background="?attr/colorControlHighlight" />
+
+    <TextView
+        android:id="@+id/elapsedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:textSize="20dp"
+        android:textColor="#FF000000"/>
+
 </RelativeLayout>
