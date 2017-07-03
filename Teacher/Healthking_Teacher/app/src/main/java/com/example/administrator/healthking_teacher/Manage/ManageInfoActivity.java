@@ -43,7 +43,10 @@ public class ManageInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_info);
         Init();
+
+        // 서버 데이터 read
         new GetStudentListBackGroundTask().execute();
+        new GetStudentRecordListBackGroundTask().execute();
     }
 
     private void Init() {
@@ -155,6 +158,53 @@ public class ManageInfoActivity extends AppCompatActivity {
             searchButton.setEnabled(true);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
+        }
+
+
+    }
+
+
+    class GetStudentRecordListBackGroundTask extends AsyncTask<Void, Void, String> {
+        String target;
+
+        @Override
+        protected void onPreExecute() {
+            target = "http://came1230.cafe24.com/GetAllRecordDataList.php";
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+
+                URL url = new URL(target);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp;
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((temp = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(temp + "\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        public void onPostExecute(String result) {
+
+            DataManager.getInstance().SetStudentRecordDatas(result);
         }
 
 

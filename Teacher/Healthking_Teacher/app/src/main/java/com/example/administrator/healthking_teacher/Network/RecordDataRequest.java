@@ -1,11 +1,17 @@
 package com.example.administrator.healthking_teacher.Network;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.example.administrator.healthking_teacher.Data.StudentData;
 import com.example.administrator.healthking_teacher.Data.StudentRecordData;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,12 +27,25 @@ public class RecordDataRequest extends StringRequest {
         super(Method.POST, URL, listener, null);
 
         parameters = new HashMap<>();
+        DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
+        DateFormat sdTimeFormat = new SimpleDateFormat("HH:mm:ss");
+
         parameters.put("userID", recordData.getId());
-        parameters.put("recordDate", recordData.getRecordDate().toString());
+        parameters.put("recordDate", sdFormat.format(recordData.getRecordDate()));
         parameters.put("recordMeter", recordData.getRecordMeter() + "");
         parameters.put("trackCount", recordData.getTrackCount() + "");
-        parameters.put("trackTimeDate", recordData.getTrackTimeDate() + "");
-        parameters.put("allTrackTimeDate", recordData.getAllTrackTimeDate().toString());
+
+        List<Date> trackTimeList =recordData.getTrackTimeDate();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i=0; i<trackTimeList.size(); ++i)
+        {
+            sb.append(sdTimeFormat.format(trackTimeList.get(i)));
+            sb.append(",");
+        }
+        parameters.put("trackTimeDate", sb.toString().trim());
+
+        parameters.put("allTrackTimeDate", sdFormat.format(recordData.getAllTrackTimeDate()));
 
     }
 
