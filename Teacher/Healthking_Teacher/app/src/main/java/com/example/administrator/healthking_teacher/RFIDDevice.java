@@ -99,4 +99,7 @@ public class RFIDDevice {
     public boolean SetRfPowerAttenuation(int nAttenuation){return connectSocket.SetRfPowerAttenuation(nAttenuation);}
     public int GetTagListSize(){return connectSocket.GetTagListSize();}
     public String[] GetCountList(){return connectSocket.GetCountList();}
+    public void DisconnectReader() {
+        connectSocket.DisconnectReader();
+    }
 }
