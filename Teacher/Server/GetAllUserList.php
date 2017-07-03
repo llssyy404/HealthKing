@@ -8,7 +8,7 @@ while ($row = mysqli_fetch_array($result))
 	array_push($response, array("userID" =>$row[0], "userPassword" =>$row[1], "userName"=>$row[2], "userGender"=>$row[3], "userSchool"=>$row[4], "userGrade"=>$row[5], "userClassroom"=>$row[6] ));
 }
 
-echo json_encode(array("response" => $response));
+echo json_encode(array("response" => $response), JSON_UNESCAPED_UNICODE);
 mysqli_close($con);
 
 ?>

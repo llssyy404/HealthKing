@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -33,13 +34,13 @@ public class TitleActivity extends AppCompatActivity {
         Button manageButton = (Button) findViewById(R.id.Title_ManageButton);
         Button missionButton = (Button) findViewById(R.id.Title_MissionButton);
         Button boardButton = (Button) findViewById(R.id.Title_BoardButton);
-        Button dbButton = (Button) findViewById(R.id.Title_DatabaseButton);
 
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
-                startActivity(intent);
+
+                new GetStudentListBackGroundTask().execute();
+
             }
         });
 
@@ -62,15 +63,8 @@ public class TitleActivity extends AppCompatActivity {
         boardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse( "http://cafe.naver.com/unityhub"  ));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.cafe.naver.com/redu5tc5"));
                 startActivity(intent);
-            }
-        });
-
-        dbButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new GetStudentListBackGroundTask().execute();
             }
         });
 
@@ -116,16 +110,9 @@ public class TitleActivity extends AppCompatActivity {
 
         @Override
         public void onPostExecute(String result) {
-
             DataManager.getInstance().SetStudentDatas(result);
-
-            AlertDialog dialog;
-            AlertDialog.Builder builder = new AlertDialog.Builder(TitleActivity.this);
-            dialog = builder.setMessage("데이터 연동이 완료되었습니다.")
-                    .setNegativeButton("확인", null)
-                    .create();
-            dialog.show();
-
+            Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+            startActivity(intent);
         }
 
 
