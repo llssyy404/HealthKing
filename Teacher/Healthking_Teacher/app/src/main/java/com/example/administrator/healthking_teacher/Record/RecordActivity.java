@@ -3,6 +3,7 @@ package com.example.administrator.healthking_teacher.Record;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Debug;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.administrator.healthking_teacher.Data.DataManager;
 import com.example.administrator.healthking_teacher.Data.StudentData;
 import com.example.administrator.healthking_teacher.Data.StudentRecordData;
 import com.example.administrator.healthking_teacher.Data.TagData;
@@ -62,6 +64,11 @@ public class RecordActivity extends AppCompatActivity {
 
     //Dictionary<StudentData,TagData> listArr;
 
+    private RequestQueue queue;
+    private int startQueueCount;
+    private int endQueueCount;
+    private int errorQueueCount = 999999;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,19 +99,30 @@ public class RecordActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                List<Date> dummyDate = new ArrayList<Date>();
-                dummyDate.add(new Date());
-
-                RecordDataRequest recordDataRequest = new RecordDataRequest(new StudentRecordData("1", new Date(), 1, 1,dummyDate,new Date()) , GetUserRecordResponse());
+                //정식 코드
                 RequestQueue queue = Volley.newRequestQueue(RecordActivity.this);
-                queue.add(recordDataRequest);
+                List<StudentRecordData> sendStudentRecordDataList =DataManager.getInstance().getSendStudentRecodeDatas();
+                startQueueCount = sendStudentRecordDataList.size();
+                endQueueCount = sendStudentRecordDataList.size();
+                for(int i=0; i<sendStudentRecordDataList.size();++i)
+                {
+                    queue.add(new RecordDataRequest(sendStudentRecordDataList.get(i),GetUserRecordResponse()));
+                }
+
+
+                // 테스트 코드
+//                List<Date> dummyDate = new ArrayList<Date>();
+//                dummyDate.add(new Date());
+//                queue = Volley.newRequestQueue(RecordActivity.this);
+//                startQueueCount = 10;
+//                endQueueCount = 10;
+//                for (int i = 0; i < 10; ++i) {
+//                    RecordDataRequest recordDataRequest = new RecordDataRequest(new StudentRecordData("1", new Date(), i, i, dummyDate, new Date()), GetUserRecordResponse());
+//                    queue.add(recordDataRequest);
+//                }
 
             }
         });
-
-
-
-
 
 
         //Old Code
@@ -197,9 +215,8 @@ public class RecordActivity extends AppCompatActivity {
     }
 
 
+    private Response.Listener<String> GetUserRecordResponse() {
 
-    private Response.Listener<String> GetUserRecordResponse()
-    {
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -207,13 +224,18 @@ public class RecordActivity extends AppCompatActivity {
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
                     if (success) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(RecordActivity.this);
-                        Dialog dialog = builder.setMessage("기록 등록에 성공했습니다.")
-                                .setPositiveButton("확인", null)
-                                .create();
-                        dialog.show();
+                        --endQueueCount;
+                        if (endQueueCount <= 0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RecordActivity.this);
+                            Dialog dialog = builder.setMessage("기록 등록에 성공했습니다.")
+                                    .setPositiveButton("확인", null)
+                                    .create();
+                            dialog.show();
+                        }
+
 
                     } else {
+                        endQueueCount = errorQueueCount;
                         AlertDialog.Builder builder = new AlertDialog.Builder(RecordActivity.this);
                         Dialog dialog = builder.setMessage("기록 등록에 실패했습니다.")
                                 .setNegativeButton("확인", null)

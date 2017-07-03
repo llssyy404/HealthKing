@@ -13,7 +13,8 @@ import java.util.List;
 public class DataManager {
 
     private List<StudentData> studentDataList;
-    private List<StudentRecordData> studentRecordDataList;
+    private List<StudentRecordData> sendStudentRecordDataList; // 서버에 저장할 레코드 데이터 리스트
+    private List<StudentRecordData> studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
 
     static private DataManager _instance;
 
@@ -28,6 +29,7 @@ public class DataManager {
 
     private void Init() {
         studentDataList = new ArrayList<>();
+        sendStudentRecordDataList = new ArrayList<>();
         studentRecordDataList = new ArrayList<>();
     }
 
@@ -65,14 +67,16 @@ public class DataManager {
 
 
 
-    //학생 레코드 데이터
-
-    public void SetStudentRecodeDatas(List<StudentRecordData> datas) {
-        studentRecordDataList = datas;
+    // 서버에 전송할 학생 레코드 데이터
+    public void setSendStudentRecodeDatas(List<StudentRecordData> datas) {
+        sendStudentRecordDataList = datas;
     }
 
-    public List<StudentRecordData> getStudentRecordDataList() {
-        return studentRecordDataList;
+    public List<StudentRecordData> getSendStudentRecodeDatas() {
+        return sendStudentRecordDataList;
     }
+
+
+
 
 }
