@@ -1,9 +1,14 @@
 package com.example.administrator.healthking_teacher.Data;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +37,10 @@ public class DataManager {
         sendStudentRecordDataList = new ArrayList<>();
         studentRecordDataList = new ArrayList<>();
     }
+
+
+
+    // 학생 정보 getter, setter
 
     public void SetStudentDatas(String data) {
 
@@ -78,5 +87,51 @@ public class DataManager {
 
 
 
+    // 서버에서 가져온 모든 학생 기록 데이터
+
+    public void SetStudentRecordDatas(String data) {
+        studentRecordDataList.clear();
+
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            int count = 0;
+            String userID;
+            Date recordDate;
+            int recordMeter ,trackCount;
+            List<Date> trackTimeDate = new ArrayList<>();
+            Date allTrackTimeDate;
+            DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
+            DateFormat sdTimeFormat = new SimpleDateFormat("HH:mm:ss");
+
+            while (count < jsonArray.length()) {
+                JSONObject object = jsonArray.getJSONObject(count);
+                userID = object.getString("userID");
+                recordDate = sdFormat.parse(object.getString("recordDate"));
+                recordMeter = object.getInt("recordMeter");
+                trackCount = object.getInt("trackCount");
+
+                String[] trackTimeDateString = object.getString("trackTimeDate").split(",");
+                for(int i=0; i<trackTimeDateString.length; ++i)
+                {
+                    trackTimeDate.add(sdTimeFormat.parse(trackTimeDateString[i]));
+                }
+
+                allTrackTimeDate = sdFormat.parse(object.getString("allTrackTimeDate"));
+
+                StudentRecordData studentRecordData = new StudentRecordData(userID,recordDate,recordMeter,trackCount,trackTimeDate,allTrackTimeDate);
+                studentRecordDataList.add(studentRecordData);
+                ++count;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public List<StudentRecordData> getStudentRecodeDatas() {
+        return studentRecordDataList;
+    }
 
 }

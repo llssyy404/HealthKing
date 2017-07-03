@@ -110,8 +110,11 @@ public class RecordActivity extends AppCompatActivity {
                 }
 
 
-                // 테스트 코드
+                // 더미 코드
 //                List<Date> dummyDate = new ArrayList<Date>();
+//                dummyDate.add(new Date());
+//                dummyDate.add(new Date());
+//                dummyDate.add(new Date());
 //                dummyDate.add(new Date());
 //                queue = Volley.newRequestQueue(RecordActivity.this);
 //                startQueueCount = 10;
