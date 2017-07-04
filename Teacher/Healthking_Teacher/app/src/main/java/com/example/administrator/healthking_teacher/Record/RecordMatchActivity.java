@@ -76,7 +76,6 @@ public class RecordMatchActivity extends AppCompatActivity {
         letsgoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
                 studentRecordIdTextView.setText(getStringData(studentRecordDataList.get(0)));
                 //studentRecordIdTextView.setText(Long.toString(studentRecordDataList.get(0).getRecordDate().getMinutes()) + "aaa");
             }
@@ -85,6 +84,7 @@ public class RecordMatchActivity extends AppCompatActivity {
         rfidConnectButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                //myToastMessage("연결중입니다.");
                 boolean isConnect = RFIDDevice.getInstance().set();
                 if(isConnect) {
                     myToastMessage("연결에 실패했습니다.");
@@ -118,13 +118,11 @@ public class RecordMatchActivity extends AppCompatActivity {
                 String str = "";
 
                 for(int i=0;i<tagDatas.size();++i){
-
                     str += Integer.toString(i) + "번째 태그: " + tagDatas.get(i).GetTagId();
                     str += "\n";
                 }
 
                 studentRecordIdTextView.setText(str);
-
                 myToastMessage("태그 읽기를 종료합니다.");
             }
         });
