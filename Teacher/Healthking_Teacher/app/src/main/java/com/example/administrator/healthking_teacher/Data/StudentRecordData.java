@@ -24,7 +24,6 @@ public class StudentRecordData {
         this.trackTimeDate = trackTimeDate;
         this.allTrackTimeDate = allTrackTimeDate;
     }
-
     public String getId() {
         return id;
     }

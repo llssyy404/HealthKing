@@ -75,13 +75,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/Record_MeterInput"
-        android:layout_alignEnd="@+id/Record_Savebutton"
         android:layout_alignLeft="@+id/Record_Startbutton"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/Record_Savebutton"
         android:layout_alignStart="@+id/Record_Startbutton"
         android:layout_marginTop="99dp"
-        android:background="?attr/colorControlHighlight" />
+        android:background="?attr/colorControlHighlight"
+        android:layout_toLeftOf="@+id/elapsedTime"
+        android:layout_toStartOf="@+id/elapsedTime" />
 
     <TextView
         android:id="@+id/elapsedTime"
@@ -92,5 +92,43 @@
         android:layout_marginTop="48dp"
         android:textSize="20dp"
         android:textColor="#FF000000"/>
+
+    <Button
+        android:id="@+id/rfidMeasureConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Record_ListView"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/Record_ListView"
+        android:text="태그기 연결" />
+
+    <Button
+        android:id="@+id/rfidMeasureDisconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rfidMeasureConnect"
+        android:layout_alignStart="@+id/rfidMeasureConnect"
+        android:layout_below="@+id/rfidMeasureConnect"
+        android:text="태그기 끊기" />
+
+    <ListView
+        android:id="@+id/timeListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/Record_MeterInput"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/Record_ListView"
+        android:layout_toRightOf="@+id/elapsedTime"
+        android:background="?attr/colorControlHighlight" />
+
+    <TextView
+        android:id="@+id/recordMeasureDebugText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rfidMeasureDisconnect"
+        android:layout_alignLeft="@+id/Record_Savebutton"
+        android:layout_alignStart="@+id/Record_Savebutton"
+        tools:text="컴온!" />
 
 </RelativeLayout>
