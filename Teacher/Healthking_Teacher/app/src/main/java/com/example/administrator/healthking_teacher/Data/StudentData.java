@@ -1,10 +1,12 @@
 package com.example.administrator.healthking_teacher.Data;
 
+import java.io.Serializable;
+
 /**
  * Created by admin on 2017-06-20.
  */
 
-public class StudentData {
+public class StudentData implements Serializable {
 
     private String id; //아이디
     private String password; // 패스워드

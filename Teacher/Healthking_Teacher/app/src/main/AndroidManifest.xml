@@ -26,7 +26,9 @@
         <activity android:name=".Manage.RegisterActivity" />
         <activity android:name=".Manage.ManageInfoActivity" />
         <activity android:name=".Record.RecordMatchActivity" />
-        <activity android:name=".Record.RecordMeasureActivity"></activity>
+        <activity android:name=".Record.RecordMeasureActivity" />
+        <activity android:name=".Manage.ManageStudentInfoActivity" />
+        <activity android:name=".Manage.ManageDateInfoActivity"></activity>
     </application>
 
 </manifest>
