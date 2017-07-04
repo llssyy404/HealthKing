@@ -70,7 +70,7 @@ public class RecordMatchActivity extends AppCompatActivity {
         tagMatchListView = (ListView)findViewById(R.id.tagMatchListView);
         tagListView = (ListView)findViewById(R.id.tagListView);
 
-        for(int i=0;i<10;++i){
+        /*for(int i=0;i<10;++i){
             //long now = System.currentTimeMillis();
             Date tempdate = new Date();
             List<Date> templistdate = new ArrayList<>();
@@ -78,12 +78,13 @@ public class RecordMatchActivity extends AppCompatActivity {
             templistdate.add(tempdate);
             templistdate.add(tempdate);
             templistdate.add(tempdate);
-            StudentRecordData temp = new StudentRecordData(Integer.toString((i+ 1) * 33 ),tempdate,100,3,templistdate,tempdate);
+            StudentRecordData temp = new StudentRecordData("홍길동 " + Integer.toString((i+1)),tempdate,100,3,templistdate,tempdate);
             studentRecordDataList.add(temp);
 
             //TagData tempTagdata = new TagData(Integer.toString(i*1111));
             //tagDatas.add(tempTagdata);
-        }
+        }*/
+
 
         //studentRecordDataList.add(DataManager.getInstance().getStudentRecordDataList().get(0));
         //studentRecordDataList.get(0);
@@ -93,6 +94,7 @@ public class RecordMatchActivity extends AppCompatActivity {
         rfidConnectButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
                 //myToastMessage("연결중입니다.");
                 boolean isConnect = RFIDDevice.getInstance().set();
                 if(isConnect) {
@@ -103,6 +105,22 @@ public class RecordMatchActivity extends AppCompatActivity {
                     myToastMessage("연결에 성공했습니다.");
                 }
                 RFIDDevice.getInstance().SetRfPowerAttenuation(25);
+                if(0 < DataManager.getInstance().getStudentDataList().size()) {
+                    for(int i=0;i<DataManager.getInstance().getStudentDataList().size();++i) {
+                        //String id, // Date recordDate, //int recordMeter, //int trackCount, //List<Date> trackTimeDate, //Date allTrackTimeDate
+                        //StudentRecordData temp = new StudentRecordData(DataManager.getInstance().getStudentRecodeDatas().get(i).getId(),DataManager.getInstance().getStudentRecodeDatas().get(i).getRecordDate(),DataManager.getInstance().getStudentRecodeDatas().get(i).getRecordMeter(),DataManager.getInstance().getStudentRecodeDatas().get(i).getTrackCount(),DataManager.getInstance().getStudentRecodeDatas().get(i).getTrackTimeDate(),DataManager.getInstance().getStudentRecodeDatas().get(i).getAllTrackTimeDate());
+                        Date tempdate = new Date();
+                        List<Date> templistdate = new ArrayList<>();
+                        templistdate.clear();
+                        templistdate.add(tempdate);
+                        templistdate.add(tempdate);
+                        templistdate.add(tempdate);
+                        StudentRecordData temp = new StudentRecordData(DataManager.getInstance().getStudentDataList().get(i).getId(),tempdate,100,3,templistdate,tempdate);
+                        studentRecordDataList.add(temp);
+                    }
+
+                }
+
             }
         });
         rfidDisconnectButton.setOnClickListener(new View.OnClickListener(){

@@ -30,7 +30,6 @@ public class StudentRecordData implements Serializable {
         this.trackTimeDate.addAll(trackTimeDate);
         this.allTrackTimeDate = (Date)allTrackTimeDate.clone();
     }
-
     public String getId() {
         return id;
     }

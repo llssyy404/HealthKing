@@ -102,4 +102,7 @@ public class RFIDDevice {
     public void DisconnectReader() {
         connectSocket.DisconnectReader();
     }
+    public void ClearTagList(){
+        connectSocket.ClearTagList();
+    }
 }
