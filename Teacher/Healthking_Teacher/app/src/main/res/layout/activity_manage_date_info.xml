@@ -7,11 +7,16 @@
     tools:context="com.example.administrator.healthking_teacher.Manage.ManageDateInfoActivity">
 
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="551dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,71 +48,84 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/ManageDateInfo_dateText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:layout_marginTop="58dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="183dp"
+                android:id="@+id/ManageDateInfo_distanceText"
+                android:layout_width="180dp"
                 android:layout_height="56dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView8"
-                android:text="시간"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:background="#fafafa" />
+                android:layout_toLeftOf="@+id/ManageDateInfo_timeText"
+                android:layout_toStartOf="@+id/ManageDateInfo_timeText"
+                android:background="#dddddd"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="183dp"
+                android:layout_width="180dp"
                 android:layout_height="56dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/ManageDateInfo_dateText"
-                android:layout_marginTop="57dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="59dp"
                 android:background="@color/colorPrimary"
+                android:gravity="center"
                 android:text="거리"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
-                android:id="@+id/ManageDateInfo_distanceText"
-                android:layout_width="183dp"
+                android:id="@+id/textView4"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/ManageDateInfo_timeText"
                 android:layout_alignTop="@+id/textView8"
+                android:layout_marginRight="13dp"
                 android:layout_toRightOf="@+id/textView8"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
                 android:background="#FF4573C4"
-                />
+                android:gravity="center"
+                android:text="시간"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/ManageDateInfo_timeText"
-                android:layout_width="183dp"
+                android:layout_width="1830dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textView2"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/textView2"
+                android:layout_alignBottom="@+id/ManageDateInfo_distanceText"
+                android:layout_alignEnd="@+id/textView4"
+                android:layout_alignRight="@+id/textView4"
+                android:layout_alignTop="@+id/ManageDateInfo_distanceText"
                 android:layout_toRightOf="@+id/textView8"
-                android:layout_toEndOf="@+id/textView8"
-                android:background="?attr/colorControlHighlight"/>
+                android:background="#aaa"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/ManageDateInfo_stuText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_weight="0.02"
+                android:gravity="center"
                 android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:layout_alignParentLeft="true" />
+                android:textColor="#000000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <TextView
+                android:id="@+id/ManageDateInfo_dateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="58dp"
+                android:background="#FF4573C4"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#ffff"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:layout_alignRight="@+id/textView4"
+                android:layout_alignEnd="@+id/textView4"
+                android:layout_alignLeft="@+id/textView8"
+                android:layout_alignStart="@+id/textView8" />
+
         </RelativeLayout>
 
     </LinearLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.administrator.healthking_teacher.Data.StudentData;
+import com.example.administrator.healthking_teacher.Data.StudentRecordData;
 import com.example.administrator.healthking_teacher.R;
 
 public class ManageDateInfoActivity extends AppCompatActivity {
@@ -20,9 +21,14 @@ public class ManageDateInfoActivity extends AppCompatActivity {
         StudentData sD = (StudentData)intent.getExtras().get("stuText");
         textView.setText(sD.getGrade()+ sD.getClassroomNumber()+sD.getName()+ sD.getGender());
 
-        TextView dateTextView = (TextView) findViewById(R.id.ManageDateInfo_dateText);
-        dateTextView.setText("2017년 07월 04일");
+        TextView recordDateTextView = (TextView) findViewById(R.id.ManageDateInfo_dateText);
+        StudentRecordData recordText = (StudentRecordData)intent.getExtras().get("recordText");
+        recordDateTextView.setText(recordText.getRecordDate().toString());
 
+        TextView distTextView = (TextView) findViewById(R.id.ManageDateInfo_distanceText);
+        distTextView.setText(String.valueOf(recordText.getRecordMeter()));
 
+        TextView timeTextView = (TextView) findViewById(R.id.ManageDateInfo_timeText);
+        timeTextView.setText(recordText.getAllTrackTimeDate().toString());
     }
 }
