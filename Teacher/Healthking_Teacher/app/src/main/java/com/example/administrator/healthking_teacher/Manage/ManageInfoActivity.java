@@ -106,7 +106,7 @@ public class ManageInfoActivity extends AppCompatActivity {
                     }
                 }
 
-                StudentListAdapter studentListAdapter = new StudentListAdapter(getApplicationContext(), searchStudentDataList, ManageInfoActivity.this);
+                StudentListAdapter studentListAdapter = new StudentListAdapter(ManageInfoActivity.this, searchStudentDataList);
                 studentListView.setAdapter(studentListAdapter);
             }
         });

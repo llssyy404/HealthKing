@@ -69,14 +69,18 @@ public class RecordActivity extends AppCompatActivity {
     private int endQueueCount;
     private int errorQueueCount = 999999;
 
+    private Button matchButton;
+    private Button measureButton;
+    private Button recordDataSendButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
-        Button matchButton = (Button) findViewById(R.id.Record_matchButton);
-        Button measureButton = (Button) findViewById(R.id.Record_measureButton);
-        Button recordDataSendButton = (Button) findViewById(R.id.Record_recordSendButton);
+        matchButton = (Button) findViewById(R.id.Record_matchButton);
+        measureButton = (Button) findViewById(R.id.Record_measureButton);
+        recordDataSendButton = (Button) findViewById(R.id.Record_recordSendButton);
 
         matchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,31 +102,36 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                recordDataSendButton.setEnabled(false);
+                recordDataSendButton.setBackgroundColor(getResources().getColor(R.color.colorGray));
 
                 //정식 코드
-//                RequestQueue queue = Volley.newRequestQueue(RecordActivity.this);
-//                List<StudentRecordData> sendStudentRecordDataList =DataManager.getInstance().getSendStudentRecodeDatas();
-//                startQueueCount = sendStudentRecordDataList.size();
-//                endQueueCount = sendStudentRecordDataList.size();
-//                for(int i=0; i<sendStudentRecordDataList.size();++i)
-//                {
-//                    queue.add(new RecordDataRequest(sendStudentRecordDataList.get(i),GetUserRecordResponse()));
-//                }
-
-
-                // 더미 코드
-                List<Date> dummyDate = new ArrayList<Date>();
-                dummyDate.add(new Date());
-                dummyDate.add(new Date());
-                dummyDate.add(new Date());
-                dummyDate.add(new Date());
-                queue = Volley.newRequestQueue(RecordActivity.this);
-                startQueueCount = 10;
-                endQueueCount = 10;
-                for (int i = 0; i < 10; ++i) {
-                    RecordDataRequest recordDataRequest = new RecordDataRequest(new StudentRecordData("1", new Date(), i, i, dummyDate, new Date()), GetUserRecordResponse());
-                    queue.add(recordDataRequest);
+                RequestQueue queue = Volley.newRequestQueue(RecordActivity.this);
+                List<StudentRecordData> sendStudentRecordDataList = DataManager.getInstance().getSendStudentRecodeDatas();
+                startQueueCount = sendStudentRecordDataList.size();
+                endQueueCount = sendStudentRecordDataList.size();
+                for (int i = 0; i < sendStudentRecordDataList.size(); ++i) {
+                    queue.add(new RecordDataRequest(sendStudentRecordDataList.get(i), GetUserRecordResponse()));
                 }
+
+
+//                // 더미 코드
+//                List<Date> dummyDate = new ArrayList<Date>();
+//                Date testDate = new Date();
+//                testDate.setSeconds(10);
+//                dummyDate.add((Date) testDate.clone());
+//                testDate.setSeconds(20);
+//                dummyDate.add((Date) testDate.clone());
+//                testDate.setSeconds(30);
+//                dummyDate.add((Date) testDate.clone());
+//                queue = Volley.newRequestQueue(RecordActivity.this);
+//                startQueueCount = 5;
+//                endQueueCount = 5;
+//                for (int i = 0; i < 5; ++i) {
+//                    dummyDate.add((Date) testDate.clone());
+//                    RecordDataRequest recordDataRequest = new RecordDataRequest(new StudentRecordData("가가가", new Date(), i, i, dummyDate, new Date()), GetUserRecordResponse());
+//                    queue.add(recordDataRequest);
+//                }
 
             }
         });
@@ -234,6 +243,9 @@ public class RecordActivity extends AppCompatActivity {
                                     .setPositiveButton("확인", null)
                                     .create();
                             dialog.show();
+
+                            recordDataSendButton.setEnabled(true);
+                            recordDataSendButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         }
 
 
@@ -244,7 +256,12 @@ public class RecordActivity extends AppCompatActivity {
                                 .setNegativeButton("확인", null)
                                 .create();
                         dialog.show();
+
+                        recordDataSendButton.setEnabled(true);
+                        recordDataSendButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     }
+
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

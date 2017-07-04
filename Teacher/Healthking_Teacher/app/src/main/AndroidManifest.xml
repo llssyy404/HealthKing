@@ -13,22 +13,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Title.TitleActivity">
+        <activity
+            android:name=".Title.TitleActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Record.RecordActivity" />
-        <activity android:name=".Manage.ManageActivity" />
-        <activity android:name=".Mission.MissionActivity" />
-        <activity android:name=".Manage.RegisterActivity" />
-        <activity android:name=".Manage.ManageInfoActivity" />
-        <activity android:name=".Record.RecordMatchActivity" />
-        <activity android:name=".Record.RecordMeasureActivity" />
-        <activity android:name=".Manage.ManageStudentInfoActivity" />
-        <activity android:name=".Manage.ManageDateInfoActivity"></activity>
+        <activity
+            android:name=".Record.RecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Manage.ManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Mission.MissionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Manage.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Manage.ManageInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Record.RecordMatchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Record.RecordMeasureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Manage.ManageStudentInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Manage.ManageDateInfoActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -27,8 +27,8 @@ public class RecordDataRequest extends StringRequest {
         super(Method.POST, URL, listener, null);
 
         parameters = new HashMap<>();
-        DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
-        DateFormat sdTimeFormat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        DateFormat sdTimeFormat = new SimpleDateFormat("HH-mm-ss");
 
         parameters.put("userID", recordData.getId());
         parameters.put("recordDate", sdFormat.format(recordData.getRecordDate()));
@@ -45,7 +45,7 @@ public class RecordDataRequest extends StringRequest {
         }
         parameters.put("trackTimeDate", sb.toString().trim());
 
-        parameters.put("allTrackTimeDate", sdFormat.format(recordData.getAllTrackTimeDate()));
+        parameters.put("allTrackTimeDate", sdTimeFormat.format(recordData.getAllTrackTimeDate()));
 
     }
 

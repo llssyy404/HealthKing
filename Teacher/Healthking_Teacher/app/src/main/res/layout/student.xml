@@ -37,36 +37,36 @@
             <TextView
                 android:id="@+id/Student_nameText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimary"
                 android:padding="3dp"
                 android:text="이름"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/Student_genderText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimary"
                 android:padding="3dp"
                 android:text="성별"
-                android:textColor="#ffffff"
-                android:textSize="20dp" />
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/Student_idText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimary"
                 android:padding="3dp"
                 android:text="아이디"
-                android:textColor="#ffffff"
-                android:textSize="20dp" />
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
 
         </LinearLayout>

@@ -1,6 +1,10 @@
 package com.example.administrator.healthking_teacher.Data;
 
+import android.util.Log;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -19,11 +23,12 @@ public class StudentRecordData implements Serializable {
 
     public StudentRecordData(String id, Date recordDate, int recordMeter, int trackCount, List<Date> trackTimeDate, Date allTrackTimeDate) {
         this.id = id;
-        this.recordDate = recordDate;
+        this.recordDate = (Date)recordDate.clone();
         this.recordMeter = recordMeter;
         this.trackCount = trackCount;
-        this.trackTimeDate = trackTimeDate;
-        this.allTrackTimeDate = allTrackTimeDate;
+        this.trackTimeDate = new ArrayList<>();
+        this.trackTimeDate.addAll(trackTimeDate);
+        this.allTrackTimeDate = (Date)allTrackTimeDate.clone();
     }
 
     public String getId() {

@@ -2,8 +2,10 @@ package com.example.administrator.healthking_teacher.Manage;
 
 
 import android.content.Intent;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +20,8 @@ import com.example.administrator.healthking_teacher.Data.StudentData;
 import com.example.administrator.healthking_teacher.Data.StudentRecordData;
 import com.example.administrator.healthking_teacher.R;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,16 +32,26 @@ public class ManageStudentInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_student_info);
 
-        TextView textView = (TextView) findViewById(R.id.ManageStudentInfo_stuText);
-        Intent intent = getIntent();
-        final StudentData studentData = (StudentData)intent.getExtras().get("stuText");
-        textView.setText(studentData.getGrade()+ studentData.getClassroomNumber()+studentData.getName()+ studentData.getGender());
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시");
+        final StudentData currentStudentData = (StudentData) getIntent().getExtras().get("studentData");
+        final List<StudentRecordData> AllUserRecordDataList = DataManager.getInstance().getStudentRecodeDatas();
+        final List<StudentRecordData> selectUserRecordDataList = new ArrayList<>();
 
-        final List<StudentRecordData> listRecordData = DataManager.getInstance().getStudentRecodeDatas();
-        final String[] items = new String[listRecordData.size()];
-        for(int i = 0; i < listRecordData.size(); ++i)
-        {
-            items[i] = listRecordData.get(i).getRecordDate().toString();
+
+        TextView textView = (TextView) findViewById(R.id.ManageStudentInfo_stuText);
+        textView.setText(currentStudentData.getGrade() + " " + currentStudentData.getClassroomNumber() + " " + currentStudentData.getName() + " "  + currentStudentData.getGender());
+
+        // 아이디체크로 record 데이터 검출
+        for (int i = 0; i < AllUserRecordDataList.size(); ++i) {
+            if (AllUserRecordDataList.get(i).getId().equals(currentStudentData.getId())) {
+                selectUserRecordDataList.add(AllUserRecordDataList.get(i));
+            }
+        }
+
+        final String[] items = new String[selectUserRecordDataList.size()];
+
+        for (int i = 0; i < selectUserRecordDataList.size(); ++i) {
+            items[i] = dateFormat.format(selectUserRecordDataList.get(i).getRecordDate());
         }
 
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
@@ -49,10 +63,10 @@ public class ManageStudentInfoActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String item = String.valueOf(parent.getItemAtPosition(position));
-                        //Toast.makeText(ManageStudentInfoActivity.this, item, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), ManageDateInfoActivity.class);
-                        intent.putExtra("stuText", studentData);
-                        intent.putExtra("recordText", listRecordData.get(position));
+                        Intent intent = new Intent(ManageStudentInfoActivity.this, ManageDateInfoActivity.class);
+                        intent.putExtra("studentData", currentStudentData);
+                        Log.e("CCCC",selectUserRecordDataList.get(position).toString());
+                        intent.putExtra("recordData", selectUserRecordDataList.get(position));
                         startActivity(intent);
                     }
                 }

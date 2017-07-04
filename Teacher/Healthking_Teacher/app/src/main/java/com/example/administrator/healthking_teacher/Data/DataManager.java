@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -99,10 +100,10 @@ public class DataManager {
             String userID;
             Date recordDate;
             int recordMeter ,trackCount;
-            List<Date> trackTimeDate = new ArrayList<>();
+            List<Date> trackTimeDate ;
             Date allTrackTimeDate;
-            DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
-            DateFormat sdTimeFormat = new SimpleDateFormat("HH:mm:ss");
+            DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+            DateFormat sdTimeFormat = new SimpleDateFormat("HH-mm-ss");
 
             while (count < jsonArray.length()) {
                 JSONObject object = jsonArray.getJSONObject(count);
@@ -112,17 +113,21 @@ public class DataManager {
                 trackCount = object.getInt("trackCount");
 
                 String[] trackTimeDateString = object.getString("trackTimeDate").split(",");
+
+                trackTimeDate= new ArrayList<>();
                 for(int i=0; i<trackTimeDateString.length; ++i)
                 {
                     trackTimeDate.add(sdTimeFormat.parse(trackTimeDateString[i]));
                 }
 
-                allTrackTimeDate = sdFormat.parse(object.getString("allTrackTimeDate"));
+                allTrackTimeDate = sdTimeFormat.parse(object.getString("allTrackTimeDate"));
 
                 StudentRecordData studentRecordData = new StudentRecordData(userID,recordDate,recordMeter,trackCount,trackTimeDate,allTrackTimeDate);
                 studentRecordDataList.add(studentRecordData);
                 ++count;
             }
+
+            Collections.sort(studentRecordDataList, new StudentRecordDataComparator());
 
         } catch (Exception e) {
             e.printStackTrace();
