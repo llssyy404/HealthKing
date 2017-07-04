@@ -100,29 +100,29 @@ public class RecordActivity extends AppCompatActivity {
 
 
                 //정식 코드
-                RequestQueue queue = Volley.newRequestQueue(RecordActivity.this);
-                List<StudentRecordData> sendStudentRecordDataList =DataManager.getInstance().getSendStudentRecodeDatas();
-                startQueueCount = sendStudentRecordDataList.size();
-                endQueueCount = sendStudentRecordDataList.size();
-                for(int i=0; i<sendStudentRecordDataList.size();++i)
-                {
-                    queue.add(new RecordDataRequest(sendStudentRecordDataList.get(i),GetUserRecordResponse()));
-                }
+//                RequestQueue queue = Volley.newRequestQueue(RecordActivity.this);
+//                List<StudentRecordData> sendStudentRecordDataList =DataManager.getInstance().getSendStudentRecodeDatas();
+//                startQueueCount = sendStudentRecordDataList.size();
+//                endQueueCount = sendStudentRecordDataList.size();
+//                for(int i=0; i<sendStudentRecordDataList.size();++i)
+//                {
+//                    queue.add(new RecordDataRequest(sendStudentRecordDataList.get(i),GetUserRecordResponse()));
+//                }
 
 
                 // 더미 코드
-//                List<Date> dummyDate = new ArrayList<Date>();
-//                dummyDate.add(new Date());
-//                dummyDate.add(new Date());
-//                dummyDate.add(new Date());
-//                dummyDate.add(new Date());
-//                queue = Volley.newRequestQueue(RecordActivity.this);
-//                startQueueCount = 10;
-//                endQueueCount = 10;
-//                for (int i = 0; i < 10; ++i) {
-//                    RecordDataRequest recordDataRequest = new RecordDataRequest(new StudentRecordData("1", new Date(), i, i, dummyDate, new Date()), GetUserRecordResponse());
-//                    queue.add(recordDataRequest);
-//                }
+                List<Date> dummyDate = new ArrayList<Date>();
+                dummyDate.add(new Date());
+                dummyDate.add(new Date());
+                dummyDate.add(new Date());
+                dummyDate.add(new Date());
+                queue = Volley.newRequestQueue(RecordActivity.this);
+                startQueueCount = 10;
+                endQueueCount = 10;
+                for (int i = 0; i < 10; ++i) {
+                    RecordDataRequest recordDataRequest = new RecordDataRequest(new StudentRecordData("1", new Date(), i, i, dummyDate, new Date()), GetUserRecordResponse());
+                    queue.add(recordDataRequest);
+                }
 
             }
         });

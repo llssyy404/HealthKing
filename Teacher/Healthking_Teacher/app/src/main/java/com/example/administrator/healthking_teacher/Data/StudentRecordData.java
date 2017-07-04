@@ -1,5 +1,6 @@
 package com.example.administrator.healthking_teacher.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by admin on 2017-06-30.
  */
 
-public class StudentRecordData {
+public class StudentRecordData implements Serializable {
 
     private String id;      //유저정보
     private Date recordDate;// 기록한 날짜
