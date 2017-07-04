@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.administrator.healthking_teacher.Data.DataManager;
 import com.example.administrator.healthking_teacher.Manage.ManageActivity;
@@ -55,8 +56,10 @@ public class TitleActivity extends AppCompatActivity {
         missionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MissionActivity.class);
-                startActivity(intent);
+                String notice = "준비중입니다.";
+                Toast.makeText(getApplicationContext(), notice, Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(getApplicationContext(), MissionActivity.class);
+//                startActivity(intent);
             }
         });
 
