@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -102,16 +103,25 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                recordDataSendButton.setEnabled(false);
-                recordDataSendButton.setBackgroundColor(getResources().getColor(R.color.colorGray));
+
 
                 //정식 코드
                 RequestQueue queue = Volley.newRequestQueue(RecordActivity.this);
                 List<StudentRecordData> sendStudentRecordDataList = DataManager.getInstance().getSendStudentRecodeDatas();
-                startQueueCount = sendStudentRecordDataList.size();
-                endQueueCount = sendStudentRecordDataList.size();
-                for (int i = 0; i < sendStudentRecordDataList.size(); ++i) {
-                    queue.add(new RecordDataRequest(sendStudentRecordDataList.get(i), GetUserRecordResponse()));
+
+                if(sendStudentRecordDataList.size() != 0) {
+                    recordDataSendButton.setEnabled(false);
+                    recordDataSendButton.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                    startQueueCount = sendStudentRecordDataList.size();
+                    endQueueCount = sendStudentRecordDataList.size();
+                    for (int i = 0; i < sendStudentRecordDataList.size(); ++i) {
+                        queue.add(new RecordDataRequest(sendStudentRecordDataList.get(i), GetUserRecordResponse()));
+                    }
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(RecordActivity.this, "보낼 데이터가 없습니다.", Toast.LENGTH_SHORT );
+                    toast.show();
                 }
 
 
