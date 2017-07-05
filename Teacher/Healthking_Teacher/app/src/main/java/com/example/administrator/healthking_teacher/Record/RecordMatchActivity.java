@@ -104,7 +104,7 @@ public class RecordMatchActivity extends AppCompatActivity {
                 {
                     myToastMessage("연결에 성공했습니다.");
                 }
-                RFIDDevice.getInstance().SetRfPowerAttenuation(25);
+                RFIDDevice.getInstance().SetRfPowerAttenuation(20);
                 if(0 < DataManager.getInstance().getStudentDataList().size()) {
                     for(int i=0;i<DataManager.getInstance().getStudentDataList().size();++i) {
                         //String id, // Date recordDate, //int recordMeter, //int trackCount, //List<Date> trackTimeDate, //Date allTrackTimeDate
