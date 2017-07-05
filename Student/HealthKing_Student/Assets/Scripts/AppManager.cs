@@ -27,15 +27,16 @@ public class AppManager : MonoBehaviour {
     void Awake()
     {
         _instance = this;
+        _userInfo = new UserInfo();
+        _papsInfo = new PAPSInfo();
+        _papsTableManager = new PAPSTableManager();
+        _papsTableManager.ReadTableFile();
     }
 
     // Use this for initialization
     void Start()
     {
-        _userInfo = new UserInfo();
-        _papsInfo = new PAPSInfo();
-        _papsTableManager = new PAPSTableManager();
-        _papsTableManager.ReadTableFile();
+
     }
 
     //
@@ -53,6 +54,13 @@ public class AppManager : MonoBehaviour {
             return false;
         }
 
+        //PlayerPrefs.SetString("User_SchoolName", listString[0]);
+        //PlayerPrefs.SetString("User_SchoolGrade", listString[1]);
+        //PlayerPrefs.SetString("User_ClassNum", listString[2]);
+        //PlayerPrefs.SetString("User_Number", listString[3]);
+        //PlayerPrefs.SetString("User_Name", listString[4]);
+        //PlayerPrefs.SetString("User_Gender", listString[5]);
+
         return true;
     }
 
@@ -63,6 +71,10 @@ public class AppManager : MonoBehaviour {
             Debug.Log("listString.Count != _maxCount1" + listString.Count);
             return;
         }
+
+        PlayerPrefs.SetString("Cardi_RepeatLongRun", listString[0]);
+        PlayerPrefs.SetString("Cardi_LongRunMinute", listString[1]);
+        PlayerPrefs.SetString("Cardi_LongRunSecond", listString[2]);
 
         _papsInfo._cardiovascularEndurance.InitInfo(listString);
     }
@@ -75,6 +87,9 @@ public class AppManager : MonoBehaviour {
             return;
         }
 
+        PlayerPrefs.SetString("Agile_StandingBroadJump", listString[0]);
+        PlayerPrefs.SetString("Agile_FiftyMRun", listString[1]);
+
         _papsInfo._agility.InitInfo(listString);
     }
 
@@ -85,6 +100,10 @@ public class AppManager : MonoBehaviour {
             Debug.Log("listString.Count != _maxCount3" + listString.Count);
             return;
         }
+
+        PlayerPrefs.SetString("Musc_SitUp", listString[0]);
+        PlayerPrefs.SetString("Musc_GripRight", listString[1]);
+        PlayerPrefs.SetString("Musc_GripLeft", listString[2]);
 
         _papsInfo._muscularEndurance.InitInfo(listString);
     }
@@ -97,6 +116,8 @@ public class AppManager : MonoBehaviour {
             return;
         }
 
+        PlayerPrefs.SetString("Flexibility_FrontBend", listString[0]);
+
         _papsInfo._flexibility.InitInfo(listString);
     }
 
@@ -107,6 +128,9 @@ public class AppManager : MonoBehaviour {
             Debug.Log("listString.Count != _maxCount5" + listString.Count);
             return;
         }
+
+        PlayerPrefs.SetString("BMI_Height", listString[0]);
+        PlayerPrefs.SetString("BMI_Weight", listString[1]);
 
         _papsInfo._BMI.InitInfo(listString);
     }

@@ -23,7 +23,7 @@ enum PAGE_TYPE
     MAX_PAGE_TYPE
 }
 
-enum VIDEO_URL
+enum URL_TYPE
 {
     CARDI_ENDU_1,
     CARDI_ENDU_2,
@@ -38,10 +38,26 @@ enum VIDEO_URL
     BMI_2,
     WARMING_UP,
     NOTICE_BOARD,
-    MAX_VIDEO_URL
+    MAX_URL_TYPE
 }
 
 public class UIManager : MonoBehaviour {
+
+    private static UIManager _instance;
+    public static UIManager GetInstance()
+    {
+        return _instance;
+    }
+
+    public List<InputField> _userInput;
+    public Dropdown dropdownSchGrade;
+    public Toggle toggleBoy;
+    public Toggle toggleGirl;
+    public List<InputField> _cardiInput;
+    public List<InputField> _agilityInput;
+    public List<InputField> _muscInput;
+    public List<InputField> _flexibilityInput;
+    public List<InputField> _bmiInput;
 
     private GameObject[] _obj = null;
     private int _selNum = 0;
@@ -51,9 +67,29 @@ public class UIManager : MonoBehaviour {
     private string[] _strBMIGrade;
     private string _input = null;
     const int _MAX_GRADE_COUNT = 6;
+    const int _SCH_GRADE_VALUE = 4;
 
+    void Awake()
+    {
+        _instance = this;
+    }
+    
     // Use this for initialization
     void Start () {
+        InitObject();
+        InitGrade();
+        InitInput();
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            BackPage();
+    }
+
+    // Init
+    void InitObject()
+    {
         _obj = new GameObject[(int)PAGE_TYPE.MAX_PAGE_TYPE];
         _obj[(int)PAGE_TYPE.LOGIN] = GameObject.Find("Canvas").transform.Find("Login").gameObject;
         _obj[(int)PAGE_TYPE.MAIN] = GameObject.Find("Canvas").transform.Find("Main").gameObject;
@@ -63,14 +99,17 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.AGILITY] = GameObject.Find("Canvas").transform.Find("Agility").gameObject;
         _obj[(int)PAGE_TYPE.MUSC_ENDU] = GameObject.Find("Canvas").transform.Find("MuscularEndurance").gameObject;
         _obj[(int)PAGE_TYPE.FLEXIBILITY] = GameObject.Find("Canvas").transform.Find("Flexibility").gameObject;
-        _obj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject; 
+        _obj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject;
         _obj[(int)PAGE_TYPE.PAPS_RESULT] = GameObject.Find("Canvas").transform.Find("PAPSResult").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_C] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Cardi").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_M] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Mus").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_A] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Agile").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
+    }
 
+    void InitGrade()
+    {
         _listString = new List<string>();
         _strPAPSGrade = new string[_MAX_GRADE_COUNT];
         _strPAPSGrade[0] = "1등급";
@@ -89,10 +128,128 @@ public class UIManager : MonoBehaviour {
         _strBMIGrade[5] = "NONE";
     }
 
-    // Update is called once per frame
-    void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            BackPage();
+    void InitInput()
+    {
+        InitUserInput();
+        InitCardiInput();
+        InitAgileInput();
+        InitMuscInput();
+        InitFlexibilityInput();
+        InitBMIInput();
+    }
+
+    void InitUserInput()
+    {
+        _listString = AppManager.GetInstance().userInfo.GetInfo();
+        if (PlayerPrefs.HasKey("User_SchoolName"))
+            _userInput[0].text = _listString[0] = PlayerPrefs.GetString("User_SchoolName");
+        if (PlayerPrefs.HasKey("User_SchoolGrade"))
+        {
+            dropdownSchGrade.value = System.Convert.ToInt32(PlayerPrefs.GetString("User_SchoolGrade").Trim()) - _SCH_GRADE_VALUE;
+            _listString[1] = PlayerPrefs.GetString("User_SchoolGrade");
+        }
+        if (PlayerPrefs.HasKey("User_ClassNum"))
+            _userInput[1].text = _listString[2] = PlayerPrefs.GetString("User_ClassNum");
+        if (PlayerPrefs.HasKey("User_Number"))
+            _userInput[2].text = _listString[3] = PlayerPrefs.GetString("User_Number");
+        if (PlayerPrefs.HasKey("User_Name"))
+            _userInput[3].text = _listString[4] = PlayerPrefs.GetString("User_Name");
+        if (PlayerPrefs.HasKey("User_Gender"))
+        {
+            if(PlayerPrefs.GetString("User_Gender") == "0")
+            {
+                toggleBoy.isOn = true;
+                toggleGirl.isOn = false;
+            }
+            else
+            {
+                toggleBoy.isOn = false;
+                toggleGirl.isOn = true;
+            }
+
+            _listString[5] = PlayerPrefs.GetString("User_Gender");
+        }
+        AppManager.GetInstance().SetUserInfo(_listString);
+        _listString.Clear();
+    }
+
+    void InitCardiInput()
+    {
+        _listString = AppManager.GetInstance().papsInfo._cardiovascularEndurance.GetInfo();
+        if (PlayerPrefs.HasKey("Cardi_RepeatLongRun"))
+        {
+            _cardiInput[0].text = _listString[0] = PlayerPrefs.GetString("Cardi_RepeatLongRun");
+        }
+        if (PlayerPrefs.HasKey("Cardi_LongRunMinute"))
+        {
+            _cardiInput[1].text = _listString[1] = PlayerPrefs.GetString("Cardi_LongRunMinute");
+        }
+        if (PlayerPrefs.HasKey("Cardi_LongRunSecond"))
+        {
+            _cardiInput[2].text = _listString[2] = PlayerPrefs.GetString("Cardi_LongRunSecond");
+        }
+        AppManager.GetInstance().SetCardiovascularEnduranceInfo(_listString);
+        _listString.Clear();
+    }
+
+    void InitAgileInput()
+    {
+        _listString = AppManager.GetInstance().papsInfo._agility.GetInfo();
+        if (PlayerPrefs.HasKey("Agile_StandingBroadJump"))
+        {
+            _agilityInput[0].text = _listString[0] = PlayerPrefs.GetString("Agile_StandingBroadJump");
+        }
+        if (PlayerPrefs.HasKey("Agile_FiftyMRun"))
+        {
+            _agilityInput[1].text = _listString[1] = PlayerPrefs.GetString("Agile_FiftyMRun");
+        }
+        AppManager.GetInstance().SetAgilityInfo(_listString);
+        _listString.Clear();
+    }
+
+    void InitMuscInput()
+    {
+        _listString = AppManager.GetInstance().papsInfo._muscularEndurance.GetInfo();
+        if (PlayerPrefs.HasKey("Musc_SitUp"))
+        {
+            _muscInput[0].text = _listString[0] = PlayerPrefs.GetString("Musc_SitUp");
+        }
+        if (PlayerPrefs.HasKey("Musc_GripRight"))
+        {
+            _muscInput[1].text = _listString[1] = PlayerPrefs.GetString("Musc_GripRight");
+        }
+        if (PlayerPrefs.HasKey("Musc_GripLeft"))
+        {
+            _muscInput[2].text = _listString[2] = PlayerPrefs.GetString("Musc_GripLeft");
+        }
+        AppManager.GetInstance().SetMuscularEnduranceInfo(_listString);
+        _listString.Clear();
+    }
+
+    void InitFlexibilityInput()
+    {
+        _listString = AppManager.GetInstance().papsInfo._flexibility.GetInfo();
+        if (PlayerPrefs.HasKey("Flexibility_FrontBend"))
+        {
+            _flexibilityInput[0].text = _listString[0] = PlayerPrefs.GetString("Flexibility_FrontBend");
+        }
+        AppManager.GetInstance().SetFlexibilityInfo(_listString);
+        _listString.Clear();
+    } 
+
+    void InitBMIInput()
+    {
+        _listString = AppManager.GetInstance().papsInfo._BMI.GetInfo();
+        if (PlayerPrefs.HasKey("BMI_Height"))
+        {
+            _bmiInput[0].text = _listString[0] = PlayerPrefs.GetString("BMI_Height");
+        }
+        if (PlayerPrefs.HasKey("BMI_Weight"))
+        {
+            _bmiInput[1].text = _listString[1] = PlayerPrefs.GetString("BMI_Weight");
+        }
+        AppManager.GetInstance().SetBMIInfo(_listString);
+        _listString.Clear();
     }
 
     // UI Function
@@ -117,7 +274,7 @@ public class UIManager : MonoBehaviour {
         if (_selNum != (int)PAGE_TYPE.BASE_INFORM)
             return;
 
-        int input = value + 4;  // 4학년부터라...
+        int input = value + _SCH_GRADE_VALUE;  // 4학년부터라...
         _listString[1] = input.ToString();
     }
 
@@ -134,49 +291,49 @@ public class UIManager : MonoBehaviour {
 
     public void OnClickBtnPlayVideo(int sel)
     {
-        switch((VIDEO_URL)sel)
+        switch((URL_TYPE)sel)
         {
-            case VIDEO_URL.CARDI_ENDU_1:    // 오래달리기 자세
+            case URL_TYPE.CARDI_ENDU_1:    // 오래달리기 자세
                 Application.OpenURL("https://youtu.be/dA5lJ4p1hL8");
                 break;
-            case VIDEO_URL.CARDI_ENDU_2:    // 오래달리기 호흡법
+            case URL_TYPE.CARDI_ENDU_2:    // 오래달리기 호흡법
                 Application.OpenURL("https://youtu.be/tlTLmCZ6GsQ");
                 break;
-            case VIDEO_URL.FLEXIBILITY:     // 유연성
+            case URL_TYPE.FLEXIBILITY:     // 유연성
                 Application.OpenURL("https://youtu.be/mt_QKF-axdc");
                 break;
-            case VIDEO_URL.MUSC_ENDU_1:     // 팔굽혀펴기
+            case URL_TYPE.MUSC_ENDU_1:     // 팔굽혀펴기
                 Application.OpenURL("https://youtu.be/jTG2Gqivtu0");
                 break;
-            case VIDEO_URL.MUSC_ENDU_2:     // 철봉
+            case URL_TYPE.MUSC_ENDU_2:     // 철봉
                 Application.OpenURL("https://youtu.be/47SxMjjCr20");
                 break;
-            case VIDEO_URL.MUSC_ENDU_3:     // 런지
+            case URL_TYPE.MUSC_ENDU_3:     // 런지
                 Application.OpenURL("https://youtu.be/liO2ZbTrudI");
                 break;
-            case VIDEO_URL.MUSC_ENDU_4:     // 플랭크
+            case URL_TYPE.MUSC_ENDU_4:     // 플랭크
                 Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");
                 break;
-            case VIDEO_URL.AGILITY_1:       // 제자리 높이뛰기
+            case URL_TYPE.AGILITY_1:       // 제자리 높이뛰기
                 Application.OpenURL("https://youtu.be/MOfFtp9Xbn4");
                 break;
-            case VIDEO_URL.AGILITY_2:       // 제자리 멀리뛰기
+            case URL_TYPE.AGILITY_2:       // 제자리 멀리뛰기
                 Application.OpenURL("https://youtu.be/qZAD2a0AhjI");
                 break;
-            case VIDEO_URL.BMI_1:           // 플랭크
+            case URL_TYPE.BMI_1:           // 플랭크
                 Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");
                 break;
-            case VIDEO_URL.BMI_2:           // 버핏
+            case URL_TYPE.BMI_2:           // 버핏
                 Application.OpenURL("https://youtu.be/7rowIMNUW9s");
                 break;
-            case VIDEO_URL.WARMING_UP:      // 준비운동
+            case URL_TYPE.WARMING_UP:      // 준비운동
                 Application.OpenURL("https://youtu.be/Iybe05oOMGw");
                 break;
-            case VIDEO_URL.NOTICE_BOARD:      // 게시판
+            case URL_TYPE.NOTICE_BOARD:      // 게시판
                 Application.OpenURL("https://cafe.naver.com/redu5tc5");
                 break;
             default:
-                Debug.Log("Invalid VIDEO_URL TYPE");
+                Debug.Log("Invalid URL_TYPE");
                 break;
         }
     }
@@ -219,6 +376,7 @@ public class UIManager : MonoBehaviour {
                         ShowMessageBox("모든 정보를 입력해주세요.");
                         return false;
                     }
+
                 }
                 break;
             case PAGE_TYPE.CARDI_ENDU:
