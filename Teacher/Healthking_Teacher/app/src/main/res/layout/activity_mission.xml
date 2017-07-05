@@ -1,14 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.administrator.healthking_teacher.Mission.MissionActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.administrator.healthking_teacher.Mission.MissionActivity">
 
-    <TextView
-        android:id="@+id/textView3"
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:id="@+id/linearLayout"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/logo"
+        android:layout_weight="0.11" />
+
+</LinearLayout>
+
+    <EditText
+        android:id="@+id/Mission_inputText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="미션페이지" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="미션을 입력하세요"
+        android:gravity="center"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/Mission_registButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Mission_inputText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:background="#FF4573C4"
+        android:text="미션등록"
+        android:textColor="#ffffff"
+        />
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Mission_registButton"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:id="@+id/Mission_text1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션1" />
+
+        <TextView
+            android:id="@+id/Mission_text2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션2" />
+
+        <TextView
+            android:id="@+id/Mission_text3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션3" />
+
+        <TextView
+            android:id="@+id/Mission_text4"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션4" />
+
+        <TextView
+            android:id="@+id/Mission_text5"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션5" />
+
+        <TextView
+            android:id="@+id/Mission_text6"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션6" />
+
+        <TextView
+            android:id="@+id/Mission_text7"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션7" />
+
+        <TextView
+            android:id="@+id/Mission_text8"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션8" />
+
+        <TextView
+            android:id="@+id/Mission_text9"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션9" />
+
+        <TextView
+            android:id="@+id/Mission_text10"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:background="#dddddd"
+            android:text="미션10" />
+
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/Register_TitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Mission_inputText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:text="미션"
+        android:textColor="#000000"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+
+</RelativeLayout>

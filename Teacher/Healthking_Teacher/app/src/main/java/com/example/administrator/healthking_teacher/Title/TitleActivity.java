@@ -56,10 +56,8 @@ public class TitleActivity extends AppCompatActivity {
         missionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String notice = "준비중입니다.";
-                Toast.makeText(getApplicationContext(), notice, Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(), MissionActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), MissionActivity.class);
+                startActivity(intent);
             }
         });
 
