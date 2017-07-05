@@ -21,19 +21,19 @@
                 android:id="@+id/imageView"
                 android:layout_width="200dp"
                 android:layout_height="120dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 app:srcCompat="@drawable/logo" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/Register_TitleText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right|bottom"
-                android:text="선생님 Ver"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="학생 관리"
                 android:textColor="#000000"
-                android:textSize="22dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
-
 
         </LinearLayout>
 
