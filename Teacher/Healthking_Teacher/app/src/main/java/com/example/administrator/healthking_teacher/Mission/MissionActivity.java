@@ -1,15 +1,13 @@
 package com.example.administrator.healthking_teacher.Mission;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.administrator.healthking_teacher.Manage.ManageInfoActivity;
-import com.example.administrator.healthking_teacher.Manage.RegisterActivity;
 import com.example.administrator.healthking_teacher.R;
 
 import java.util.ArrayList;
@@ -41,9 +39,14 @@ public class MissionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText inputText = (EditText) findViewById(R.id.Mission_inputText);
+                if(inputText.getText().toString().isEmpty())
+                    return;
+
                 if(missionCount >= 10)
                 {
                     inputText.setText("");
+                    String notice = "미션개수 MAX";
+                    Toast.makeText(getApplicationContext(), notice, Toast.LENGTH_SHORT).show();
                     return;
                 }
 

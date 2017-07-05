@@ -2,7 +2,6 @@ package com.example.administrator.healthking_teacher.Manage;
 
 
 import android.content.Intent;
-import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example.administrator.healthking_teacher.Data.DataManager;
@@ -22,7 +20,6 @@ import com.example.administrator.healthking_teacher.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ManageStudentInfoActivity extends AppCompatActivity {
