@@ -43,12 +43,6 @@ enum URL_TYPE
 
 public class UIManager : MonoBehaviour {
 
-    private static UIManager _instance;
-    public static UIManager GetInstance()
-    {
-        return _instance;
-    }
-
     public List<InputField> _userInput;
     public Dropdown dropdownSchGrade;
     public Toggle toggleBoy;
@@ -69,11 +63,6 @@ public class UIManager : MonoBehaviour {
     const int _MAX_GRADE_COUNT = 6;
     const int _SCH_GRADE_VALUE = 4;
 
-    void Awake()
-    {
-        _instance = this;
-    }
-    
     // Use this for initialization
     void Start () {
         InitObject();
@@ -156,7 +145,7 @@ public class UIManager : MonoBehaviour {
             _userInput[3].text = _listString[4] = PlayerPrefs.GetString("User_Name");
         if (PlayerPrefs.HasKey("User_Gender"))
         {
-            if(PlayerPrefs.GetString("User_Gender") == "0")
+            if (PlayerPrefs.GetString("User_Gender") == "0")
             {
                 toggleBoy.isOn = true;
                 toggleGirl.isOn = false;

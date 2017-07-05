@@ -54,12 +54,12 @@ public class AppManager : MonoBehaviour {
             return false;
         }
 
-        //PlayerPrefs.SetString("User_SchoolName", listString[0]);
-        //PlayerPrefs.SetString("User_SchoolGrade", listString[1]);
-        //PlayerPrefs.SetString("User_ClassNum", listString[2]);
-        //PlayerPrefs.SetString("User_Number", listString[3]);
-        //PlayerPrefs.SetString("User_Name", listString[4]);
-        //PlayerPrefs.SetString("User_Gender", listString[5]);
+        PlayerPrefs.SetString("User_SchoolName", listString[0]);
+        PlayerPrefs.SetString("User_SchoolGrade", listString[1]);
+        PlayerPrefs.SetString("User_ClassNum", listString[2]);
+        PlayerPrefs.SetString("User_Number", listString[3]);
+        PlayerPrefs.SetString("User_Name", listString[4]);
+        PlayerPrefs.SetString("User_Gender", listString[5]);
 
         return true;
     }
