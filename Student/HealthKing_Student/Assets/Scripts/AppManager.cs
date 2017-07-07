@@ -14,6 +14,8 @@ public class AppManager : MonoBehaviour {
     public UserInfo userInfo { get { return _userInfo; } }
     private PAPSInfo _papsInfo;
     public PAPSInfo papsInfo { get { return _papsInfo; } }
+    private MissionInfo _missionInfo;
+    public MissionInfo missionInfo { get { return _missionInfo; } }
     private PAPSTableManager _papsTableManager;
     public PAPSTableManager papsTableManager { get { return _papsTableManager; } set { _papsTableManager = papsTableManager; } }
 
@@ -23,12 +25,14 @@ public class AppManager : MonoBehaviour {
     private const int _MAXCOUNT3 = 3;
     private const int _MAXCOUNT4 = 1;
     private const int _MAXCOUNT5 = 2;
+    private const int _MAX_MISSION_COUNT = 4;
 
     void Awake()
     {
         _instance = this;
         _userInfo = new UserInfo();
         _papsInfo = new PAPSInfo();
+        _missionInfo = new MissionInfo();
         _papsTableManager = new PAPSTableManager();
         _papsTableManager.ReadTableFile();
     }
@@ -133,6 +137,20 @@ public class AppManager : MonoBehaviour {
         PlayerPrefs.SetString("BMI_Weight", listString[1]);
 
         _papsInfo._BMI.InitInfo(listString);
+    }
+
+    public void SetMissionInfo(List<string> listString)
+    {
+        if(listString.Count != _MAX_MISSION_COUNT)
+        {
+            Debug.Log("listString.Count != _MAX_MISSION_COUNT" + listString.Count);
+            return;
+        }
+
+        for(int i = 0; i < _MAX_MISSION_COUNT; ++i)
+            PlayerPrefs.SetString("Mission"+i, listString[i]);
+
+        _missionInfo.InitMissionInfo(listString);
     }
 
     // Update is called once per frame

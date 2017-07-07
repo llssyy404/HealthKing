@@ -20,7 +20,9 @@ enum PAGE_TYPE
     FITNESS_UP_TIP_M,
     FITNESS_UP_TIP_A,
     FITNESS_UP_TIP_B,
-    MAX_PAGE_TYPE
+    MY_MISSION,
+    MY_RECORD,
+    MAX_PAGE_TYPE = MY_RECORD
 }
 
 enum URL_TYPE
@@ -52,16 +54,20 @@ public class UIManager : MonoBehaviour {
     public List<InputField> _muscInput;
     public List<InputField> _flexibilityInput;
     public List<InputField> _bmiInput;
+    public List<InputField> _missionInput;
 
     private GameObject[] _obj = null;
+    private GameObject[] _missionObj = null;
     private int _selNum = 0;
     private int _prevSelNum = 0;
+    private int _curMissionCount = 0;
     private List<string> _listString;
     private string[] _strPAPSGrade;
     private string[] _strBMIGrade;
     private string _input = null;
     const int _MAX_GRADE_COUNT = 6;
     const int _SCH_GRADE_VALUE = 4;
+    const int _MAX_MISSION = 4;
 
     // Use this for initialization
     void Start () {
@@ -95,6 +101,14 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_M] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Mus").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_A] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Agile").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
+        _obj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
+
+        _missionObj = new GameObject[_MAX_MISSION];
+        _missionObj[0] = GameObject.Find("Mission1");
+        _missionObj[1] = GameObject.Find("Mission2");
+        _missionObj[2] = GameObject.Find("Mission3");
+        _missionObj[3] = GameObject.Find("Mission4");
+        Debug.Log("미션초기화");
     }
 
     void InitGrade()
@@ -125,6 +139,7 @@ public class UIManager : MonoBehaviour {
         InitMuscInput();
         InitFlexibilityInput();
         InitBMIInput();
+        InitMissionInput();
     }
 
     void InitUserInput()
@@ -241,6 +256,21 @@ public class UIManager : MonoBehaviour {
         _listString.Clear();
     }
 
+    void InitMissionInput()
+    {
+        _listString = AppManager.GetInstance().missionInfo.GetInfo();
+        for(int i = 0; i < _MAX_MISSION; ++i)
+        {
+            if (PlayerPrefs.HasKey("Mission" + i))
+            {
+                _missionInput[i].text = _listString[i] = PlayerPrefs.GetString("Mission" + i);
+            }
+        }
+        AppManager.GetInstance().SetMissionInfo(_listString);
+        _listString.Clear();
+
+    }
+
     // UI Function
     public void OnEndEdit(string str)
     {
@@ -346,14 +376,35 @@ public class UIManager : MonoBehaviour {
 
         AfterSettingPage();
     }
+
+    public void OnClickMissionRegBtn()
+    {
+        if (_curMissionCount >= _MAX_MISSION)
+            return;
+
+        _missionObj[_curMissionCount].GetComponent<Text>().text = "뇽뇽";
+        ++_curMissionCount;
+    }
     //
 
     bool PreSettingPage(int sel)
     {
-        if (sel == (int)PAGE_TYPE.PAPS && AppManager.GetInstance().userInfo.IsInitInfo() == false)
+        switch((PAGE_TYPE)sel)
         {
-            ShowMessageBox("기본정보 입력 후 사용가능합니다.");
-            return false;
+            case PAGE_TYPE.PAPS:
+                {
+                    if(AppManager.GetInstance().userInfo.IsInitInfo() == false)
+                    {
+                        ShowMessageBox("기본정보 입력 후 사용가능합니다.");
+                        return false;
+                    }
+                }
+                break;
+            case PAGE_TYPE.MY_RECORD:
+                ShowMessageBox("준비중입니다.");
+                return false;
+            default:
+                break;
         }
 
         switch ((PAGE_TYPE)_selNum)
@@ -365,7 +416,6 @@ public class UIManager : MonoBehaviour {
                         ShowMessageBox("모든 정보를 입력해주세요.");
                         return false;
                     }
-
                 }
                 break;
             case PAGE_TYPE.CARDI_ENDU:
@@ -382,6 +432,9 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.BMI:
                 AppManager.GetInstance().SetBMIInfo(_listString);
+                break;
+            case PAGE_TYPE.MY_MISSION:
+                AppManager.GetInstance().SetMissionInfo(_listString);
                 break;
             default:
                 break;
@@ -414,6 +467,12 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.BMI:
                 _listString = AppManager.GetInstance().papsInfo._BMI.GetInfo();
+                break;
+            case PAGE_TYPE.MY_MISSION:
+                {
+                    _listString = AppManager.GetInstance().missionInfo.GetInfo();
+                    Debug.Log("Get"+_listString.Count);
+                }
                 break;
             case PAGE_TYPE.PAPS_RESULT:
                 PAPSResultUISetting();
@@ -508,6 +567,9 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.FITNESS_UP_TIP_B:
                 OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
+                break;
+            case PAGE_TYPE.MY_MISSION:
+                OnClickStartBtn((int)PAGE_TYPE.MAIN);
                 break;
             default:
                 Debug.Log("Invalid PAGE_TYPE");
