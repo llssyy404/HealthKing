@@ -100,7 +100,9 @@
         android:layout_alignLeft="@+id/Record_ListView"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/Record_ListView"
-        android:text="태그기 연결" />
+        android:background="#FF4573C4"
+        android:text="태그기 연결"
+        android:textColor="#FFFFFFFF" />
 
     <Button
         android:id="@+id/rfidMeasureDisconnect"
@@ -109,7 +111,9 @@
         android:layout_alignLeft="@+id/rfidMeasureConnect"
         android:layout_alignStart="@+id/rfidMeasureConnect"
         android:layout_below="@+id/rfidMeasureConnect"
-        android:text="태그기 끊기" />
+        android:background="#FF4573C4"
+        android:text="태그기 끊기"
+        android:textColor="#FFFFFFFF" />
 
     <ListView
         android:id="@+id/timeListView"
@@ -130,5 +134,14 @@
         android:layout_alignLeft="@+id/Record_Savebutton"
         android:layout_alignStart="@+id/Record_Savebutton"
         tools:text="컴온!" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/logo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
