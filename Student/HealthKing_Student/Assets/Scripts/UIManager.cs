@@ -20,9 +20,9 @@ enum PAGE_TYPE
     FITNESS_UP_TIP_M,
     FITNESS_UP_TIP_A,
     FITNESS_UP_TIP_B,
-    MY_MISSION,
     MY_RECORD,
-    MAX_PAGE_TYPE = MY_RECORD
+    MY_MISSION,
+    MAX_PAGE_TYPE
 }
 
 enum URL_TYPE
@@ -101,6 +101,7 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_M] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Mus").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_A] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Agile").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
+        _obj[(int)PAGE_TYPE.MY_RECORD] = GameObject.Find("Canvas").transform.Find("MyRecord").gameObject;
         _obj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
 
         _missionObj = new GameObject[_MAX_MISSION];
@@ -400,9 +401,6 @@ public class UIManager : MonoBehaviour {
                     }
                 }
                 break;
-            case PAGE_TYPE.MY_RECORD:
-                ShowMessageBox("준비중입니다.");
-                return false;
             default:
                 break;
         }
@@ -567,6 +565,9 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.FITNESS_UP_TIP_B:
                 OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
+                break;
+            case PAGE_TYPE.MY_RECORD:
+                OnClickStartBtn((int)PAGE_TYPE.MAIN);
                 break;
             case PAGE_TYPE.MY_MISSION:
                 OnClickStartBtn((int)PAGE_TYPE.MAIN);
