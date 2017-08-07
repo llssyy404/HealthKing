@@ -7,7 +7,14 @@ public enum SCHOOL_GRADE
 {
     ELE_FOUR = 4,   // 초4
     ELE_FIVE,
-    ELE_SIX
+    ELE_SIX,
+    MID_ONE,
+    MID_TWO,
+    MID_THREE,
+    HIGH_ONE,
+    HIGH_TWO,
+    HIGH_THREE,
+    MAX_SCHOOL_GRADE
 }
 
 public enum PAPS_GRADE
@@ -58,7 +65,7 @@ public class PAPSTable
 
     public void AddPAPSSriptInfo(int index, int gender, SCHOOL_GRADE schoolGrade, PAPS_GRADE PAPSGrade, float min, float max)
     {
-        if(schoolGrade < SCHOOL_GRADE.ELE_FOUR || schoolGrade > SCHOOL_GRADE.ELE_SIX)
+        if(schoolGrade < SCHOOL_GRADE.ELE_FOUR || schoolGrade >= SCHOOL_GRADE.MAX_SCHOOL_GRADE)
         {
             Debug.Log("학년값을 벗어남");
             return;
