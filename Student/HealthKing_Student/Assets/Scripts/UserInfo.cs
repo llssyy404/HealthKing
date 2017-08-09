@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Boomlagoon.JSON;  // JSON 파서 사용
 
 public class UserInfo {
     private string _schoolName = "";
@@ -108,5 +110,175 @@ public class MissionInfo
         list.Add(_mission[3]);
 
         return list;
+    }
+}
+
+public class StudentData
+{
+    private string id; //아이디
+    private string password; // 패스워드
+    private string name;  //이름
+    private string gender; //성별
+    private string school; // 초,중,고등학교
+    private string grade; //학년
+    private string classroomNumber; //반
+
+    public StudentData(string id, string password, string name, string gender, string school, string grade, string classroomNumber)
+    {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.gender = gender;
+        this.school = school;
+        this.grade = grade;
+        this.classroomNumber = classroomNumber;
+    }
+
+    public string GetId()
+    {
+        return id;
+    }
+
+    public void SetId(string id)
+    {
+        this.id = id;
+    }
+
+    public string GetPassword()
+    {
+        return password;
+    }
+
+    public void SetPassword(string password)
+    {
+        this.password = password;
+    }
+
+    public string GetName()
+    {
+        return name;
+    }
+
+    public void SetName(string name)
+    {
+        this.name = name;
+    }
+
+    public string GetGender()
+    {
+        return gender;
+    }
+
+    public void SetGender(string gender)
+    {
+        this.gender = gender;
+    }
+
+    public string GetSchool()
+    {
+        return school;
+    }
+
+    public void SetSchool(string school)
+    {
+        this.school = school;
+    }
+
+    public string GetGrade()
+    {
+        return grade;
+    }
+
+    public void SetGrade(string grade)
+    {
+        this.grade = grade;
+    }
+
+    public string GetClassroomNumber()
+    {
+        return classroomNumber;
+    }
+
+    public void SetClassroomNumber(string classroomNumber)
+    {
+        this.classroomNumber = classroomNumber;
+    }
+
+    public void Print()
+    {
+        Debug.Log(" id: " + id + " pw: " + password + " name: " + name + " gender: " + gender + " school: " + school + " grade: " + grade + " classroomNumber: " + classroomNumber);
+    }
+}
+
+public class DataManager
+{
+    private List<StudentData> studentDataList;
+    //private List<StudentRecordData> sendStudentRecordDataList; // 서버에 저장할 레코드 데이터 리스트
+    //private List<StudentRecordData> studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
+
+    static private DataManager _instance;
+
+    static public DataManager getInstance()
+    {
+        if (_instance == null)
+        {
+            _instance = new DataManager();
+            _instance.Init();
+        }
+        return _instance;
+    }
+
+
+    public void Init()
+    {
+        studentDataList = new List<StudentData>();
+        //sendStudentRecordDataList = new List<StudentRecordData>();
+        //studentRecordDataList = new List<StudentRecordData();
+        string url = "http://came1230.cafe24.com/GetAllUserList.php";
+        WWW webSite = new WWW(url);
+        while (!webSite.isDone)
+            Debug.Log(webSite.bytesDownloaded);
+
+        Debug.Log(webSite.text);
+        SetStudentDatas(webSite.text);
+    }
+
+    // 학생 정보 getter, setter
+
+    public void SetStudentDatas(string data)
+    {
+        studentDataList.Clear();
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            int count = 0;
+            string userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom;
+            while (count < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[count].Obj;
+                userID = jObject.GetString("userID");
+                userPassword = jObject.GetString("userPassword");
+                userName = jObject.GetString("userName");
+                userGender = jObject.GetString("userGender");
+                userSchool = jObject.GetString("userSchool");
+                userGrade = jObject.GetString("userGrade");
+                userClassroom = jObject.GetString("userClassroom");
+                StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom);
+                studentDataList.Add(studentData);
+                studentData.Print();
+                ++count;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+    }
+
+    public List<StudentData> getStudentDataList()
+    {
+        return studentDataList;
     }
 }

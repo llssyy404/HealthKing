@@ -40,7 +40,7 @@ public class AppManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        DataManager.getInstance();
     }
 
     //
