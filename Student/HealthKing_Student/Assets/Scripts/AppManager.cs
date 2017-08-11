@@ -20,11 +20,6 @@ public class AppManager : MonoBehaviour {
     public PAPSTableManager papsTableManager { get { return _papsTableManager; } set { _papsTableManager = papsTableManager; } }
 
     private const int _MAXCOUNT = 6;
-    private const int _MAXCOUNT1 = 3;
-    private const int _MAXCOUNT2 = 2;
-    private const int _MAXCOUNT3 = 3;
-    private const int _MAXCOUNT4 = 1;
-    private const int _MAXCOUNT5 = 2;
     private const int _MAX_MISSION_COUNT = 4;
 
     void Awake()
@@ -70,71 +65,71 @@ public class AppManager : MonoBehaviour {
 
     public void SetCardiovascularEnduranceInfo(List<string> listString)
     {
-        if(listString.Count != _MAXCOUNT1)
+        if (listString.Count != (int)DEFINE.CARDI_INFO.MAX_CARDI_INFO)
         {
-            Debug.Log("listString.Count != _maxCount1" + listString.Count);
+            Debug.Log("listString.Count != MAX_CARDI_INFO" + listString.Count);
             return;
         }
 
-        PlayerPrefs.SetString("Cardi_RepeatLongRun", listString[0]);
-        PlayerPrefs.SetString("Cardi_LongRunMinute", listString[1]);
-        PlayerPrefs.SetString("Cardi_LongRunSecond", listString[2]);
+        PlayerPrefs.SetString("Cardi_RepeatLongRun", listString[(int)DEFINE.CARDI_INFO.R_LONGRUN_COUNT]);
+        PlayerPrefs.SetString("Cardi_LongRunMinute", listString[(int)DEFINE.CARDI_INFO.LONGRUN_MIN]);
+        PlayerPrefs.SetString("Cardi_LongRunSecond", listString[(int)DEFINE.CARDI_INFO.LONGRUN_COUNT]);
 
         _papsInfo._cardiovascularEndurance.InitInfo(listString);
     }
 
     public void SetAgilityInfo(List<string> listString)
     {
-        if (listString.Count != _MAXCOUNT2)
+        if (listString.Count != (int)DEFINE.AGILE_INFO.MAX_AGILE_INFO)
         {
-            Debug.Log("listString.Count != _maxCount2" + listString.Count);
+            Debug.Log("listString.Count != MAX_AGILE_INFO" + listString.Count);
             return;
         }
 
-        PlayerPrefs.SetString("Agile_StandingBroadJump", listString[0]);
-        PlayerPrefs.SetString("Agile_FiftyMRun", listString[1]);
+        PlayerPrefs.SetString("Agile_StandingBroadJump", listString[(int)DEFINE.AGILE_INFO.STAND_JUMP_CM]);
+        PlayerPrefs.SetString("Agile_FiftyMRun", listString[(int)DEFINE.AGILE_INFO.FIFTY_M_RUN_SECOND]);
 
         _papsInfo._agility.InitInfo(listString);
     }
 
     public void SetMuscularEnduranceInfo(List<string> listString)
     {
-        if (listString.Count != _MAXCOUNT3)
+        if (listString.Count != (int)DEFINE.MUS_ENDU_INFO.MAX_MUS_ENDU_INFO)
         {
-            Debug.Log("listString.Count != _maxCount3" + listString.Count);
+            Debug.Log("listString.Count != MAX_MUS_ENDU_INFO" + listString.Count);
             return;
         }
 
-        PlayerPrefs.SetString("Musc_SitUp", listString[0]);
-        PlayerPrefs.SetString("Musc_GripRight", listString[1]);
-        PlayerPrefs.SetString("Musc_GripLeft", listString[2]);
+        PlayerPrefs.SetString("Musc_SitUp", listString[(int)DEFINE.MUS_ENDU_INFO.SITUP_COUNT]);
+        PlayerPrefs.SetString("Musc_GripRight", listString[(int)DEFINE.MUS_ENDU_INFO.GRIP_R_KG]);
+        PlayerPrefs.SetString("Musc_GripLeft", listString[(int)DEFINE.MUS_ENDU_INFO.GRIP_L_KG]);
 
         _papsInfo._muscularEndurance.InitInfo(listString);
     }
 
     public void SetFlexibilityInfo(List<string> listString)
     {
-        if (listString.Count != _MAXCOUNT4)
+        if (listString.Count != (int)DEFINE.FLEXIBLE_INFO.MAX_FLEXIBLE_INFO)
         {
-            Debug.Log("listString.Count != _maxCount4" + listString.Count);
+            Debug.Log("listString.Count != MAX_FLEXIBLE_INFO" + listString.Count);
             return;
         }
 
-        PlayerPrefs.SetString("Flexibility_FrontBend", listString[0]);
+        PlayerPrefs.SetString("Flexibility_FrontBend", listString[(int)DEFINE.FLEXIBLE_INFO.FRONT_BEND_CM]);
 
         _papsInfo._flexibility.InitInfo(listString);
     }
 
     public void SetBMIInfo(List<string> listString)
     {
-        if (listString.Count != _MAXCOUNT5)
+        if (listString.Count != (int)DEFINE.BMI_INFO.MAX_BMI_INFO)
         {
-            Debug.Log("listString.Count != _maxCount5" + listString.Count);
+            Debug.Log("listString.Count != MAX_BMI_INFO" + listString.Count);
             return;
         }
 
-        PlayerPrefs.SetString("BMI_Height", listString[0]);
-        PlayerPrefs.SetString("BMI_Weight", listString[1]);
+        PlayerPrefs.SetString("BMI_Height", listString[(int)DEFINE.BMI_INFO.HEIGHT]);
+        PlayerPrefs.SetString("BMI_Weight", listString[(int)DEFINE.BMI_INFO.WEIGHT]);
 
         _papsInfo._BMI.InitInfo(listString);
     }

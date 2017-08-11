@@ -2,6 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace DEFINE
+{
+    public enum CARDI_INFO
+    {
+        R_LONGRUN_COUNT,
+        LONGRUN_MIN,
+        LONGRUN_COUNT,
+        MAX_CARDI_INFO
+    }
+
+    public enum AGILE_INFO
+    {
+        STAND_JUMP_CM,
+        FIFTY_M_RUN_SECOND,
+        MAX_AGILE_INFO
+    }
+
+    public enum MUS_ENDU_INFO
+    {
+        SITUP_COUNT,
+        GRIP_R_KG,
+        GRIP_L_KG,
+        MAX_MUS_ENDU_INFO
+    }
+
+    public enum FLEXIBLE_INFO
+    {
+        FRONT_BEND_CM,
+        MAX_FLEXIBLE_INFO
+    }
+
+    public enum BMI_INFO
+    {
+        HEIGHT,
+        WEIGHT,
+        MAX_BMI_INFO
+    }
+}
+
 public class PAPSInfo {
     public CardiovascularEnduranceInfo _cardiovascularEndurance;   // 심폐지구력
     public AgilityInfo _agility;                   // 순발력
@@ -28,9 +67,9 @@ public class CardiovascularEnduranceInfo
 
     public bool InitInfo(List<string> listString)
     {
-        _repeatLongRunningCount = System.Convert.ToInt32(listString[0].Trim());
-        _longRunningMinute = System.Convert.ToInt32(listString[1].Trim());
-        _longRunningSecond = System.Convert.ToInt32(listString[2].Trim());
+        _repeatLongRunningCount = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.R_LONGRUN_COUNT].Trim());
+        _longRunningMinute = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.LONGRUN_MIN].Trim());
+        _longRunningSecond = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.LONGRUN_COUNT].Trim());
 
         return true;
     }
@@ -65,8 +104,8 @@ public class AgilityInfo
 
     public bool InitInfo(List<string> listString)
     {
-        _standingBroadJumpCm = System.Convert.ToSingle(listString[0].Trim());
-        _fiftyMRunningSecond = System.Convert.ToSingle(listString[1].Trim());
+        _standingBroadJumpCm = System.Convert.ToSingle(listString[(int)DEFINE.AGILE_INFO.STAND_JUMP_CM].Trim());
+        _fiftyMRunningSecond = System.Convert.ToSingle(listString[(int)DEFINE.AGILE_INFO.FIFTY_M_RUN_SECOND].Trim());
 
         return true;
     }
@@ -101,9 +140,9 @@ public class MuscularEnduranceInfo
 
     public bool InitInfo(List<string> listString)
     {
-        _sitUpCount = System.Convert.ToInt32(listString[0].Trim());
-        _gripRightKG = System.Convert.ToSingle(listString[1].Trim());
-        _gripLeftKG = System.Convert.ToSingle(listString[2].Trim());
+        _sitUpCount = System.Convert.ToInt32(listString[(int)DEFINE.MUS_ENDU_INFO.SITUP_COUNT].Trim());
+        _gripRightKG = System.Convert.ToSingle(listString[(int)DEFINE.MUS_ENDU_INFO.GRIP_R_KG].Trim());
+        _gripLeftKG = System.Convert.ToSingle(listString[(int)DEFINE.MUS_ENDU_INFO.GRIP_L_KG].Trim());
 
         return true;
     }
@@ -137,7 +176,7 @@ public class FlexibilityInfo
 
     public bool InitInfo(List<string> listString)
     {
-        _sitUpperBodyFrontBendCm = System.Convert.ToSingle(listString[0].Trim());
+        _sitUpperBodyFrontBendCm = System.Convert.ToSingle(listString[(int)DEFINE.FLEXIBLE_INFO.FRONT_BEND_CM].Trim());
 
         return true;
     }
@@ -164,8 +203,8 @@ public class BMIInfo
 
     public bool InitInfo(List<string> listString)
     {
-        _height = System.Convert.ToSingle(listString[0].Trim());
-        _weight = System.Convert.ToSingle(listString[1].Trim());
+        _height = System.Convert.ToSingle(listString[(int)DEFINE.BMI_INFO.HEIGHT].Trim());
+        _weight = System.Convert.ToSingle(listString[(int)DEFINE.BMI_INFO.WEIGHT].Trim());
 
         return true;
     }
