@@ -215,7 +215,6 @@ public class DataManager
     private List<StudentData> studentDataList;
     //private List<StudentRecordData> sendStudentRecordDataList; // 서버에 저장할 레코드 데이터 리스트
     //private List<StudentRecordData> studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
-
     static private DataManager _instance;
 
     static public DataManager getInstance()
@@ -280,5 +279,20 @@ public class DataManager
     public List<StudentData> getStudentDataList()
     {
         return studentDataList;
+    }
+
+    public IEnumerator JoinStudent()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("userID", "IDDDDD");
+        form.AddField("userPassword", "password");
+        form.AddField("userName", "이름");
+        form.AddField("userGender", "여자");
+        form.AddField("userSchool", "초등학교");
+        form.AddField("userGrade", "1학년");
+        form.AddField("userClassroom", "1반");
+        WWW www = new WWW("http://came1230.cafe24.com/UserRegister.php", form);
+        yield return www;
+        // StartCoroutine(DataManager.getInstance().JoinStudent()); // 웹서버로 데이터 보내기 테스트
     }
 }
