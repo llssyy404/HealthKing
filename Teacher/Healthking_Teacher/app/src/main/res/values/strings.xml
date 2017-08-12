@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Healthking_Teacher</string>
+    <string name="StringMuscularEndurance">근력, 근지구력</string>
+    <string name="StringAgility">순발력</string>
+    <string name="StringCardiovascularEndurance">심폐지구력</string>
+    <string name="StringRegisterName">이름</string>
 
     <string-array name="schoolType">
         <item>초등학교</item>
