@@ -238,12 +238,11 @@ public class DataManager
         while (!webSite.isDone)
             Debug.Log(webSite.bytesDownloaded);
 
-        Debug.Log(webSite.text);
+        //Debug.Log(webSite.text);
         SetStudentDatas(webSite.text);
     }
 
     // 학생 정보 getter, setter
-
     public void SetStudentDatas(string data)
     {
         studentDataList.Clear();
@@ -265,7 +264,7 @@ public class DataManager
                 userClassroom = jObject.GetString("userClassroom");
                 StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom);
                 studentDataList.Add(studentData);
-                studentData.Print();
+                //studentData.Print();
                 ++count;
             }
         }
@@ -294,5 +293,44 @@ public class DataManager
         WWW www = new WWW("http://came1230.cafe24.com/UserRegister.php", form);
         yield return www;
         // StartCoroutine(DataManager.getInstance().JoinStudent()); // 웹서버로 데이터 보내기 테스트
+    }
+
+    public void LoginStudent()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("userID", "가가가");
+        form.AddField("userPassword", "1");
+        WWW www = new WWW("http://came1230.cafe24.com/UserLogin.php", form);
+        while (!www.isDone)
+            Debug.Log(www.bytesDownloaded);
+
+        Debug.Log(www.text);
+        SetStudentInfo(www.text);
+    }
+
+    public void SetStudentInfo(string data)
+    {
+        studentDataList.Clear();
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            string userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom;
+            JSONObject jObject = jsonArray[0].Obj;
+            userID = jObject.GetString("userID");
+            userPassword = jObject.GetString("userPassword");
+            userName = jObject.GetString("userName");
+            userGender = jObject.GetString("userGender");
+            userSchool = jObject.GetString("userSchool");
+            userGrade = jObject.GetString("userGrade");
+            userClassroom = jObject.GetString("userClassroom");
+            StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom);
+            studentDataList.Add(studentData);
+            studentData.Print();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
     }
 }

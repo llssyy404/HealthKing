@@ -392,6 +392,11 @@ public class UIManager : MonoBehaviour {
     {
         switch((PAGE_TYPE)sel)
         {
+            case PAGE_TYPE.MAIN:
+                {
+                    DataManager.getInstance().LoginStudent();
+                }
+                break;
             case PAGE_TYPE.PAPS:
                 {
                     if(AppManager.GetInstance().userInfo.IsInitInfo() == false)
