@@ -36,7 +36,7 @@ public class ManageStudentInfoActivity extends AppCompatActivity {
 
 
         TextView textView = (TextView) findViewById(R.id.ManageStudentInfo_stuText);
-        textView.setText(currentStudentData.getGrade() + " " + currentStudentData.getClassroomNumber() + " " + currentStudentData.getName() + " "  + currentStudentData.getGender());
+        textView.setText(currentStudentData.getGrade() + " " + currentStudentData.getClassroomNumber() + " " + currentStudentData.getName() + " " + currentStudentData.getGender());
 
         // 아이디체크로 record 데이터 검출
         for (int i = 0; i < AllUserRecordDataList.size(); ++i) {
@@ -45,29 +45,10 @@ public class ManageStudentInfoActivity extends AppCompatActivity {
             }
         }
 
-        final String[] items = new String[selectUserRecordDataList.size()];
-
-        for (int i = 0; i < selectUserRecordDataList.size(); ++i) {
-            items[i] = dateFormat.format(selectUserRecordDataList.get(i).getRecordDate());
-        }
-
-        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        // 커스텀 어댑터 적용
+        StudentRecordDateListAdapter studentRecordDateListAdapter = new StudentRecordDateListAdapter(ManageStudentInfoActivity.this, currentStudentData, selectUserRecordDataList);
         ListView listView = (ListView) findViewById(R.id.ManageStudentInfo_StuDateList);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String item = String.valueOf(parent.getItemAtPosition(position));
-                        Intent intent = new Intent(ManageStudentInfoActivity.this, ManageDateInfoActivity.class);
-                        intent.putExtra("studentData", currentStudentData);
-                        Log.e("CCCC",selectUserRecordDataList.get(position).toString());
-                        intent.putExtra("recordData", selectUserRecordDataList.get(position));
-                        startActivity(intent);
-                    }
-                }
-        );
+        listView.setAdapter(studentRecordDateListAdapter);
     }
 }
 
