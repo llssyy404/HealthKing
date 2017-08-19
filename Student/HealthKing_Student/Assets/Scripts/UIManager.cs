@@ -394,7 +394,11 @@ public class UIManager : MonoBehaviour {
         {
             case PAGE_TYPE.MAIN:
                 {
-                    DataManager.getInstance().LoginStudent();
+                    if (!DataManager.getInstance().LoginStudent())
+                    {
+                        ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
+                        return false;
+                    }
                 }
                 break;
             case PAGE_TYPE.PAPS:

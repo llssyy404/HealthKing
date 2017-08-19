@@ -295,7 +295,7 @@ public class DataManager
         // StartCoroutine(DataManager.getInstance().JoinStudent()); // 웹서버로 데이터 보내기 테스트
     }
 
-    public void LoginStudent()
+    public bool LoginStudent()
     {
         WWWForm form = new WWWForm();
         form.AddField("userID", "가가가");
@@ -305,10 +305,13 @@ public class DataManager
             Debug.Log(www.bytesDownloaded);
 
         Debug.Log(www.text);
-        SetStudentInfo(www.text);
+        if (!SetStudentInfo(www.text))
+            return false;
+
+        return true;
     }
 
-    public void SetStudentInfo(string data)
+    public bool SetStudentInfo(string data)
     {
         studentDataList.Clear();
         try
@@ -316,7 +319,12 @@ public class DataManager
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
             string userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom;
+            bool isSuccess = false;
             JSONObject jObject = jsonArray[0].Obj;
+            isSuccess = jObject.GetBoolean("success");
+            if (!isSuccess)
+                return false;
+
             userID = jObject.GetString("userID");
             userPassword = jObject.GetString("userPassword");
             userName = jObject.GetString("userName");
@@ -332,5 +340,7 @@ public class DataManager
         {
             Debug.Log(e.ToString());
         }
+
+        return true;
     }
 }
