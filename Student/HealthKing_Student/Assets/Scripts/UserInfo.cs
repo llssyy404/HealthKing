@@ -319,12 +319,10 @@ public class DataManager
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
             string userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom;
-            bool isSuccess = false;
-            JSONObject jObject = jsonArray[0].Obj;
-            isSuccess = jObject.GetBoolean("success");
-            if (!isSuccess)
+            if (jsonArray.Length == 0)
                 return false;
 
+            JSONObject jObject = jsonArray[0].Obj;
             userID = jObject.GetString("userID");
             userPassword = jObject.GetString("userPassword");
             userName = jObject.GetString("userName");
