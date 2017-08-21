@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Boomlagoon.JSON;  // JSON 파서 사용
+using UnityEngine.UI;
 
 public class UserInfo {
     private string _schoolName = "";
@@ -239,7 +240,7 @@ public class DataManager
             Debug.Log(webSite.bytesDownloaded);
 
         //Debug.Log(webSite.text);
-        SetStudentDatas(webSite.text);
+        //SetStudentDatas(webSite.text);
     }
 
     // 학생 정보 getter, setter
@@ -295,11 +296,14 @@ public class DataManager
         // StartCoroutine(DataManager.getInstance().JoinStudent()); // 웹서버로 데이터 보내기 테스트
     }
 
-    public bool LoginStudent()
+    public bool LoginStudent(List<InputField> id_pwInput)
     {
+        if (id_pwInput.Count != 2)
+            return false;
+
         WWWForm form = new WWWForm();
-        form.AddField("userID", "가가가");
-        form.AddField("userPassword", "1");
+        form.AddField("userID", id_pwInput[0].text);
+        form.AddField("userPassword", id_pwInput[1].text);
         WWW www = new WWW("http://came1230.cafe24.com/UserLogin.php", form);
         while (!www.isDone)
             Debug.Log(www.bytesDownloaded);

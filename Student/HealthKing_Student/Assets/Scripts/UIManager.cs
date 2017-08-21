@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour {
     public List<InputField> _flexibilityInput;
     public List<InputField> _bmiInput;
     public List<InputField> _missionInput;
+    public List<InputField> _id_pwInput;
 
     private GameObject[] _obj = null;
     private GameObject[] _missionObj = null;
@@ -394,7 +395,7 @@ public class UIManager : MonoBehaviour {
         {
             case PAGE_TYPE.MAIN:
                 {
-                    if (!DataManager.getInstance().LoginStudent())
+                    if (!DataManager.getInstance().LoginStudent(_id_pwInput))
                     {
                         ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
                         return false;
