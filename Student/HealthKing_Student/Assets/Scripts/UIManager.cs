@@ -22,6 +22,8 @@ enum PAGE_TYPE
     FITNESS_UP_TIP_B,
     MY_RECORD,
     MY_MISSION,
+    MY_RECORD_CARDI,
+    MY_RECORD_CARDI_DATE,
     MAX_PAGE_TYPE
 }
 
@@ -104,6 +106,8 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
         _obj[(int)PAGE_TYPE.MY_RECORD] = GameObject.Find("Canvas").transform.Find("MyRecord").gameObject;
         _obj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
+        _obj[(int)PAGE_TYPE.MY_RECORD_CARDI] = GameObject.Find("Canvas").transform.Find("MyRecord_Cardi").gameObject;
+        _obj[(int)PAGE_TYPE.MY_RECORD_CARDI_DATE] = GameObject.Find("Canvas").transform.Find("MyRecord_Cardi_Date").gameObject;
 
         _missionObj = new GameObject[_MAX_MISSION];
         _missionObj[0] = GameObject.Find("Mission1");
@@ -581,6 +585,12 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.MY_MISSION:
                 OnClickStartBtn((int)PAGE_TYPE.MAIN);
+                break;
+            case PAGE_TYPE.MY_RECORD_CARDI:
+                OnClickStartBtn((int)PAGE_TYPE.MY_RECORD);
+                break;
+            case PAGE_TYPE.MY_RECORD_CARDI_DATE:
+                OnClickStartBtn((int)PAGE_TYPE.MY_RECORD_CARDI);
                 break;
             default:
                 Debug.Log("Invalid PAGE_TYPE");
