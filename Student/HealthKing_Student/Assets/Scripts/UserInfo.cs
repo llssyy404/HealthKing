@@ -124,15 +124,17 @@ public class StudentData
     private string classroomNumber; // 반
     private string number;      // 번호
 
-    public StudentData(string id, string password, string name, string gender, string school, string grade, string classroomNumber)
+    public StudentData(string id, string password, string name, string gender, string schoolName, string school, string grade, string classroomNumber, string number)
     {
         this.id = id;
         this.password = password;
         this.name = name;
         this.gender = gender;
+        this.schoolName = schoolName;
         this.school = school;
         this.grade = grade;
         this.classroomNumber = classroomNumber;
+        this.number = number;
     }
 
     public string GetId()
@@ -227,7 +229,8 @@ public class StudentData
 
     public void Print()
     {
-        Debug.Log(" id: " + id + " pw: " + password + " name: " + name + " gender: " + gender + " school: " + school + " grade: " + grade + " classroomNumber: " + classroomNumber);
+        Debug.Log("id: " + id + " pw: " + password + " name: " + name + " gender: " + gender + " schoolName: " + schoolName +
+            " school: " + school + " grade: " + grade + " classroomNumber: " + classroomNumber + " number: " + number);
     }
 }
 

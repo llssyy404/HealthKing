@@ -45,7 +45,7 @@ public class DataManager
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
             int count = 0;
-            string userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom;
+            string userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber;
             while (count < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[count].Obj;
@@ -53,10 +53,12 @@ public class DataManager
                 userPassword = jObject.GetString("userPassword");
                 userName = jObject.GetString("userName");
                 userGender = jObject.GetString("userGender");
+                userSchoolName = jObject.GetString("userSchoolName");
                 userSchool = jObject.GetString("userSchool");
                 userGrade = jObject.GetString("userGrade");
                 userClassroom = jObject.GetString("userClassroom");
-                StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom);
+                userNumber = jObject.GetString("userNumber");
+                StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber);
                 studentDataList.Add(studentData);
                 //studentData.Print();
                 ++count;
@@ -123,12 +125,12 @@ public class DataManager
             userPassword = jObject.GetString("userPassword");
             userName = jObject.GetString("userName");
             userGender = jObject.GetString("userGender");
-            //userSchool = jObject.GetString("userSchoolName");
+            userSchoolName = jObject.GetString("userSchoolName");
             userSchool = jObject.GetString("userSchool");
             userGrade = jObject.GetString("userGrade");
             userClassroom = jObject.GetString("userClassroom");
-            //userClassroom = jObject.GetString("userNumber");
-            StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchool, userGrade, userClassroom);
+            userNumber = jObject.GetString("userNumber");
+            StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber);
             studentDataList.Add(studentData);
             studentData.Print();
         }
