@@ -326,6 +326,8 @@ public class RecordMeasureActivity extends AppCompatActivity {
                     int sec = (int)(totalETime[i]/1000)%60;
                     int milli = (int)(totalETime[i]%1000)/10;
 
+
+
                     totalDate[i].setHours(0);
                     totalDate[i].setMinutes(min);
                     totalDate[i].setSeconds(sec);

@@ -36,8 +36,9 @@ public class TitleActivity extends AppCompatActivity {
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                new GetStudentListBackGroundTask().execute();
+                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                startActivity(intent);
+                //new GetStudentListBackGroundTask().execute();
 
             }
         });
