@@ -22,8 +22,11 @@ enum PAGE_TYPE
     FITNESS_UP_TIP_B,
     MY_RECORD,
     MY_MISSION,
-    MY_RECORD_CARDI,
-    MY_RECORD_CARDI_DATE,
+    RECORD_CARDI,
+    RECORD_CARDI_DATE,
+    RECORD_CARDI_BAR_GRAPH,
+    RECORD_CARDI_LINE_GRAPH,
+    RECORD_CARDI_NORMAL_DISTRIB,
     MAX_PAGE_TYPE
 }
 
@@ -106,8 +109,11 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
         _obj[(int)PAGE_TYPE.MY_RECORD] = GameObject.Find("Canvas").transform.Find("MyRecord").gameObject;
         _obj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
-        _obj[(int)PAGE_TYPE.MY_RECORD_CARDI] = GameObject.Find("Canvas").transform.Find("MyRecord_Cardi").gameObject;
-        _obj[(int)PAGE_TYPE.MY_RECORD_CARDI_DATE] = GameObject.Find("Canvas").transform.Find("MyRecord_Cardi_Date").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_CARDI] = GameObject.Find("Canvas").transform.Find("Record_Cardi").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE] = GameObject.Find("Canvas").transform.Find("Record_Cardi_Date").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_BarGraph").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_LineGraph").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Cardi_Normal_Distribution").gameObject;
 
         _missionObj = new GameObject[_MAX_MISSION];
         _missionObj[0] = GameObject.Find("Mission1");
@@ -586,11 +592,20 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.MY_MISSION:
                 OnClickStartBtn((int)PAGE_TYPE.MAIN);
                 break;
-            case PAGE_TYPE.MY_RECORD_CARDI:
+            case PAGE_TYPE.RECORD_CARDI:
                 OnClickStartBtn((int)PAGE_TYPE.MY_RECORD);
                 break;
-            case PAGE_TYPE.MY_RECORD_CARDI_DATE:
-                OnClickStartBtn((int)PAGE_TYPE.MY_RECORD_CARDI);
+            case PAGE_TYPE.RECORD_CARDI_DATE:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI);
+                break;
+            case PAGE_TYPE.RECORD_CARDI_BAR_GRAPH:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
+                break;
+            case PAGE_TYPE.RECORD_CARDI_LINE_GRAPH:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH);
+                break;
+            case PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH);
                 break;
             default:
                 Debug.Log("Invalid PAGE_TYPE");
