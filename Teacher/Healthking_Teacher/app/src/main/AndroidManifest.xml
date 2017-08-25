@@ -49,6 +49,16 @@
         <activity
             android:name=".Manage.ManageDateInfoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Record.RecordContentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Record.RecordMeasureMuscularendurance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Record.RecordMeasureAgillityActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

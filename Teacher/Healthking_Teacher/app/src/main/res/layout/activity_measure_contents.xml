@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     tools:layout_editor_absoluteY="25dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="0dp"
+    tools:context="com.example.administrator.healthking_teacher.Record.RecordContentsActivity">
+
 
     <ImageView
         android:id="@+id/imageView4"
