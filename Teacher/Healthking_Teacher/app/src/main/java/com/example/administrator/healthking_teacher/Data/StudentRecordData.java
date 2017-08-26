@@ -14,12 +14,17 @@ import java.util.List;
 
 public class StudentRecordData implements Serializable {
 
+    //private  int type;    //데이터 타입.
+
     private String id;      //유저정보
     private Date recordDate;// 기록한 날짜
+    //private RecordDate recordDate;
     private int recordMeter; // 기록한 총 미터수
     private int trackCount; // 기록 총 바퀴수
     private List<Date> trackTimeDate; // 바퀴마다 돈 시간
+    //private List<Long> recordTime;
     private Date allTrackTimeDate; //총 바퀴시간
+    //private long allRecordTime;
 
     public StudentRecordData(String id, Date recordDate, int recordMeter, int trackCount, List<Date> trackTimeDate, Date allTrackTimeDate) {
         this.id = id;
