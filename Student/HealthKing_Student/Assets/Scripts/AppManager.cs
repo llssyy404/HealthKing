@@ -35,7 +35,7 @@ public class AppManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        DataManager.getInstance();
+        DataManager.GetInstance();
     }
 
     //
@@ -47,7 +47,7 @@ public class AppManager : MonoBehaviour {
             return false;
         }
 
-        if (false == _userInfo.InitUserInfo(listString))
+        if (!_userInfo.InitUserInfo(listString))
         {
             Debug.Log("정보를 입력해주세요");
             return false;
@@ -72,8 +72,8 @@ public class AppManager : MonoBehaviour {
         }
 
         PlayerPrefs.SetString("Cardi_RepeatLongRun", listString[(int)DEFINE.CARDI_INFO.R_LONGRUN_COUNT]);
-        PlayerPrefs.SetString("Cardi_LongRunMinute", listString[(int)DEFINE.CARDI_INFO.LONGRUN_MIN]);
-        PlayerPrefs.SetString("Cardi_LongRunSecond", listString[(int)DEFINE.CARDI_INFO.LONGRUN_COUNT]);
+        PlayerPrefs.SetString("Cardi_LongRunMinute", listString[(int)DEFINE.CARDI_INFO.LONGRUN_MINUTE]);
+        PlayerPrefs.SetString("Cardi_LongRunSecond", listString[(int)DEFINE.CARDI_INFO.LONGRUN_SECOND]);
 
         _papsInfo._cardiovascularEndurance.InitInfo(listString);
     }

@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class DataManager
 {
-    private List<StudentData> studentDataList;
+    private List<StudentData> _studentDataList;
     //private List<StudentRecordData> sendStudentRecordDataList; // 서버에 저장할 레코드 데이터 리스트
-    private List<StudentRecordData> studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
+    private List<StudentRecordData> _studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
     static private DataManager _instance;
 
-    static public DataManager getInstance()
+    static public DataManager GetInstance()
     {
         if (_instance == null)
         {
@@ -24,7 +24,7 @@ public class DataManager
 
     public void Init()
     {
-        studentDataList = new List<StudentData>();
+        _studentDataList = new List<StudentData>();
         //sendStudentRecordDataList = new List<StudentRecordData>();
         //studentRecordDataList = new List<StudentRecordData();
         string url = "http://came1230.cafe24.com/GetAllUserList.php";
@@ -39,7 +39,7 @@ public class DataManager
     // 학생 정보 getter, setter
     public void SetStudentDatas(string data)
     {
-        studentDataList.Clear();
+        _studentDataList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
@@ -59,7 +59,7 @@ public class DataManager
                 userClassroom = jObject.GetString("userClassroom");
                 userNumber = jObject.GetString("userNumber");
                 StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber);
-                studentDataList.Add(studentData);
+                _studentDataList.Add(studentData);
                 //studentData.Print();
                 ++count;
             }
@@ -72,7 +72,7 @@ public class DataManager
 
     public List<StudentData> GetStudentDataList()
     {
-        return studentDataList;
+        return _studentDataList;
     }
 
     public IEnumerator JoinStudent()
@@ -111,7 +111,7 @@ public class DataManager
 
     public bool SetStudentInfo(string data)
     {
-        studentDataList.Clear();
+        _studentDataList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
@@ -131,7 +131,7 @@ public class DataManager
             userClassroom = jObject.GetString("userClassroom");
             userNumber = jObject.GetString("userNumber");
             StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber);
-            studentDataList.Add(studentData);
+            _studentDataList.Add(studentData);
             studentData.Print();
         }
         catch (Exception e)

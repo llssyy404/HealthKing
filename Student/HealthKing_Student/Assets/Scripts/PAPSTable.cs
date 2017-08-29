@@ -5,7 +5,10 @@ using UnityEngine;
 //
 public enum SCHOOL_GRADE
 {
-    ELE_FOUR = 4,   // 초4
+    ELE_ONE = 1,
+    ELE_TWO,
+    ELE_THREE,
+    ELE_FOUR,
     ELE_FIVE,
     ELE_SIX,
     MID_ONE,
@@ -65,7 +68,7 @@ public class PAPSTable
 
     public void AddPAPSSriptInfo(int index, int gender, SCHOOL_GRADE schoolGrade, PAPS_GRADE PAPSGrade, float min, float max)
     {
-        if(schoolGrade < SCHOOL_GRADE.ELE_FOUR || schoolGrade >= SCHOOL_GRADE.MAX_SCHOOL_GRADE)
+        if(schoolGrade < SCHOOL_GRADE.ELE_FOUR || schoolGrade >= SCHOOL_GRADE.MAX_SCHOOL_GRADE) // 초4부터 팝스등급있음
         {
             Debug.Log("학년값을 벗어남");
             return;

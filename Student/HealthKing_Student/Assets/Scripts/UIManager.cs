@@ -51,9 +51,9 @@ enum URL_TYPE
 public class UIManager : MonoBehaviour {
 
     public List<InputField> _userInput;
-    public Dropdown dropdownSchGrade;
-    public Toggle toggleBoy;
-    public Toggle toggleGirl;
+    public Dropdown _dropdownSchGrade;
+    public Toggle _toggleBoy;
+    public Toggle _toggleGirl;
     public List<InputField> _cardiInput;
     public List<InputField> _agilityInput;
     public List<InputField> _muscInput;
@@ -161,7 +161,7 @@ public class UIManager : MonoBehaviour {
             _userInput[0].text = _listString[0] = PlayerPrefs.GetString("User_SchoolName");
         if (PlayerPrefs.HasKey("User_SchoolGrade"))
         {
-            dropdownSchGrade.value = System.Convert.ToInt32(PlayerPrefs.GetString("User_SchoolGrade").Trim()) - _SCH_GRADE_VALUE;
+            _dropdownSchGrade.value = System.Convert.ToInt32(PlayerPrefs.GetString("User_SchoolGrade").Trim()) - _SCH_GRADE_VALUE;
             _listString[1] = PlayerPrefs.GetString("User_SchoolGrade");
         }
         if (PlayerPrefs.HasKey("User_ClassNum"))
@@ -174,13 +174,13 @@ public class UIManager : MonoBehaviour {
         {
             if (PlayerPrefs.GetString("User_Gender") == "0")
             {
-                toggleBoy.isOn = true;
-                toggleGirl.isOn = false;
+                _toggleBoy.isOn = true;
+                _toggleGirl.isOn = false;
             }
             else
             {
-                toggleBoy.isOn = false;
-                toggleGirl.isOn = true;
+                _toggleBoy.isOn = false;
+                _toggleGirl.isOn = true;
             }
 
             _listString[5] = PlayerPrefs.GetString("User_Gender");
@@ -194,15 +194,15 @@ public class UIManager : MonoBehaviour {
         _listString = AppManager.GetInstance().papsInfo._cardiovascularEndurance.GetInfo();
         if (PlayerPrefs.HasKey("Cardi_RepeatLongRun"))
         {
-            _cardiInput[0].text = _listString[0] = PlayerPrefs.GetString("Cardi_RepeatLongRun");
+            _cardiInput[(int)DEFINE.CARDI_INFO.R_LONGRUN_COUNT].text = _listString[(int)DEFINE.CARDI_INFO.R_LONGRUN_COUNT] = PlayerPrefs.GetString("Cardi_RepeatLongRun");
         }
         if (PlayerPrefs.HasKey("Cardi_LongRunMinute"))
         {
-            _cardiInput[1].text = _listString[1] = PlayerPrefs.GetString("Cardi_LongRunMinute");
+            _cardiInput[(int)DEFINE.CARDI_INFO.LONGRUN_MINUTE].text = _listString[(int)DEFINE.CARDI_INFO.LONGRUN_MINUTE] = PlayerPrefs.GetString("Cardi_LongRunMinute");
         }
         if (PlayerPrefs.HasKey("Cardi_LongRunSecond"))
         {
-            _cardiInput[2].text = _listString[2] = PlayerPrefs.GetString("Cardi_LongRunSecond");
+            _cardiInput[(int)DEFINE.CARDI_INFO.LONGRUN_SECOND].text = _listString[(int)DEFINE.CARDI_INFO.LONGRUN_SECOND] = PlayerPrefs.GetString("Cardi_LongRunSecond");
         }
         AppManager.GetInstance().SetCardiovascularEnduranceInfo(_listString);
         _listString.Clear();
@@ -213,11 +213,11 @@ public class UIManager : MonoBehaviour {
         _listString = AppManager.GetInstance().papsInfo._agility.GetInfo();
         if (PlayerPrefs.HasKey("Agile_StandingBroadJump"))
         {
-            _agilityInput[0].text = _listString[0] = PlayerPrefs.GetString("Agile_StandingBroadJump");
+            _agilityInput[(int)DEFINE.AGILE_INFO.STAND_JUMP_CM].text = _listString[(int)DEFINE.AGILE_INFO.STAND_JUMP_CM] = PlayerPrefs.GetString("Agile_StandingBroadJump");
         }
         if (PlayerPrefs.HasKey("Agile_FiftyMRun"))
         {
-            _agilityInput[1].text = _listString[1] = PlayerPrefs.GetString("Agile_FiftyMRun");
+            _agilityInput[(int)DEFINE.AGILE_INFO.FIFTY_M_RUN_SECOND].text = _listString[(int)DEFINE.AGILE_INFO.FIFTY_M_RUN_SECOND] = PlayerPrefs.GetString("Agile_FiftyMRun");
         }
         AppManager.GetInstance().SetAgilityInfo(_listString);
         _listString.Clear();
@@ -228,15 +228,15 @@ public class UIManager : MonoBehaviour {
         _listString = AppManager.GetInstance().papsInfo._muscularEndurance.GetInfo();
         if (PlayerPrefs.HasKey("Musc_SitUp"))
         {
-            _muscInput[0].text = _listString[0] = PlayerPrefs.GetString("Musc_SitUp");
+            _muscInput[(int)DEFINE.MUS_ENDU_INFO.SITUP_COUNT].text = _listString[(int)DEFINE.MUS_ENDU_INFO.SITUP_COUNT] = PlayerPrefs.GetString("Musc_SitUp");
         }
         if (PlayerPrefs.HasKey("Musc_GripRight"))
         {
-            _muscInput[1].text = _listString[1] = PlayerPrefs.GetString("Musc_GripRight");
+            _muscInput[(int)DEFINE.MUS_ENDU_INFO.GRIP_R_KG].text = _listString[(int)DEFINE.MUS_ENDU_INFO.GRIP_R_KG] = PlayerPrefs.GetString("Musc_GripRight");
         }
         if (PlayerPrefs.HasKey("Musc_GripLeft"))
         {
-            _muscInput[2].text = _listString[2] = PlayerPrefs.GetString("Musc_GripLeft");
+            _muscInput[(int)DEFINE.MUS_ENDU_INFO.GRIP_L_KG].text = _listString[(int)DEFINE.MUS_ENDU_INFO.GRIP_L_KG] = PlayerPrefs.GetString("Musc_GripLeft");
         }
         AppManager.GetInstance().SetMuscularEnduranceInfo(_listString);
         _listString.Clear();
@@ -247,7 +247,7 @@ public class UIManager : MonoBehaviour {
         _listString = AppManager.GetInstance().papsInfo._flexibility.GetInfo();
         if (PlayerPrefs.HasKey("Flexibility_FrontBend"))
         {
-            _flexibilityInput[0].text = _listString[0] = PlayerPrefs.GetString("Flexibility_FrontBend");
+            _flexibilityInput[(int)DEFINE.FLEXIBLE_INFO.FRONT_BEND_CM].text = _listString[(int)DEFINE.FLEXIBLE_INFO.FRONT_BEND_CM] = PlayerPrefs.GetString("Flexibility_FrontBend");
         }
         AppManager.GetInstance().SetFlexibilityInfo(_listString);
         _listString.Clear();
@@ -258,11 +258,11 @@ public class UIManager : MonoBehaviour {
         _listString = AppManager.GetInstance().papsInfo._BMI.GetInfo();
         if (PlayerPrefs.HasKey("BMI_Height"))
         {
-            _bmiInput[0].text = _listString[0] = PlayerPrefs.GetString("BMI_Height");
+            _bmiInput[(int)DEFINE.BMI_INFO.HEIGHT].text = _listString[(int)DEFINE.BMI_INFO.HEIGHT] = PlayerPrefs.GetString("BMI_Height");
         }
         if (PlayerPrefs.HasKey("BMI_Weight"))
         {
-            _bmiInput[1].text = _listString[1] = PlayerPrefs.GetString("BMI_Weight");
+            _bmiInput[(int)DEFINE.BMI_INFO.WEIGHT].text = _listString[(int)DEFINE.BMI_INFO.WEIGHT] = PlayerPrefs.GetString("BMI_Weight");
         }
         AppManager.GetInstance().SetBMIInfo(_listString);
         _listString.Clear();
@@ -377,7 +377,7 @@ public class UIManager : MonoBehaviour {
         if (_obj[_prevSelNum] == null || _obj[_selNum] == null)
             return;
 
-        if (PreSettingPage(sel) == false)
+        if (!PreSettingPage(sel))
             return;
 
         _prevSelNum = _selNum;
@@ -403,18 +403,9 @@ public class UIManager : MonoBehaviour {
     {
         switch((PAGE_TYPE)sel)
         {
-            case PAGE_TYPE.MAIN:
-                {
-                    if (!DataManager.getInstance().LoginStudent(_id_pwInput))
-                    {
-                        ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
-                        return false;
-                    }
-                }
-                break;
             case PAGE_TYPE.PAPS:
                 {
-                    if(AppManager.GetInstance().userInfo.IsInitInfo() == false)
+                    if(!AppManager.GetInstance().userInfo.IsInitInfo())
                     {
                         ShowMessageBox("기본정보 입력 후 사용가능합니다.");
                         return false;
@@ -427,9 +418,16 @@ public class UIManager : MonoBehaviour {
 
         switch ((PAGE_TYPE)_selNum)
         {
+            case PAGE_TYPE.LOGIN:
+                if (!DataManager.GetInstance().LoginStudent(_id_pwInput))
+                {
+                    ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
+                    return false;
+                }
+                break;
             case PAGE_TYPE.BASE_INFORM:
                 {
-                    if (false == AppManager.GetInstance().SetUserInfo(_listString))
+                    if (!AppManager.GetInstance().SetUserInfo(_listString))
                     {
                         ShowMessageBox("모든 정보를 입력해주세요.");
                         return false;

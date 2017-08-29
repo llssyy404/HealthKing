@@ -7,8 +7,8 @@ namespace DEFINE
     public enum CARDI_INFO
     {
         R_LONGRUN_COUNT,
-        LONGRUN_MIN,
-        LONGRUN_COUNT,
+        LONGRUN_MINUTE,
+        LONGRUN_SECOND,
         MAX_CARDI_INFO
     }
 
@@ -68,8 +68,8 @@ public class CardiovascularEnduranceInfo
     public bool InitInfo(List<string> listString)
     {
         _repeatLongRunningCount = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.R_LONGRUN_COUNT].Trim());
-        _longRunningMinute = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.LONGRUN_MIN].Trim());
-        _longRunningSecond = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.LONGRUN_COUNT].Trim());
+        _longRunningMinute = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.LONGRUN_MINUTE].Trim());
+        _longRunningSecond = System.Convert.ToInt32(listString[(int)DEFINE.CARDI_INFO.LONGRUN_SECOND].Trim());
 
         return true;
     }
