@@ -419,10 +419,13 @@ public class UIManager : MonoBehaviour {
         switch ((PAGE_TYPE)_selNum)
         {
             case PAGE_TYPE.LOGIN:
-                if (!DataManager.GetInstance().LoginStudent(_id_pwInput))
                 {
-                    ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
-                    return false;
+                    if (!DataManager.GetInstance().LoginStudent(_id_pwInput))
+                    {
+                        ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
+                        return false;
+                    }
+                    DataManager.GetInstance().GetStudentRecordData();
                 }
                 break;
             case PAGE_TYPE.BASE_INFORM:
