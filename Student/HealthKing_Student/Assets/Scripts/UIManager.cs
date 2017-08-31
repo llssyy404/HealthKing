@@ -61,6 +61,8 @@ public class UIManager : MonoBehaviour {
     public List<InputField> _bmiInput;
     public List<InputField> _missionInput;
     public List<InputField> _id_pwInput;
+    public Button _button;
+    public GameObject _parent;
 
     private GameObject[] _obj = null;
     private GameObject[] _missionObj = null;
@@ -121,6 +123,7 @@ public class UIManager : MonoBehaviour {
         _missionObj[2] = GameObject.Find("Mission3");
         _missionObj[3] = GameObject.Find("Mission4");
         Debug.Log("미션초기화");
+        _buttonList = new List<Button>();
     }
 
     void InitGrade()
@@ -371,7 +374,7 @@ public class UIManager : MonoBehaviour {
 
     public void OnClickStartBtn(int sel)
     {
-        if (_selNum == sel)
+        if (_selNum == sel || sel >= (int)PAGE_TYPE.MAX_PAGE_TYPE)
             return;
 
         if (_obj[_prevSelNum] == null || _obj[_selNum] == null)
@@ -480,6 +483,9 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.PAPS_RESULT:
                 PAPSResultUISetting();
+                break;
+            case PAGE_TYPE.RECORD_CARDI_DATE:
+                CreateDateButton();
                 break;
             default:
                 break;
@@ -596,6 +602,24 @@ public class UIManager : MonoBehaviour {
             default:
                 Debug.Log("Invalid PAGE_TYPE");
                 break;
+        }
+    }
+
+    private List<Button> _buttonList;
+    void CreateDateButton()
+    {
+        List<StudentRecordData> recordData = DataManager.GetInstance().GetStudentRecord();
+        if (_buttonList.Count == recordData.Count)
+            return;
+
+        for (int i = 0; i < recordData.Count; ++i)
+        {
+            Button button = Instantiate(_button, _button.transform);
+            Text text = button.GetComponentInChildren<Text>();
+            text.text = recordData[i].GetRecordDate();
+            button.transform.SetParent(_parent.transform);
+            button.transform.Translate(new Vector3(0, (-200.0f*i)-200.0f));
+            _buttonList.Add(button);
         }
     }
 }

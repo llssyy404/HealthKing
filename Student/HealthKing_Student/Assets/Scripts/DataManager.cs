@@ -20,6 +20,11 @@ public class DataManager
         return _instance;
     }
 
+    public List<StudentRecordData> GetStudentRecord()
+    {
+        return _studentRecordDataList;
+    }
+
     public void Init()
     {
         _studentRecordDataList = new List<StudentRecordData>();
