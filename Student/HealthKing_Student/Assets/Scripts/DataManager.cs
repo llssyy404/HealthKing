@@ -7,9 +7,8 @@ using UnityEngine.UI;
 
 public class DataManager
 {
-    private List<StudentData> _studentDataList;
+    private StudentData _studentData;
     private List<StudentRecordData> _studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
-    private string _id;
     static private DataManager _instance;
     static public DataManager GetInstance()
     {
@@ -23,7 +22,6 @@ public class DataManager
 
     public void Init()
     {
-        _studentDataList = new List<StudentData>();
         _studentRecordDataList = new List<StudentRecordData>();
         //string url = "http://came1230.cafe24.com/GetAllUserList.php";
         //WWW webSite = new WWW(url);
@@ -32,45 +30,6 @@ public class DataManager
 
         //Debug.Log(webSite.text);
         //SetStudentDatas(webSite.text);
-    }
-
-    // 학생 정보 getter, setter
-    public void SetStudentDatas(string data)
-    {
-        _studentDataList.Clear();
-        try
-        {
-            JSONObject jsonObject = JSONObject.Parse(data);
-            JSONArray jsonArray = jsonObject.GetArray("response");
-            int count = 0;
-            string userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber;
-            while (count < jsonArray.Length)
-            {
-                JSONObject jObject = jsonArray[count].Obj;
-                userID = jObject.GetString("userID");
-                userPassword = jObject.GetString("userPassword");
-                userName = jObject.GetString("userName");
-                userGender = jObject.GetString("userGender");
-                userSchoolName = jObject.GetString("userSchoolName");
-                userSchool = jObject.GetString("userSchool");
-                userGrade = jObject.GetString("userGrade");
-                userClassroom = jObject.GetString("userClassroom");
-                userNumber = jObject.GetString("userNumber");
-                StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber);
-                _studentDataList.Add(studentData);
-                //studentData.Print();
-                ++count;
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.ToString());
-        }
-    }
-
-    public List<StudentData> GetStudentDataList()
-    {
-        return _studentDataList;
     }
 
     public IEnumerator JoinStudent()
@@ -98,40 +57,37 @@ public class DataManager
         form.AddField("userPassword", id_pwInput[1].text);
         WWW www = new WWW("http://came1230.cafe24.com/UserLogin.php", form);
         while (!www.isDone)
-            Debug.Log(www.bytesDownloaded);
+            continue;
 
         Debug.Log(www.text);
         if (!SetStudentInfo(www.text))
             return false;
 
-        _id = id_pwInput[0].text;
         return true;
     }
 
     public bool SetStudentInfo(string data)
     {
-        _studentDataList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
-            string userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber;
             if (jsonArray.Length == 0)
                 return false;
 
             JSONObject jObject = jsonArray[0].Obj;
-            userID = jObject.GetString("userID");
-            userPassword = jObject.GetString("userPassword");
-            userName = jObject.GetString("userName");
-            userGender = jObject.GetString("userGender");
-            userSchoolName = jObject.GetString("userSchoolName");
-            userSchool = jObject.GetString("userSchool");
-            userGrade = jObject.GetString("userGrade");
-            userClassroom = jObject.GetString("userClassroom");
-            userNumber = jObject.GetString("userNumber");
-            StudentData studentData = new StudentData(userID, userPassword, userName, userGender, userSchoolName, userSchool, userGrade, userClassroom, userNumber);
-            _studentDataList.Add(studentData);
-            studentData.Print();
+            string userID = jObject.GetString("userID");
+            string userPassword = jObject.GetString("userPassword");
+            string userName = jObject.GetString("userName");
+            string userGender = jObject.GetString("userGender");
+            string userSchoolName = jObject.GetString("userSchoolName");
+            string userSchool = jObject.GetString("userSchool");
+            string userGrade = jObject.GetString("userGrade");
+            string userClassroom = jObject.GetString("userClassroom");
+            string userNumber = jObject.GetString("userNumber");
+            _studentData = new StudentData(userID, userPassword, userName, userGender, userSchoolName, 
+                userSchool, userGrade, userClassroom, userNumber);
+            _studentData.Print();
         }
         catch (Exception e)
         {
@@ -144,7 +100,7 @@ public class DataManager
     public bool GetStudentRecordData()
     {
         WWWForm form = new WWWForm();
-        form.AddField("userID", _id);
+        form.AddField("userID", _studentData.GetId());
         WWW www = new WWW("http://came1230.cafe24.com/GetRecordData.php", form);
         while (!www.isDone)
             Debug.Log(www.bytesDownloaded);

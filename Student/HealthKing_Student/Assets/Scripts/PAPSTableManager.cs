@@ -59,15 +59,10 @@ public class PAPSTableManager
             while (line != null)
             {
                 words = line.Split(',');
-                if (words.Length == 0)
-                {
-                    sr.Close();
-                    return;
-                }
-
                 if (words.Length != (int)TABLE_INFO.MAX_TABLE_INFO)
                 {
                     Debug.Log("table length != 6");
+                    sr.Close();
                     return;
                 }
 

@@ -401,21 +401,6 @@ public class UIManager : MonoBehaviour {
 
     bool PreSettingPage(int sel)
     {
-        switch((PAGE_TYPE)sel)
-        {
-            case PAGE_TYPE.PAPS:
-                {
-                    if(!AppManager.GetInstance().userInfo.IsInitInfo())
-                    {
-                        ShowMessageBox("기본정보 입력 후 사용가능합니다.");
-                        return false;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
         switch ((PAGE_TYPE)_selNum)
         {
             case PAGE_TYPE.LOGIN:
