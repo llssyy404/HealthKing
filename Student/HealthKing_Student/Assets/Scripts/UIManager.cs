@@ -61,8 +61,10 @@ public class UIManager : MonoBehaviour {
     public List<InputField> _bmiInput;
     public List<InputField> _missionInput;
     public List<InputField> _id_pwInput;
-    public Button _button;
-    public GameObject _parent;
+    public Button _meterButton;
+    public GameObject _meterContent;
+    public Button _dateButton;
+    public GameObject _dateContent;
 
     private GameObject[] _obj = null;
     private GameObject[] _missionObj = null;
@@ -123,7 +125,8 @@ public class UIManager : MonoBehaviour {
         _missionObj[2] = GameObject.Find("Mission3");
         _missionObj[3] = GameObject.Find("Mission4");
         Debug.Log("미션초기화");
-        _buttonList = new List<Button>();
+        _dateButtonList = new List<Button>();
+        _meterButtonList = new List<Button>();
     }
 
     void InitGrade()
@@ -484,6 +487,9 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.PAPS_RESULT:
                 PAPSResultUISetting();
                 break;
+            case PAGE_TYPE.RECORD_CARDI:
+                CreateMeterButton();
+                break;
             case PAGE_TYPE.RECORD_CARDI_DATE:
                 CreateDateButton();
                 break;
@@ -605,21 +611,39 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    private List<Button> _buttonList;
+    private List<Button> _dateButtonList;
     void CreateDateButton()
     {
         List<StudentRecordData> recordData = DataManager.GetInstance().GetStudentRecord();
-        if (_buttonList.Count == recordData.Count)
+        if (_dateButtonList.Count == recordData.Count)
             return;
 
         for (int i = 0; i < recordData.Count; ++i)
         {
-            Button button = Instantiate(_button, _button.transform);
+            Button button = Instantiate(_dateButton, _dateButton.transform);
             Text text = button.GetComponentInChildren<Text>();
             text.text = recordData[i].GetRecordDate();
-            button.transform.SetParent(_parent.transform);
+            button.transform.SetParent(_dateContent.transform);
             button.transform.Translate(new Vector3(0, (-200.0f*i)-200.0f));
-            _buttonList.Add(button);
+            _dateButtonList.Add(button);
+        }
+    }
+
+    private List<Button> _meterButtonList;
+    void CreateMeterButton()
+    {
+        List<StudentRecordData> recordData = DataManager.GetInstance().GetStudentRecord();
+        if (_meterButtonList.Count == recordData.Count)
+            return;
+
+        for (int i = 0; i < recordData.Count; ++i)
+        {
+            Button button = Instantiate(_meterButton, _meterButton.transform);
+            Text text = button.GetComponentInChildren<Text>();
+            text.text = recordData[i].GetRecordDate();
+            button.transform.SetParent(_meterContent.transform);
+            button.transform.Translate(new Vector3(0, (-200.0f * i) - 200.0f));
+            _meterButtonList.Add(button);
         }
     }
 }
