@@ -9,6 +9,7 @@ public class DataManager
 {
     private StudentData _studentData;
     private List<StudentRecordData> _studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
+    private MyRecordData _myRecordData;
     static private DataManager _instance;
     static public DataManager GetInstance()
     {
@@ -20,6 +21,11 @@ public class DataManager
         return _instance;
     }
 
+    public MyRecordData GetMyRecordData()
+    {
+        return _myRecordData;
+    }
+
     public List<StudentRecordData> GetStudentRecord()
     {
         return _studentRecordDataList;
@@ -28,6 +34,7 @@ public class DataManager
     public void Init()
     {
         _studentRecordDataList = new List<StudentRecordData>();
+        _myRecordData = new MyRecordData();
         //string url = "http://came1230.cafe24.com/GetAllUserList.php";
         //WWW webSite = new WWW(url);
         //while (!webSite.isDone)
@@ -144,10 +151,12 @@ public class DataManager
                     trackTimeDate.Add(trackTimeDateString[i]);
                 }
                 allTrackTimeDate = jObject.GetString("allTrackTimeDate");
-                StudentRecordData studentData = new StudentRecordData(userID, recordDate, recordMeter, trackCount, trackTimeDate, allTrackTimeDate);
+                StudentRecordData studentData = new StudentRecordData(recordDate, recordMeter, trackCount, trackTimeDate, allTrackTimeDate);
                 _studentRecordDataList.Add(studentData);
                 ++count;
             }
+
+            _myRecordData.Init(_studentRecordDataList);
         }
         catch (Exception e)
         {

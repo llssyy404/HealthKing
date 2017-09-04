@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class StudentRecordData
 {
-    private string id;                  // 유저정보
+    //private string id;                  // 유저정보
     private string recordDate;            // 기록한 날짜
     private int recordMeter;            // 기록한 총 미터수
     private int trackCount;             // 기록 총 바퀴수
     private List<string> trackTimeDate;   // 바퀴마다 돈 시간
     private string allTrackTimeDate;      // 총 바퀴시간
 
-    public StudentRecordData(string id, string recordDate, int recordMeter, int trackCount, List<string> trackTimeDate, string allTrackTimeDate)
+    public StudentRecordData(string recordDate, int recordMeter, int trackCount, List<string> trackTimeDate, string allTrackTimeDate)
     {
-        this.id = id;
+        //this.id = id;
         this.recordDate = recordDate;
         this.recordMeter = recordMeter;
         this.trackCount = trackCount;
@@ -26,15 +26,15 @@ public class StudentRecordData
         this.allTrackTimeDate = allTrackTimeDate;
     }
 
-    public string GetId()
-    {
-        return id;
-    }
+    //public string GetId()
+    //{
+    //    return id;
+    //}
 
-    public void SetId(string id)
-    {
-        this.id = id;
-    }
+    //public void SetId(string id)
+    //{
+    //    this.id = id;
+    //}
 
     public string GetRecordDate()
     {
@@ -87,3 +87,47 @@ public class StudentRecordData
     }
 }
 
+public struct Key
+{
+    int _count;
+    int _sumMeter;
+    public Key(int count, int sumMeter)
+    {
+        _count = count;
+        _sumMeter = sumMeter;
+    }
+
+    public int GetCount()
+    {
+        return _count;
+    }
+
+    public int GetSumMeter()
+    {
+        return _sumMeter;
+    }
+}
+
+public class MyRecordData
+{
+    private Dictionary<Key, List<StudentRecordData>> _dicMyRecordData;
+    public void Init(List<StudentRecordData> stuRecordData)
+    {
+        _dicMyRecordData = new Dictionary<Key, List<StudentRecordData>>();
+        for (int i = 0; i < stuRecordData.Count; ++i)
+        {
+            Key key = new Key(stuRecordData[i].GetTrackCount(), stuRecordData[i].GetRecordMeter());
+            if (!_dicMyRecordData.ContainsKey(key))
+            {
+                _dicMyRecordData.Add(key, new List<StudentRecordData>());
+            }
+
+            _dicMyRecordData[key].Add(stuRecordData[i]);    // 하나씩만 저장됨 수정하기
+        }
+    }
+
+    public Dictionary<Key, List<StudentRecordData>> GetDicRecordData()
+    {
+        return _dicMyRecordData;
+    }
+}
