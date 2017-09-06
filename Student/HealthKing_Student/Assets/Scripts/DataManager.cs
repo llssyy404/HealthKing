@@ -124,7 +124,7 @@ public class DataManager
         return true;
     }
 
-    public bool SetStudentRecordInfo(string data)    // test
+    public bool SetStudentRecordInfo(string data)
     {
         _studentRecordDataList.Clear();
         try

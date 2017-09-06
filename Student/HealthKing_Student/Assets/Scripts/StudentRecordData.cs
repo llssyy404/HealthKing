@@ -22,7 +22,6 @@ public class StudentRecordData
         {
             this.trackTimeDate.Add(trackTimeDate[i]);
         }
-        Debug.Log(trackTimeDate.Count);
         this.allTrackTimeDate = allTrackTimeDate;
     }
 

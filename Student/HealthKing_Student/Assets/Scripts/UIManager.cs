@@ -27,6 +27,7 @@ enum PAGE_TYPE
     RECORD_CARDI_BAR_GRAPH,
     RECORD_CARDI_LINE_GRAPH,
     RECORD_CARDI_NORMAL_DISTRIB,
+    RECORD_AGILE_MUSC_BAR_GRAPH,
     MAX_PAGE_TYPE
 }
 
@@ -118,6 +119,7 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_BarGraph").gameObject;
         _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_LineGraph").gameObject;
         _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Cardi_Normal_Distribution").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_AGILE_MUSC_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Agile_Musc_BarGraph").gameObject;
 
         _missionObj = new GameObject[_MAX_MISSION];
         _missionObj[0] = GameObject.Find("Mission1");
@@ -605,6 +607,9 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB:
                 OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH);
                 break;
+            case PAGE_TYPE.RECORD_AGILE_MUSC_BAR_GRAPH:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI);   // 나중에 수정
+                break;
             default:
                 Debug.Log("Invalid PAGE_TYPE");
                 break;
@@ -614,9 +619,8 @@ public class UIManager : MonoBehaviour {
     private List<Button> _dateButtonList;
     void CreateDateButton()
     {
-        //List<StudentRecordData> recordData = DataManager.GetInstance().GetStudentRecord();
         Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
-        Key key = new Key(4, 4);
+        Key key = new Key(1, 20);
         List<StudentRecordData> listData = myRecordData[key];
         if (_dateButtonList.Count == listData.Count)
             return;
@@ -627,7 +631,7 @@ public class UIManager : MonoBehaviour {
             Text text = button.GetComponentInChildren<Text>();
             text.text = listData[i].GetRecordDate();
             button.transform.SetParent(_dateContent.transform);
-            button.transform.Translate(new Vector3(0, (-200.0f*i)-200.0f));
+            button.transform.Translate(new Vector3(0, -200.0f*i));
             _dateButtonList.Add(button);
         }
     }
@@ -635,7 +639,6 @@ public class UIManager : MonoBehaviour {
     private List<Button> _meterButtonList;
     void CreateMeterButton()
     {
-        //List<StudentRecordData> recordData = DataManager.GetInstance().GetStudentRecord();
         Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
         if (_meterButtonList.Count == myRecordData.Count)
             return;
@@ -647,7 +650,7 @@ public class UIManager : MonoBehaviour {
             Text text = button.GetComponentInChildren<Text>();
             text.text = pair.Key.GetCount().ToString() + "바퀴, 총 " + pair.Key.GetSumMeter().ToString() + "m";
             button.transform.SetParent(_meterContent.transform);
-            button.transform.Translate(new Vector3(0, (-200.0f * count) - 200.0f));
+            button.transform.Translate(new Vector3(0, -200.0f * count));
             _meterButtonList.Add(button);
             ++count;
         }
