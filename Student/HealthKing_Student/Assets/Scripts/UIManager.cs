@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CP.ProChart;
 
 enum PAGE_TYPE
 {
@@ -80,6 +81,13 @@ public class UIManager : MonoBehaviour {
     const int _SCH_GRADE_VALUE = 4;
     const int _MAX_MISSION = 4;
 
+    // Chart
+    public BarChart _barChart;
+    ChartData2D _dataSet = new ChartData2D();
+
+    // Test
+    Key testKey = new Key(4, 4);
+
     // Use this for initialization
     void Start () {
         InitObject();
@@ -121,6 +129,7 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Cardi_Normal_Distribution").gameObject;
         _obj[(int)PAGE_TYPE.RECORD_AGILE_MUSC_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Agile_Musc_BarGraph").gameObject;
 
+        // 미션
         _missionObj = new GameObject[_MAX_MISSION];
         _missionObj[0] = GameObject.Find("Mission1");
         _missionObj[1] = GameObject.Find("Mission2");
@@ -495,6 +504,9 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.RECORD_CARDI_DATE:
                 CreateDateButton();
                 break;
+            case PAGE_TYPE.RECORD_CARDI_BAR_GRAPH:
+                SetBarGraphData();
+                break;
             default:
                 break;
         }
@@ -620,8 +632,7 @@ public class UIManager : MonoBehaviour {
     void CreateDateButton()
     {
         Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
-        Key key = new Key(1, 20);
-        List<StudentRecordData> listData = myRecordData[key];
+        List<StudentRecordData> listData = myRecordData[testKey];
         if (_dateButtonList.Count == listData.Count)
             return;
 
@@ -654,5 +665,25 @@ public class UIManager : MonoBehaviour {
             _meterButtonList.Add(button);
             ++count;
         }
+    }
+
+    void SetBarGraphData()
+    {
+        Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
+        List<StudentRecordData> listData = myRecordData[testKey];
+        if (listData.Count == 0)
+        {
+            Debug.Log("listData.Count == 0");
+            return;
+        }
+
+        // Chart data test
+        Debug.Log(listData[0].GetTrackTimeDate().Count);
+        for (int i = 0; i < listData[0].GetTrackTimeDate().Count; ++i)
+        {
+            _dataSet[0, i] = i*10;
+            _dataSet[1, i] = 30;
+        }
+        _barChart.SetValues(ref _dataSet);
     }
 }
