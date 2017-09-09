@@ -681,7 +681,18 @@ public class UIManager : MonoBehaviour {
         Debug.Log(listData[0].GetTrackTimeDate().Count);
         for (int i = 0; i < listData[0].GetTrackTimeDate().Count; ++i)
         {
-            _dataSet[0, i] = i*10;
+            string s = listData[0].GetTrackTimeDate()[i];
+            if (s == null)
+                return;
+
+            Debug.Log(s);
+            string[] temp = s.Split('-');
+            if (temp.Length != 3)
+                return;
+
+            System.DateTime time = System.DateTime.Parse("2017/09/08 " + temp[0] + ':' + temp[1] + ':' + temp[2]);
+            Debug.Log(time.ToString());
+            _dataSet[0, i] = i * 10;
             _dataSet[1, i] = 30;
         }
         _barChart.SetValues(ref _dataSet);
