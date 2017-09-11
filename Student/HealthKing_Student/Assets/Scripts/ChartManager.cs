@@ -11,22 +11,16 @@ public class ChartManager : MonoBehaviour {
     public BarChart barChart;
 
     //line chart datas
-    //public LineChart lineChart;
+    public LineChart lineChart;
 
     //labels
     public GameObject labelBar;
-    //public GameObject labelLine;
+    public GameObject labelLine;
     public GameObject axisXLabel;
     public GameObject axisYLabel;
 
     //2D Data set
     private ChartData2D dataSet;
-
-    //selection of data
-    private int row = -1;
-    private int column = -1;
-    private int overRow = -1;
-    private int overColumn = -1;
 
     private List<Text> barLabels = new List<Text>();
     private List<Text> barXLabels = new List<Text>();
@@ -36,28 +30,13 @@ public class ChartManager : MonoBehaviour {
     private List<Text> lineYLabels = new List<Text>();
 
     ///<summary>
-    /// Manage selection of data to be able to change it
-    ///</summary>
-    public void OnSelectDelegate(int row, int column)
-    {
-        this.row = row;
-        this.column = column;
-    }
-
-    ///<summary>
-    /// Manage over state of chart
-    ///</summary>
-    public void OnOverDelegate(int row, int column)
-    {
-        overRow = row;
-        overColumn = column;
-    }
-
-    ///<summary>
     /// Initialize data set and charts
     ///</summary>
     void OnEnable()
     {
+        lineChart.Thickness = 0.01f;
+        lineChart.PointSize = 0.02f;
+
         dataSet = new ChartData2D();
         dataSet[0, 0] = 10;
         dataSet[0, 1] = 20;
@@ -77,15 +56,10 @@ public class ChartManager : MonoBehaviour {
         dataSet[1, 7] = 42;
 
         barChart.SetValues(ref dataSet);
-        //lineChart.SetValues(ref dataSet);
-
-        barChart.onSelectDelegate += OnSelectDelegate;
-        barChart.onOverDelegate += OnOverDelegate;
-        //lineChart.onSelectDelegate += OnSelectDelegate;
-        //lineChart.onOverDelegate += OnOverDelegate;
+        lineChart.SetValues(ref dataSet);
 
         labelBar.SetActive(false);
-        //labelLine.SetActive(false);
+        labelLine.SetActive(false);
         axisXLabel.SetActive(false);
         axisYLabel.SetActive(false);
 
@@ -102,11 +76,11 @@ public class ChartManager : MonoBehaviour {
                 Text t = obj.GetComponentInChildren<Text>();
                 barLabels.Add(t);
 
-                //obj = (GameObject)Instantiate(labelLine);
-                //obj.name = "Label" + i + "_" + j;
-                //obj.transform.SetParent(lineChart.transform, false);
-                //t = obj.GetComponent<Text>();
-                //lineLabels.Add(t);
+                obj = (GameObject)Instantiate(labelLine);
+                obj.name = "Label" + i + "_" + j;
+                obj.transform.SetParent(lineChart.transform, false);
+                t = obj.GetComponent<Text>();
+                lineLabels.Add(t);
             }
         }
 
@@ -122,12 +96,12 @@ public class ChartManager : MonoBehaviour {
             t.text = (i+1) + "바퀴";
             barXLabels.Add(t);
 
-            //obj = (GameObject)Instantiate(axisXLabel);
-            //obj.name = "Label" + i;
-            //obj.transform.SetParent(lineChart.transform, false);
-            //t = obj.GetComponent<Text>();
-            //t.text = t.gameObject.name;
-            //lineXLabels.Add(t);
+            obj = (GameObject)Instantiate(axisXLabel);
+            obj.name = "Label" + i;
+            obj.transform.SetParent(lineChart.transform, false);
+            t = obj.GetComponent<Text>();
+            t.text = (i + 1) + "바퀴";
+            lineXLabels.Add(t);
         }
 
         barYLabels.Clear();
@@ -142,12 +116,12 @@ public class ChartManager : MonoBehaviour {
             t.text = t.gameObject.name;
             barYLabels.Add(t);
 
-            //obj = (GameObject)Instantiate(axisYLabel);
-            //obj.name = "Label" + i;
-            //obj.transform.SetParent(lineChart.transform, false);
-            //t = obj.GetComponent<Text>();
-            //t.text = t.gameObject.name;
-            //lineYLabels.Add(t);
+            obj = (GameObject)Instantiate(axisYLabel);
+            obj.name = "Label" + i;
+            obj.transform.SetParent(lineChart.transform, false);
+            t = obj.GetComponent<Text>();
+            t.text = t.gameObject.name;
+            lineYLabels.Add(t);
         }
     }
 
@@ -156,10 +130,7 @@ public class ChartManager : MonoBehaviour {
     ///</summary>
     void OnDisable()
     {
-        barChart.onSelectDelegate -= OnSelectDelegate;
-        barChart.onOverDelegate -= OnOverDelegate;
-        //lineChart.onSelectDelegate -= OnSelectDelegate;
-        //lineChart.onOverDelegate -= OnOverDelegate;
+
     }
 
     void Update()
@@ -184,13 +155,13 @@ public class ChartManager : MonoBehaviour {
                     barLabels[i * dataSet.Columns + j].transform.parent.gameObject.GetComponent<RectTransform>().anchoredPosition = labelPos.position;
                 }
 
-                //labelPos = lineChart.GetLabelPosition(i, j);
-                //if (labelPos != null)
-                //{
-                //    //lineLabels[i * dataSet.Columns + j].gameObject.SetActive(true);
-                //    lineLabels[i * dataSet.Columns + j].text = labelPos.value.ToString("0.00");
-                //    lineLabels[i * dataSet.Columns + j].rectTransform.anchoredPosition = labelPos.position;
-                //}
+                labelPos = lineChart.GetLabelPosition(i, j);
+                if (labelPos != null)
+                {
+                    lineLabels[i * dataSet.Columns + j].gameObject.SetActive(true);
+                    lineLabels[i * dataSet.Columns + j].text = labelPos.value.ToString("0.00");
+                    lineLabels[i * dataSet.Columns + j].rectTransform.anchoredPosition = labelPos.position;
+                }
             }
         }
 
@@ -222,32 +193,32 @@ public class ChartManager : MonoBehaviour {
             }
         }
 
-        //positions = lineChart.GetAxisXPositions();
-        //if (positions != null)
-        //{
-        //    for (int i = 0; i < positions.Length; i++)
-        //    {
-        //        //lineXLabels[i].gameObject.SetActive(true);
-        //        lineXLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
-        //    }
-        //}
+        positions = lineChart.GetAxisXPositions();
+        if (positions != null)
+        {
+            for (int i = 0; i < positions.Length; i++)
+            {
+                lineXLabels[i].gameObject.SetActive(true);
+                lineXLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
+            }
+        }
 
-        //positions = lineChart.GetAxisYPositions();
-        //if (positions != null)
-        //{
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        if (positions.Length - 1 < i)
-        //        {
-        //            lineYLabels[i].gameObject.SetActive(false);
-        //        }
-        //        else
-        //        {
-        //            //lineYLabels[i].gameObject.SetActive(true);
-        //            lineYLabels[i].text = positions[i].value.ToString("0.0");
-        //            lineYLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
-        //        }
-        //    }
-        //}
+        positions = lineChart.GetAxisYPositions();
+        if (positions != null)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (positions.Length - 1 < i)
+                {
+                    lineYLabels[i].gameObject.SetActive(false);
+                }
+                else
+                {
+                    lineYLabels[i].gameObject.SetActive(true);
+                    lineYLabels[i].text = positions[i].value.ToString("0.0");
+                    lineYLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
+                }
+            }
+        }
     }
 }
