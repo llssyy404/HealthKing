@@ -13,6 +13,9 @@ public class ChartManager : MonoBehaviour {
     //line chart datas
     public LineChart lineChart;
 
+    //normalDistribution chart datas
+    public LineChart normalDistChart;
+
     //labels
     public GameObject labelBar;
     public GameObject labelLine;
@@ -21,6 +24,9 @@ public class ChartManager : MonoBehaviour {
 
     //2D Data set
     private ChartData2D dataSet;
+
+    //2D Data set
+    private ChartData2D nomalDataSet;
 
     private List<Text> barLabels = new List<Text>();
     private List<Text> barXLabels = new List<Text>();
@@ -36,6 +42,10 @@ public class ChartManager : MonoBehaviour {
     {
         lineChart.Thickness = 0.01f;
         lineChart.PointSize = 0.02f;
+        normalDistChart.Thickness = 0.01f;
+        normalDistChart.PointSize = 0.02f;
+        normalDistChart.Chart = LineChart.ChartType.CURVE;
+        normalDistChart.Point = LineChart.PointType.NONE;
 
         dataSet = new ChartData2D();
         dataSet[0, 0] = 10;
@@ -55,8 +65,18 @@ public class ChartManager : MonoBehaviour {
         dataSet[1, 6] = 50;
         dataSet[1, 7] = 42;
 
+        nomalDataSet = new ChartData2D();
+        nomalDataSet[0, 0] = 5;
+        nomalDataSet[0, 1] = 10;
+        nomalDataSet[0, 2] = 35;
+        nomalDataSet[0, 3] = 75;
+        nomalDataSet[0, 4] = 35;
+        nomalDataSet[0, 5] = 10;
+        nomalDataSet[0, 6] = 5;
+
         barChart.SetValues(ref dataSet);
         lineChart.SetValues(ref dataSet);
+        normalDistChart.SetValues(ref nomalDataSet);
 
         labelBar.SetActive(false);
         labelLine.SetActive(false);
