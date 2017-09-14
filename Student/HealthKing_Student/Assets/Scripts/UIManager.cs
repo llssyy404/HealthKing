@@ -642,7 +642,7 @@ public class UIManager : MonoBehaviour {
             Text text = button.GetComponentInChildren<Text>();
             text.text = listData[i].GetRecordDate();
             button.transform.SetParent(_dateContent.transform);
-            button.transform.Translate(new Vector3(0, -200.0f*i));
+            button.transform.Translate(new Vector3(0, -350.0f*i));
             _dateButtonList.Add(button);
         }
     }
@@ -661,7 +661,7 @@ public class UIManager : MonoBehaviour {
             Text text = button.GetComponentInChildren<Text>();
             text.text = pair.Key.GetCount().ToString() + "바퀴, 총 " + pair.Key.GetSumMeter().ToString() + "m";
             button.transform.SetParent(_meterContent.transform);
-            button.transform.Translate(new Vector3(0, -200.0f * count));
+            button.transform.Translate(new Vector3(0, -350.0f * count));
             _meterButtonList.Add(button);
             ++count;
         }
@@ -691,7 +691,8 @@ public class UIManager : MonoBehaviour {
                 return;
 
             System.DateTime time = System.DateTime.Parse("2017/09/08 " + temp[0] + ':' + temp[1] + ':' + temp[2]);
-            Debug.Log(time.ToString());
+            Debug.Log(time.Date);
+            Debug.Log(System.Convert.ToDateTime(time).ToString("yyyy-MM-dd"));
             _dataSet[0, i] = i * 10;
             _dataSet[1, i] = 30;
         }
