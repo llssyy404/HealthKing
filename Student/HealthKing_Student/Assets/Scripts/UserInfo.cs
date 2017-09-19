@@ -112,29 +112,29 @@ public class MissionInfo
     }
 }
 
-public class StudentData
+public class StudentInfo
 {
     private string id;          // 아이디
-    private string password;    // 패스워드
-    private string name;        // 이름
-    private string gender;      // 성별
+    private int schoolUnique;   // 학교번호
     private string schoolName;  // 학교이름
-    private string school;      // 초,중,고등학교
-    private string grade;       // 학년
-    private string classroomNumber; // 반
-    private string number;      // 번호
+    private string schoolGrade; // 초,중,고등학교
+    private short grade;        // 학년
+    private short classNum;     // 반
+    private short number;       // 번호
+    private string gender;      // 성별
+    private string name;        // 이름
 
-    public StudentData(string id, string password, string name, string gender, string schoolName, string school, string grade, string classroomNumber, string number)
+    public StudentInfo(string id, int schoolUnique, string schoolName, string schoolGrade, short grade, short classNum, short number, string gender, string name)
     {
         this.id = id;
-        this.password = password;
-        this.name = name;
-        this.gender = gender;
+        this.schoolUnique = schoolUnique;
         this.schoolName = schoolName;
-        this.school = school;
+        this.schoolGrade = schoolGrade;
         this.grade = grade;
-        this.classroomNumber = classroomNumber;
+        this.classNum = classNum;
         this.number = number;
+        this.gender = gender;
+        this.name = name;
     }
 
     public string GetId()
@@ -145,16 +145,6 @@ public class StudentData
     public void SetId(string id)
     {
         this.id = id;
-    }
-
-    public string GetPassword()
-    {
-        return password;
-    }
-
-    public void SetPassword(string password)
-    {
-        this.password = password;
     }
 
     public string GetName()
@@ -179,7 +169,7 @@ public class StudentData
 
     public string GetSchoolName()
     {
-        return school;
+        return schoolName;
     }
 
     public void SetSchoolName(string schoolName)
@@ -189,48 +179,48 @@ public class StudentData
 
     public string GetSchool()
     {
-        return school;
+        return schoolGrade;
     }
 
-    public void SetSchool(string school)
+    public void SetSchool(string schoolGrade)
     {
-        this.school = school;
+        this.schoolGrade = schoolGrade;
     }
 
-    public string GetGrade()
+    public short GetGrade()
     {
         return grade;
     }
 
-    public void SetGrade(string grade)
+    public void SetGrade(short grade)
     {
         this.grade = grade;
     }
 
-    public string GetClassroomNumber()
+    public short GetClassroomNumber()
     {
-        return classroomNumber;
+        return classNum;
     }
 
-    public void SetClassroomNumber(string classroomNumber)
+    public void SetClassroomNumber(short classroomNumber)
     {
-        this.classroomNumber = classroomNumber;
+        this.classNum = classroomNumber;
     }
 
-    public string GetNumber()
+    public short GetNumber()
     {
         return number;
     }
 
-    public void SetNumber(string number)
+    public void SetNumber(short number)
     {
         this.number = number;
     }
 
     public void Print()
     {
-        Debug.Log("id: " + id + " pw: " + password + " name: " + name + " gender: " + gender + " schoolName: " + schoolName +
-            " school: " + school + " grade: " + grade + " classroomNumber: " + classroomNumber + " number: " + number);
+        Debug.Log("id: " + id + " schoolUnique: " + schoolUnique.ToString() + " schoolName: " + schoolName +
+            ' ' + schoolGrade + " name: " + name + " gender: " + gender  + " grade: " + grade + " classNumber: " + classNum.ToString() + " number: " + number);
     }
 }
 
