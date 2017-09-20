@@ -5,17 +5,15 @@ $SchoolUnique = $_POST["SchoolUnique"];
 $Grade = $_POST["Grade"];
 $Gender = $_POST["Gender"];
 $RecordUnique = $_POST["RecordUnique"];
-$TotalMeter = $_POST["TotalMeter"];
-$TotalTrackCount = $_POST["TotalTrackCount"];
-$TotalElapsedTime = $_POST["TotalElapsedTime"];
+$Meter = $_POST["Meter"];
+$ElapsedTime = $_POST["ElapsedTime"];
 $result = mysqli_query($con, "SELECT 
-COUNT(IF(TotalElapsedTime < $TotalElapsedTime, 1, NULL)) AS LowRecordCount,
-COUNT(IF(TotalElapsedTime = $TotalElapsedTime AND RecordUnique <> $RecordUnique, 1, NULL)) AS SameRecordCount,
+COUNT(IF(ElapsedTime > $ElapsedTime, 1, NULL)) AS LowRecordCount,
+COUNT(IF(ElapsedTime = $ElapsedTime AND RecordUnique <> $RecordUnique, 1, NULL)) AS SameRecordCount,
 COUNT( RecordUnique ) AS TotalRecordCount
-FROM CARDIRECORD, STUDENT
-WHERE TotalMeter = $TotalMeter
-AND TotalTrackCount = $TotalTrackCount
-AND CARDIRECORD.StudentID = STUDENT.ID
+FROM AGILERECORD, STUDENT
+WHERE Meter = $Meter
+AND AGILERECORD.StudentID = STUDENT.ID
 AND STUDENT.SchoolUnique = $SchoolUnique
 AND STUDENT.Grade = $Grade
 AND STUDENT.Gender =  '$Gender'");
