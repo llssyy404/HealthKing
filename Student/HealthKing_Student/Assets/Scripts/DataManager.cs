@@ -78,6 +78,176 @@ public class DataManager
         return true;
     }
 
+    public bool GetCardiRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        WWW www = new WWW("http://came1230.cafe24.com/GetCardiRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetAgileRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        WWW www = new WWW("http://came1230.cafe24.com/GetAgileRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetMuscRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        WWW www = new WWW("http://came1230.cafe24.com/GetMuscRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetTrackRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("CardiRecordUnique", 1);
+        WWW www = new WWW("http://came1230.cafe24.com/GetTrackRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetCardiAvgRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        form.AddField("TotalMeter", 1000);
+        form.AddField("TotalTrackCount", 5);
+        WWW www = new WWW("http://came1230.cafe24.com/GetCardiAvgPerTrackRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetAgileAvgRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        form.AddField("Meter", 50);
+        WWW www = new WWW("http://came1230.cafe24.com/GetAgileAvgRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetMuscAvgRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        WWW www = new WWW("http://came1230.cafe24.com/GetMuscAvgRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetCardiNorDistRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        form.AddField("RecordUnique", 2);
+        form.AddField("TotalMeter", 1000);
+        form.AddField("TotalTrackCount", 5);
+        form.AddField("TotalElapsedTime", 400000);
+        WWW www = new WWW("http://came1230.cafe24.com/GetCardiNormalDistributionRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetAgileNorDistRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        form.AddField("RecordUnique", 2);
+        form.AddField("Meter", 50);
+        form.AddField("ElapsedTime", 8210);
+        WWW www = new WWW("http://came1230.cafe24.com/GetAgileNormalDistributionRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetMuscNorDistRecord()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("ID", "22");
+        form.AddField("RecordUnique", 1);
+        form.AddField("Count", 40);
+        WWW www = new WWW("http://came1230.cafe24.com/GetMuscNormalDistributionRecord.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool GetMission()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("SchoolUnique", 1);
+        form.AddField("Grade", 6);
+        WWW www = new WWW("http://came1230.cafe24.com/GetMission.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
+    public bool SetFinMissionOfStudent()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("MissionUnique", 1);
+        form.AddField("ID", "22");
+        WWW www = new WWW("http://came1230.cafe24.com/SetFinishedMissionOfStudent.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+
+        return true;
+    }
+
     public bool SetStudentInfo(string data)
     {
         try
