@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -128,5 +129,144 @@ public class MyRecordData
     public Dictionary<Key, List<StudentRecordData>> GetDicRecordData()
     {
         return _dicMyRecordData;
+    }
+}
+
+public class Record
+{
+    protected Int64 _recordUnique;
+    protected DateTime _dateTime;
+
+    public Int64 recordUnique
+    {
+        get { return _recordUnique; }
+        set { _recordUnique = value; }
+    }
+
+    public DateTime dateTime
+    {
+        get { return _dateTime; }
+        set { _dateTime = value; }
+    }
+
+    public Record() { }
+}
+
+public class CardiRecord : Record
+{
+    private int _totalMeter;
+    private int _totalTrackCount;
+    private int _totalElapsedTime;
+
+    public int totalMeter
+    {
+        get { return _totalMeter; }
+        set { _totalMeter = value; }
+    }
+
+    public int totalTrackCount
+    {
+        get { return _totalTrackCount; }
+        set { _totalTrackCount = value; }
+    }
+
+    public int totalElapsedTime
+    {
+        get { return _totalElapsedTime; }
+        set { _totalElapsedTime = value; }
+    }
+
+
+    public CardiRecord(Int64 recordUnique, DateTime dateTime, int totalMeter, int totalTrackCount, int totalElapsedTime)
+    {
+        _recordUnique = recordUnique;
+        _dateTime = dateTime;
+        _totalMeter = totalMeter;
+        _totalTrackCount = totalTrackCount;
+        _totalElapsedTime = totalElapsedTime;
+    }
+}
+
+public class AgileRecord : Record
+{
+    private int _meter;
+    private int _elapsedTime;
+
+    public int meter
+    {
+        get { return _meter; }
+        set { _meter = value; }
+    }
+
+    public int elapsedTime
+    {
+        get { return _elapsedTime; }
+        set { _elapsedTime = value; }
+    }
+
+    public AgileRecord(Int64 recordUnique, DateTime dateTime, int meter, int elapsedTime)
+    {
+        _recordUnique = recordUnique;
+        _dateTime = dateTime;
+        _meter = meter;
+        _elapsedTime = elapsedTime;
+    }
+}
+
+public class MuscRecord : Record
+{
+    private int _count;
+
+    public int count
+    {
+        get { return _count; }
+        set { _count = value; }
+    }
+
+    public MuscRecord(Int64 recordUnique, DateTime dateTime, int count)
+    {
+        _recordUnique = recordUnique;
+        _dateTime = dateTime;
+        _count = count;
+    }
+}
+
+public class TrackRecord
+{
+    private Int64 _trackRecordUnique;
+    private Int64 _cardiRecordUnique;
+    private int _trackIndex;
+    private int _elapsedTime;
+
+    public Int64 trackRecordUnique
+    {
+        get { return _trackRecordUnique; }
+        set { _trackRecordUnique = value; }
+    }
+    public Int64 cardiRecordUnique
+    {
+        get { return _cardiRecordUnique; }
+        set { _cardiRecordUnique = value; }
+    }
+
+    public int trackIndex
+    {
+        get { return _trackIndex; }
+        set { _trackIndex = value; }
+    }
+
+    public int elapsedTime
+    {
+        get { return _elapsedTime; }
+        set { _elapsedTime = value; }
+    }
+
+
+    public TrackRecord(Int64 trackRecordUnique, Int64 cardiRecordUnique, int trackIndex, int elapsedTime)
+    {
+        _trackRecordUnique = trackRecordUnique;
+        _cardiRecordUnique = cardiRecordUnique;
+        _trackIndex = trackIndex;
+        _elapsedTime = elapsedTime;
     }
 }

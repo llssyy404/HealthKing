@@ -114,113 +114,87 @@ public class MissionInfo
 
 public class StudentInfo
 {
-    private string id;          // 아이디
-    private int schoolUnique;   // 학교번호
-    private string schoolName;  // 학교이름
-    private string schoolGrade; // 초,중,고등학교
-    private short grade;        // 학년
-    private short classNum;     // 반
-    private short number;       // 번호
-    private string gender;      // 성별
-    private string name;        // 이름
+    private string _id;          // 아이디
+    private int _schoolUnique;   // 학교번호
+    private string _schoolName;  // 학교이름
+    private string _schoolGrade; // 초,중,고등학교
+    private short _grade;        // 학년
+    private short _classNum;     // 반
+    private short _number;       // 번호
+    private string _gender;      // 성별
+    private string _name;        // 이름
+
+    public string id
+    {
+        get { return _id; }
+        set { _id = value; }
+    }
+
+    public int schoolUnique
+    {
+        get { return _schoolUnique; }
+        set { _schoolUnique = value; }
+    }
+
+    public string schoolName
+    {
+        get { return _schoolName; }
+        set { _schoolName = value; }
+    }
+
+    public string schoolGrade
+    {
+        get { return _schoolGrade; }
+        set { _schoolGrade = value; }
+    }
+
+    public short grade
+    {
+        get { return _grade; }
+        set { _grade = value; }
+    }
+
+    public short classNum
+    {
+        get { return _classNum; }
+        set { _classNum = value; }
+    }
+
+    public short number
+    {
+        get { return _number; }
+        set { _number = value; }
+    }
+
+    public string gender
+    {
+        get { return _gender; }
+        set { _gender = value; }
+    }
+
+    public string name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
 
     public StudentInfo(string id, int schoolUnique, string schoolName, string schoolGrade, short grade, short classNum, short number, string gender, string name)
     {
-        this.id = id;
-        this.schoolUnique = schoolUnique;
-        this.schoolName = schoolName;
-        this.schoolGrade = schoolGrade;
-        this.grade = grade;
-        this.classNum = classNum;
-        this.number = number;
-        this.gender = gender;
-        this.name = name;
-    }
-
-    public string GetId()
-    {
-        return id;
-    }
-
-    public void SetId(string id)
-    {
-        this.id = id;
-    }
-
-    public string GetName()
-    {
-        return name;
-    }
-
-    public void SetName(string name)
-    {
-        this.name = name;
-    }
-
-    public string GetGender()
-    {
-        return gender;
-    }
-
-    public void SetGender(string gender)
-    {
-        this.gender = gender;
-    }
-
-    public string GetSchoolName()
-    {
-        return schoolName;
-    }
-
-    public void SetSchoolName(string schoolName)
-    {
-        this.schoolName = schoolName;
-    }
-
-    public string GetSchool()
-    {
-        return schoolGrade;
-    }
-
-    public void SetSchool(string schoolGrade)
-    {
-        this.schoolGrade = schoolGrade;
-    }
-
-    public short GetGrade()
-    {
-        return grade;
-    }
-
-    public void SetGrade(short grade)
-    {
-        this.grade = grade;
-    }
-
-    public short GetClassroomNumber()
-    {
-        return classNum;
-    }
-
-    public void SetClassroomNumber(short classroomNumber)
-    {
-        this.classNum = classroomNumber;
-    }
-
-    public short GetNumber()
-    {
-        return number;
-    }
-
-    public void SetNumber(short number)
-    {
-        this.number = number;
+        _id = id;
+        _schoolUnique = schoolUnique;
+        _schoolName = schoolName;
+        _schoolGrade = schoolGrade;
+        _grade = grade;
+        _classNum = classNum;
+        _number = number;
+        _gender = gender;
+        _name = name;
     }
 
     public void Print()
     {
-        Debug.Log("id: " + id + " schoolUnique: " + schoolUnique.ToString() + " schoolName: " + schoolName +
-            ' ' + schoolGrade + " name: " + name + " gender: " + gender  + " grade: " + grade + " classNumber: " + classNum.ToString() + " number: " + number);
+        Debug.Log("id: " + _id + " schoolUnique: " + _schoolUnique.ToString() + " schoolName: " + _schoolName +
+            ' ' + _schoolGrade + " name: " + _name + " gender: " + _gender + " grade: " + _grade + " classNumber: " + _classNum.ToString() + " number: " + _number);
     }
 }
 
