@@ -1,18 +1,16 @@
 <?php
 $con = mysqli_connect("localhost","came1230","Healthking1!","came1230");
 
-$SchoolUnique = $_POST["SchoolUnique"];
-$Grade = $_POST["Grade"];
-$Gender = $_POST["Gender"];
+$StudentID = $_POST["ID"];
 $TotalMeter = $_POST["TotalMeter"];
 $TotalTrackCount = $_POST["TotalTrackCount"];
 $result = mysqli_query($con, "SELECT TRACKRECORD.TrackIndex, AVG(TRACKRECORD.ElapsedTime) AS PerTrackElapsedTime
 FROM TRACKRECORD, CARDIRECORD, STUDENT 
 WHERE TRACKRECORD.CardiRecordUnique = CARDIRECORD.RecordUnique 
 AND CARDIRECORD.StudentID = STUDENT.ID
-AND STUDENT.SchoolUnique = $SchoolUnique
-AND STUDENT.Grade = $Grade
-AND STUDENT.Gender = '$Gender'
+AND STUDENT.SchoolUnique = (SELECT SchoolUnique FROM STUDENT WHERE ID = '$StudentID')
+AND STUDENT.Grade = (SELECT Grade FROM STUDENT WHERE ID = '$StudentID')
+AND STUDENT.Gender = (SELECT Gender FROM STUDENT WHERE ID = '$StudentID')
 AND CARDIRECORD.TotalMeter = $TotalMeter 
 AND CARDIRECORD.TotalTrackCount = $TotalTrackCount 
 GROUP BY TRACKRECORD.TrackIndex 

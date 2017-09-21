@@ -1,9 +1,7 @@
 <?php
 $con = mysqli_connect("localhost","came1230","Healthking1!","came1230");
 
-$SchoolUnique = $_POST["SchoolUnique"];
-$Grade = $_POST["Grade"];
-$Gender = $_POST["Gender"];
+$StudentID = $_POST["ID"];
 $RecordUnique = $_POST["RecordUnique"];
 $Count = $_POST["Count"];
 $result = mysqli_query($con, "SELECT 
@@ -12,9 +10,9 @@ COUNT(IF(Count = $Count AND RecordUnique <> $RecordUnique, 1, NULL)) AS SameReco
 COUNT( RecordUnique ) AS TotalRecordCount
 FROM MUSCRECORD, STUDENT
 WHERE MUSCRECORD.StudentID = STUDENT.ID
-AND STUDENT.SchoolUnique = $SchoolUnique
-AND STUDENT.Grade = $Grade
-AND STUDENT.Gender =  '$Gender'");
+AND STUDENT.SchoolUnique = (SELECT SchoolUnique FROM STUDENT WHERE ID = '$StudentID')
+AND STUDENT.Grade = (SELECT Grade FROM STUDENT WHERE ID = '$StudentID')
+AND STUDENT.Gender = (SELECT Gender FROM STUDENT WHERE ID = '$StudentID')");
 
 $response = array();
 
