@@ -17,10 +17,6 @@ enum PAGE_TYPE
     BMI,
     PAPS_RESULT,
     FITNESS_UP_TIP,
-    FITNESS_UP_TIP_C,
-    FITNESS_UP_TIP_M,
-    FITNESS_UP_TIP_A,
-    FITNESS_UP_TIP_B,
     MY_RECORD,
     MY_MISSION,
     RECORD_CARDI,
@@ -34,17 +30,11 @@ enum PAGE_TYPE
 
 enum URL_TYPE
 {
-    CARDI_ENDU_1,
-    CARDI_ENDU_2,
+    CARDI_ENDU,
     FLEXIBILITY,
-    MUSC_ENDU_1,
-    MUSC_ENDU_2,
-    MUSC_ENDU_3,
-    MUSC_ENDU_4,
-    AGILITY_1,
-    AGILITY_2,
-    BMI_1,
-    BMI_2,
+    MUSC_ENDU,
+    AGILITY,    // 순발력
+    QUCKNESS,   // 민첩성
     WARMING_UP,
     NOTICE_BOARD,
     MAX_URL_TYPE
@@ -116,10 +106,6 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject;
         _obj[(int)PAGE_TYPE.PAPS_RESULT] = GameObject.Find("Canvas").transform.Find("PAPSResult").gameObject;
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
-        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_C] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Cardi").gameObject;
-        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_M] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Mus").gameObject;
-        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_A] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_Agile").gameObject;
-        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP_B] = GameObject.Find("Canvas").transform.Find("FitnessUpTip_BMI").gameObject;
         _obj[(int)PAGE_TYPE.MY_RECORD] = GameObject.Find("Canvas").transform.Find("MyRecord").gameObject;
         _obj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
         _obj[(int)PAGE_TYPE.RECORD_CARDI] = GameObject.Find("Canvas").transform.Find("Record_Cardi").gameObject;
@@ -341,41 +327,23 @@ public class UIManager : MonoBehaviour {
     {
         switch((URL_TYPE)sel)
         {
-            case URL_TYPE.CARDI_ENDU_1:    // 오래달리기 자세
-                Application.OpenURL("https://youtu.be/dA5lJ4p1hL8");
+            case URL_TYPE.CARDI_ENDU:       // 심폐지구력
+                Application.OpenURL("https://www.youtube.com/playlist?list=PLVrMekaPceTrNqnsEVHQUhymcUoKECInN");
                 break;
-            case URL_TYPE.CARDI_ENDU_2:    // 오래달리기 호흡법
-                Application.OpenURL("https://youtu.be/tlTLmCZ6GsQ");
+            case URL_TYPE.FLEXIBILITY:      // 유연성
+                Application.OpenURL("https://www.youtube.com/playlist?list=PLVrMekaPceTrT6hIPPPNk2owGjk52fcD9");
                 break;
-            case URL_TYPE.FLEXIBILITY:     // 유연성
-                Application.OpenURL("https://youtu.be/mt_QKF-axdc");
+            case URL_TYPE.MUSC_ENDU:        // 근력근지구력
+                Application.OpenURL("https://www.youtube.com/playlist?list=PLVrMekaPceTrBFtg67BV5LurK8DoWfjXx");
                 break;
-            case URL_TYPE.MUSC_ENDU_1:     // 팔굽혀펴기
-                Application.OpenURL("https://youtu.be/jTG2Gqivtu0");
+            case URL_TYPE.AGILITY:          // 순발력
+                Application.OpenURL("https://www.youtube.com/playlist?list=PLVrMekaPceTqrsl0yeS0S2yf__-PFmq3x");
                 break;
-            case URL_TYPE.MUSC_ENDU_2:     // 철봉
-                Application.OpenURL("https://youtu.be/47SxMjjCr20");
-                break;
-            case URL_TYPE.MUSC_ENDU_3:     // 런지
-                Application.OpenURL("https://youtu.be/liO2ZbTrudI");
-                break;
-            case URL_TYPE.MUSC_ENDU_4:     // 플랭크
-                Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");
-                break;
-            case URL_TYPE.AGILITY_1:       // 제자리 높이뛰기
-                Application.OpenURL("https://youtu.be/MOfFtp9Xbn4");
-                break;
-            case URL_TYPE.AGILITY_2:       // 제자리 멀리뛰기
-                Application.OpenURL("https://youtu.be/qZAD2a0AhjI");
-                break;
-            case URL_TYPE.BMI_1:           // 플랭크
-                Application.OpenURL("https://youtu.be/5l9Jt_SEdD0");
-                break;
-            case URL_TYPE.BMI_2:           // 버핏
-                Application.OpenURL("https://youtu.be/7rowIMNUW9s");
+            case URL_TYPE.QUCKNESS:         // 민첩성
+                Application.OpenURL("https://www.youtube.com/playlist?list=PLVrMekaPceTp7lWrtcTUrMRkK4nSmp0TN");
                 break;
             case URL_TYPE.WARMING_UP:      // 준비운동
-                Application.OpenURL("https://youtu.be/Iybe05oOMGw");
+                Application.OpenURL("https://www.youtube.com/playlist?list=PLVrMekaPceToV4wJr1WXwjc8QkNhwPVFH");
                 break;
             case URL_TYPE.NOTICE_BOARD:      // 게시판
                 Application.OpenURL("https://cafe.naver.com/redu5tc5");
@@ -586,18 +554,6 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.FITNESS_UP_TIP:
                 OnClickStartBtn((int)PAGE_TYPE.MAIN);
                 break;
-            case PAGE_TYPE.FITNESS_UP_TIP_C:
-                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
-                break;
-            case PAGE_TYPE.FITNESS_UP_TIP_M:
-                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
-                break;
-            case PAGE_TYPE.FITNESS_UP_TIP_A:
-                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
-                break;
-            case PAGE_TYPE.FITNESS_UP_TIP_B:
-                OnClickStartBtn((int)PAGE_TYPE.FITNESS_UP_TIP);
-                break;
             case PAGE_TYPE.MY_RECORD:
                 OnClickStartBtn((int)PAGE_TYPE.MAIN);
                 break;
@@ -614,10 +570,10 @@ public class UIManager : MonoBehaviour {
                 OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
                 break;
             case PAGE_TYPE.RECORD_CARDI_LINE_GRAPH:
-                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH);
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
                 break;
             case PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB:
-                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH);
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
                 break;
             case PAGE_TYPE.RECORD_AGILE_MUSC_BAR_GRAPH:
                 OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI);   // 나중에 수정
