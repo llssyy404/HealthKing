@@ -8,7 +8,7 @@ $response = array();
 
 while ($row = mysqli_fetch_array($result))
 {
-	array_push($response, array("RecordUnique" =>$row[0], "StudentID" =>$row[1], "Date" =>$row[2], "TotalMeter"=>$row[3], "TotalTrackCount"=>$row[4], "TotalElapsedTime"=>$row[5]));
+	array_push($response, array("RecordUnique" =>$row[0], "Date" =>$row[2], "TotalMeter"=>$row[3], "TotalTrackCount"=>$row[4], "TotalElapsedTime"=>$row[5]));
 }
 
 echo json_encode(array("response" => $response), JSON_UNESCAPED_UNICODE);
