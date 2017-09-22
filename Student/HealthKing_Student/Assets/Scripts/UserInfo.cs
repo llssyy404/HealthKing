@@ -118,9 +118,9 @@ public class StudentInfo
     private int _schoolUnique;   // 학교번호
     private string _schoolName;  // 학교이름
     private string _schoolGrade; // 초,중,고등학교
-    private short _grade;        // 학년
-    private short _classNum;     // 반
-    private short _number;       // 번호
+    private byte _grade;        // 학년
+    private byte _classNum;     // 반
+    private byte _number;       // 번호
     private string _gender;      // 성별
     private string _name;        // 이름
 
@@ -148,19 +148,19 @@ public class StudentInfo
         set { _schoolGrade = value; }
     }
 
-    public short grade
+    public byte grade
     {
         get { return _grade; }
         set { _grade = value; }
     }
 
-    public short classNum
+    public byte classNum
     {
         get { return _classNum; }
         set { _classNum = value; }
     }
 
-    public short number
+    public byte number
     {
         get { return _number; }
         set { _number = value; }
@@ -178,7 +178,7 @@ public class StudentInfo
         set { _name = value; }
     }
 
-    public StudentInfo(string id, int schoolUnique, string schoolName, string schoolGrade, short grade, short classNum, short number, string gender, string name)
+    public StudentInfo(string id, int schoolUnique, string schoolName, string schoolGrade, byte grade, byte classNum, byte number, string gender, string name)
     {
         _id = id;
         _schoolUnique = schoolUnique;

@@ -308,9 +308,9 @@ public class DataManager
             int schoolUnique = System.Convert.ToInt32(jObject.GetString("SchoolUnique").Trim());
             string schoolName = jObject.GetString("SchoolName");
             string schoolGrade = jObject.GetString("SchoolGrade");
-            short grade = System.Convert.ToInt16(jObject.GetString("Grade").Trim());
-            short classNum = System.Convert.ToInt16(jObject.GetString("Class").Trim());
-            short number = System.Convert.ToInt16(jObject.GetString("Number").Trim());
+            byte grade = System.Convert.ToByte(jObject.GetString("Grade").Trim());
+            byte classNum = System.Convert.ToByte(jObject.GetString("Class").Trim());
+            byte number = System.Convert.ToByte(jObject.GetString("Number").Trim());
             string gender = jObject.GetString("Gender");
             string name = jObject.GetString("Name");
 
