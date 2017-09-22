@@ -93,7 +93,7 @@ public class DataManager
         GetCardiNorDistRecord();
         GetAgileNorDistRecord();
         GetMuscNorDistRecord();
-        //GetMission();
+        GetMission();
         //SetFinMissionOfStudent();
 
         if (!SetStudentInfo(www.text))
@@ -274,6 +274,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetMissionInfo(www.text))
+            return false;
 
         return true;
     }
@@ -629,6 +631,37 @@ public class DataManager
                 JSONObject jObject = jsonArray[i].Obj;
                 percentile = System.Convert.ToInt32(jObject.GetNumber("Percentile"));
                 Debug.Log(percentile);
+                ++i;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
+
+    public bool SetMissionInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            if (jsonArray.Length == 0)
+                return false;
+
+            Debug.Log(jsonArray.Length);
+
+            Int64 missionUnique;
+            string missionDesc;
+            int i = 0;
+            while (i < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[i].Obj;
+                missionUnique = System.Convert.ToInt64(jObject.GetString("MissionUnique"));
+                missionDesc = jObject.GetString("MissionDesc");
+                Debug.Log(missionUnique + " " + missionDesc);
                 ++i;
             }
         }
