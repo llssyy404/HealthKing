@@ -90,9 +90,9 @@ public class DataManager
         GetCardiAvgRecord();
         GetAgileAvgRecord();
         GetMuscAvgRecord();
-        //GetCardiNorDistRecord();
-        //GetAgileNorDistRecord();
-        //GetMuscNorDistRecord();
+        GetCardiNorDistRecord();
+        GetAgileNorDistRecord();
+        GetMuscNorDistRecord();
         //GetMission();
         //SetFinMissionOfStudent();
 
@@ -223,6 +223,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetNorDistRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -239,6 +241,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetNorDistRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -254,6 +258,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetNorDistRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -605,4 +611,32 @@ public class DataManager
         return true;
     }
 
+    public bool SetNorDistRecordInfo(string data)   // 정규분포 기준 학생의 퍼센트
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            if (jsonArray.Length == 0)
+                return false;
+
+            Debug.Log(jsonArray.Length);
+
+            double percentile = 0;
+            int i = 0;
+            while (i < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[i].Obj;
+                percentile = System.Convert.ToInt32(jObject.GetNumber("Percentile"));
+                Debug.Log(percentile);
+                ++i;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
 }
