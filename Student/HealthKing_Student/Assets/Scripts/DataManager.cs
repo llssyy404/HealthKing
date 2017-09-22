@@ -36,6 +36,12 @@ public class DataManager
         return _studentRecordDataList;
     }
 
+    public StudentInfo studentInfo
+    {
+        get { return _studentInfo; }
+        private set { _studentInfo = value; }
+    }
+
     public void Init()
     {
         _studentRecordDataList = new List<StudentRecordData>();

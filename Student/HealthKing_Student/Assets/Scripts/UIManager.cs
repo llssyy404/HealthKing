@@ -40,12 +40,20 @@ enum URL_TYPE
     MAX_URL_TYPE
 }
 
+enum STUDENT_INFO_TEXT
+{
+    SCHOOLNAME,
+    SCHOOLGRADE,
+    GRADE,
+    CLASS,
+    NUMBER,
+    NAME,
+    GENDER
+}
+
 public class UIManager : MonoBehaviour {
 
-    public List<InputField> _userInput;
-    public Dropdown _dropdownSchGrade;
-    public Toggle _toggleBoy;
-    public Toggle _toggleGirl;
+    public List<Text> _studentInput;
     public List<InputField> _cardiInput;
     public List<InputField> _agilityInput;
     public List<InputField> _muscInput;
@@ -148,48 +156,12 @@ public class UIManager : MonoBehaviour {
 
     void InitInput()
     {
-        InitUserInput();
         InitCardiInput();
         InitAgileInput();
         InitMuscInput();
         InitFlexibilityInput();
         InitBMIInput();
         InitMissionInput();
-    }
-
-    void InitUserInput()
-    {
-        _listString = AppManager.GetInstance().userInfo.GetInfo();
-        if (PlayerPrefs.HasKey("User_SchoolName"))
-            _userInput[0].text = _listString[0] = PlayerPrefs.GetString("User_SchoolName");
-        if (PlayerPrefs.HasKey("User_SchoolGrade"))
-        {
-            _dropdownSchGrade.value = System.Convert.ToInt32(PlayerPrefs.GetString("User_SchoolGrade").Trim()) - _SCH_GRADE_VALUE;
-            _listString[1] = PlayerPrefs.GetString("User_SchoolGrade");
-        }
-        if (PlayerPrefs.HasKey("User_ClassNum"))
-            _userInput[1].text = _listString[2] = PlayerPrefs.GetString("User_ClassNum");
-        if (PlayerPrefs.HasKey("User_Number"))
-            _userInput[2].text = _listString[3] = PlayerPrefs.GetString("User_Number");
-        if (PlayerPrefs.HasKey("User_Name"))
-            _userInput[3].text = _listString[4] = PlayerPrefs.GetString("User_Name");
-        if (PlayerPrefs.HasKey("User_Gender"))
-        {
-            if (PlayerPrefs.GetString("User_Gender") == "0")
-            {
-                _toggleBoy.isOn = true;
-                _toggleGirl.isOn = false;
-            }
-            else
-            {
-                _toggleBoy.isOn = false;
-                _toggleGirl.isOn = true;
-            }
-
-            _listString[5] = PlayerPrefs.GetString("User_Gender");
-        }
-        AppManager.GetInstance().SetUserInfo(_listString);
-        _listString.Clear();
     }
 
     void InitCardiInput()
@@ -395,16 +367,9 @@ public class UIManager : MonoBehaviour {
                         ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
                         return false;
                     }
+
+                    SetStudentInfo();
                     DataManager.GetInstance().GetStudentRecordData();
-                }
-                break;
-            case PAGE_TYPE.BASE_INFORM:
-                {
-                    if (!AppManager.GetInstance().SetUserInfo(_listString))
-                    {
-                        ShowMessageBox("모든 정보를 입력해주세요.");
-                        return false;
-                    }
                 }
                 break;
             case PAGE_TYPE.CARDI_ENDU:
@@ -582,6 +547,17 @@ public class UIManager : MonoBehaviour {
                 Debug.Log("Invalid PAGE_TYPE");
                 break;
         }
+    }
+
+    void SetStudentInfo()
+    {
+        _studentInput[(int)STUDENT_INFO_TEXT.SCHOOLNAME].text = DataManager.GetInstance().studentInfo.schoolName;
+        _studentInput[(int)STUDENT_INFO_TEXT.SCHOOLGRADE].text = DataManager.GetInstance().studentInfo.schoolGrade;
+        _studentInput[(int)STUDENT_INFO_TEXT.GRADE].text = DataManager.GetInstance().studentInfo.grade.ToString();
+        _studentInput[(int)STUDENT_INFO_TEXT.CLASS].text = DataManager.GetInstance().studentInfo.classNum.ToString();
+        _studentInput[(int)STUDENT_INFO_TEXT.NUMBER].text = DataManager.GetInstance().studentInfo.number.ToString();
+        _studentInput[(int)STUDENT_INFO_TEXT.NAME].text = DataManager.GetInstance().studentInfo.name;
+        _studentInput[(int)STUDENT_INFO_TEXT.GENDER].text = DataManager.GetInstance().studentInfo.gender;
     }
 
     private List<Button> _dateButtonList;
