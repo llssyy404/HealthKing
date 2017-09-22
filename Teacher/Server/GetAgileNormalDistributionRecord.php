@@ -20,7 +20,8 @@ $response = array();
 
 while ($row = mysqli_fetch_array($result))
 {
-	array_push($response, array("Percentile" =>100-($row[0]+$row[1]/2)/$row[2]*100 ));
+	$percentile = 100-($row[0]+$row[1]/2)/$row[2]*100;
+	array_push($response, array("Percentile" =>$percentile ));
 }
 
 echo json_encode(array("response" => $response), JSON_UNESCAPED_UNICODE);
