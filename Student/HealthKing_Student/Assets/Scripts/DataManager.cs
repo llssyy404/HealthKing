@@ -87,9 +87,9 @@ public class DataManager
         GetAgileRecord();
         GetMuscRecord();
         GetTrackRecord();
-        //GetCardiAvgRecord();
-        //GetAgileAvgRecord();
-        //GetMuscAvgRecord();
+        GetCardiAvgRecord();
+        GetAgileAvgRecord();
+        GetMuscAvgRecord();
         //GetCardiNorDistRecord();
         //GetAgileNorDistRecord();
         //GetMuscNorDistRecord();
@@ -173,6 +173,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetCardiAvgRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -187,6 +189,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetAgileAvgRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -200,6 +204,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetMuscAvgRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -374,18 +380,18 @@ public class DataManager
         {
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
-            Int64 recordUnique;
-            DateTime dateTime;
-            int totalMeter, totalTrackCount, totalElapsedTime;
-
-            int count = 0;
             if (jsonArray.Length == 0)
                 return false;
 
             Debug.Log(jsonArray.Length);
-            while (count < jsonArray.Length)
+
+            Int64 recordUnique;
+            DateTime dateTime;
+            int totalMeter, totalTrackCount, totalElapsedTime;
+            int i = 0;
+            while (i < jsonArray.Length)
             {
-                JSONObject jObject = jsonArray[count].Obj;
+                JSONObject jObject = jsonArray[i].Obj;
                 recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
                 dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
                 totalMeter = System.Convert.ToInt32(jObject.GetString("TotalMeter"));
@@ -395,7 +401,7 @@ public class DataManager
                 CardiRecord cardiRecord = new CardiRecord(recordUnique, dateTime, totalMeter, totalTrackCount, totalElapsedTime);
                 _cardiRecordList.Add(cardiRecord);
                 cardiRecord.Print();
-                ++count;
+                ++i;
             }
         }
         catch (Exception e)
@@ -412,18 +418,18 @@ public class DataManager
         {
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
-            Int64 recordUnique;
-            DateTime dateTime;
-            int meter, elapsedTime;
-
-            int count = 0;
             if (jsonArray.Length == 0)
                 return false;
 
             Debug.Log(jsonArray.Length);
-            while (count < jsonArray.Length)
+
+            Int64 recordUnique;
+            DateTime dateTime;
+            int meter, elapsedTime;
+            int i = 0;
+            while (i < jsonArray.Length)
             {
-                JSONObject jObject = jsonArray[count].Obj;
+                JSONObject jObject = jsonArray[i].Obj;
                 recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
                 dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
                 meter = System.Convert.ToInt32(jObject.GetString("Meter"));
@@ -432,7 +438,7 @@ public class DataManager
                 AgileRecord agileRecord = new AgileRecord(recordUnique, dateTime, meter, elapsedTime);
                 _agileRecordList.Add(agileRecord);
                 agileRecord.Print();
-                ++count;
+                ++i;
             }
         }
         catch (Exception e)
@@ -449,15 +455,15 @@ public class DataManager
         {
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
-            Int64 recordUnique;
-            DateTime dateTime;
-            int count;
-
-            int i = 0;
             if (jsonArray.Length == 0)
                 return false;
 
             Debug.Log(jsonArray.Length);
+
+            Int64 recordUnique;
+            DateTime dateTime;
+            int count;
+            int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
@@ -485,14 +491,14 @@ public class DataManager
         {
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
-            Int64 trackRecordUnique, cardiRecordUnique;
-            int trackIndex, elapsedTime;
-
-            int i = 0;
             if (jsonArray.Length == 0)
                 return false;
 
             Debug.Log(jsonArray.Length);
+
+            Int64 trackRecordUnique, cardiRecordUnique;
+            int trackIndex, elapsedTime;
+            int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
@@ -514,4 +520,89 @@ public class DataManager
 
         return true;
     }
+
+    public bool SetCardiAvgRecordInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            if (jsonArray.Length == 0)
+                return false;
+
+            Debug.Log(jsonArray.Length);
+
+            int trackIndex, perTrackElapsedTime;
+            int i = 0;
+            while (i < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[i].Obj;
+                trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
+                perTrackElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("PerTrackElapsedTime"));
+                Debug.Log(trackIndex + " " + perTrackElapsedTime);
+                ++i;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
+
+    public bool SetAgileAvgRecordInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            if (jsonArray.Length == 0)
+                return false;
+
+            int avgElapsedTime;
+            int i = 0;
+            while (i < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[i].Obj;
+                avgElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("AvgElapsedTime"));
+                Debug.Log(avgElapsedTime);
+                ++i;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
+
+    public bool SetMuscAvgRecordInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            if (jsonArray.Length == 0)
+                return false;
+
+            int avgCount;
+            int i = 0;
+            while (i < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[i].Obj;
+                avgCount = (int)System.Convert.ToDouble(jObject.GetString("AvgCount"));
+                Debug.Log(avgCount);
+                ++i;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
+
 }
