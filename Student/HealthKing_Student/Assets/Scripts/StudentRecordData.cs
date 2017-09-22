@@ -185,6 +185,11 @@ public class CardiRecord : Record
         _totalTrackCount = totalTrackCount;
         _totalElapsedTime = totalElapsedTime;
     }
+
+    public void Print()
+    {
+        Debug.Log(_recordUnique + " " + _dateTime + " " + _totalMeter + " " + _totalTrackCount + " " + _totalElapsedTime);
+    }
 }
 
 public class AgileRecord : Record
@@ -211,6 +216,11 @@ public class AgileRecord : Record
         _meter = meter;
         _elapsedTime = elapsedTime;
     }
+
+    public void Print()
+    {
+        Debug.Log(_recordUnique + " " + _dateTime + " " + _meter + " " + _elapsedTime);
+    }
 }
 
 public class MuscRecord : Record
@@ -229,6 +239,11 @@ public class MuscRecord : Record
         _dateTime = dateTime;
         _count = count;
     }
+
+    public void Print()
+    {
+        Debug.Log(_recordUnique + " " + _dateTime + " " + _count);
+    }
 }
 
 public class TrackRecord
@@ -243,6 +258,7 @@ public class TrackRecord
         get { return _trackRecordUnique; }
         set { _trackRecordUnique = value; }
     }
+
     public Int64 cardiRecordUnique
     {
         get { return _cardiRecordUnique; }
@@ -268,5 +284,10 @@ public class TrackRecord
         _cardiRecordUnique = cardiRecordUnique;
         _trackIndex = trackIndex;
         _elapsedTime = elapsedTime;
+    }
+
+    public void Print()
+    {
+        Debug.Log(_trackRecordUnique + " " + _cardiRecordUnique + " " + _trackIndex + " " + _elapsedTime);
     }
 }

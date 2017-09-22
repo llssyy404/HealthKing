@@ -10,6 +10,11 @@ public class DataManager
     private StudentInfo _studentInfo;
     private List<StudentRecordData> _studentRecordDataList; // 서버에서 가져온 모든 레코드 데이터 리스트
     private MyRecordData _myRecordData;
+
+    private List<CardiRecord> _cardiRecordList;
+    private List<AgileRecord> _agileRecordList;
+    private List<MuscRecord> _muscRecordList;
+    private List<TrackRecord> _trackRecordList;
     static private DataManager _instance;
     static public DataManager GetInstance()
     {
@@ -35,6 +40,11 @@ public class DataManager
     {
         _studentRecordDataList = new List<StudentRecordData>();
         _myRecordData = new MyRecordData();
+        _cardiRecordList = new List<CardiRecord>();
+        _agileRecordList = new List<AgileRecord>();
+        _muscRecordList = new List<MuscRecord>();
+        _trackRecordList = new List<TrackRecord>();
+
         //string url = "http://came1230.cafe24.com/GetAllUserList.php";
         //WWW webSite = new WWW(url);
         //while (!webSite.isDone)
@@ -72,6 +82,20 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+
+        GetCardiRecord();
+        GetAgileRecord();
+        GetMuscRecord();
+        GetTrackRecord();
+        //GetCardiAvgRecord();
+        //GetAgileAvgRecord();
+        //GetMuscAvgRecord();
+        //GetCardiNorDistRecord();
+        //GetAgileNorDistRecord();
+        //GetMuscNorDistRecord();
+        //GetMission();
+        //SetFinMissionOfStudent();
+
         if (!SetStudentInfo(www.text))
             return false;
 
@@ -87,6 +111,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetCardiRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -100,6 +126,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetAgileRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -113,6 +141,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetMuscRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -126,6 +156,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetTrackRecordInfo(www.text))
+            return false;
 
         return true;
     }
@@ -336,4 +368,150 @@ public class DataManager
         return true;
     }
 
+    public bool SetCardiRecordInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            Int64 recordUnique;
+            DateTime dateTime;
+            int totalMeter, totalTrackCount, totalElapsedTime;
+
+            int count = 0;
+            if (jsonArray.Length == 0)
+                return false;
+
+            Debug.Log(jsonArray.Length);
+            while (count < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[count].Obj;
+                recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
+                dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
+                totalMeter = System.Convert.ToInt32(jObject.GetString("TotalMeter"));
+                totalTrackCount = System.Convert.ToInt32(jObject.GetString("TotalTrackCount"));
+                totalElapsedTime = System.Convert.ToInt32(jObject.GetString("TotalElapsedTime"));
+
+                CardiRecord cardiRecord = new CardiRecord(recordUnique, dateTime, totalMeter, totalTrackCount, totalElapsedTime);
+                _cardiRecordList.Add(cardiRecord);
+                cardiRecord.Print();
+                ++count;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
+
+    public bool SetAgileRecordInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            Int64 recordUnique;
+            DateTime dateTime;
+            int meter, elapsedTime;
+
+            int count = 0;
+            if (jsonArray.Length == 0)
+                return false;
+
+            Debug.Log(jsonArray.Length);
+            while (count < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[count].Obj;
+                recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
+                dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
+                meter = System.Convert.ToInt32(jObject.GetString("Meter"));
+                elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
+
+                AgileRecord agileRecord = new AgileRecord(recordUnique, dateTime, meter, elapsedTime);
+                _agileRecordList.Add(agileRecord);
+                agileRecord.Print();
+                ++count;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
+
+    public bool SetMuscRecordInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            Int64 recordUnique;
+            DateTime dateTime;
+            int count;
+
+            int i = 0;
+            if (jsonArray.Length == 0)
+                return false;
+
+            Debug.Log(jsonArray.Length);
+            while (i < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[i].Obj;
+                recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
+                dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
+                count = System.Convert.ToInt32(jObject.GetString("Count"));
+
+                MuscRecord muscRecord = new MuscRecord(recordUnique, dateTime, count);
+                _muscRecordList.Add(muscRecord);
+                muscRecord.Print();
+                ++i;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
+
+    public bool SetTrackRecordInfo(string data)
+    {
+        try
+        {
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONArray jsonArray = jsonObject.GetArray("response");
+            Int64 trackRecordUnique, cardiRecordUnique;
+            int trackIndex, elapsedTime;
+
+            int i = 0;
+            if (jsonArray.Length == 0)
+                return false;
+
+            Debug.Log(jsonArray.Length);
+            while (i < jsonArray.Length)
+            {
+                JSONObject jObject = jsonArray[i].Obj;
+                trackRecordUnique = System.Convert.ToInt64(jObject.GetString("TrackRecordUnique"));
+                cardiRecordUnique = System.Convert.ToInt64(jObject.GetString("CardiRecordUnique"));
+                trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
+                elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
+
+                TrackRecord trackRecord = new TrackRecord(trackRecordUnique, cardiRecordUnique, trackIndex, elapsedTime);
+                _trackRecordList.Add(trackRecord);
+                trackRecord.Print();
+                ++i;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return true;
+    }
 }
