@@ -88,6 +88,8 @@ public class DataManager
             continue;
 
         Debug.Log(www.text);
+        if (!SetStudentInfo(www.text))
+            return false;
 
         GetCardiRecord();
         GetAgileRecord();
@@ -102,16 +104,13 @@ public class DataManager
         GetMission();
         //SetFinMissionOfStudent();
 
-        if (!SetStudentInfo(www.text))
-            return false;
-
         return true;
     }
 
     public bool GetCardiRecord()
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
+        form.AddField("ID", _studentInfo.id);
         WWW www = new WWW("http://came1230.cafe24.com/GetCardiRecord.php", form);
         while (!www.isDone)
             continue;
@@ -126,7 +125,7 @@ public class DataManager
     public bool GetAgileRecord()
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
+        form.AddField("ID", _studentInfo.id);
         WWW www = new WWW("http://came1230.cafe24.com/GetAgileRecord.php", form);
         while (!www.isDone)
             continue;
@@ -141,7 +140,7 @@ public class DataManager
     public bool GetMuscRecord()
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
+        form.AddField("ID", _studentInfo.id);
         WWW www = new WWW("http://came1230.cafe24.com/GetMuscRecord.php", form);
         while (!www.isDone)
             continue;
