@@ -42,6 +42,24 @@ public class DataManager
         private set { _studentInfo = value; }
     }
 
+    public List<CardiRecord> cardiRecordList
+    {
+        get { return _cardiRecordList; }
+        private set { _cardiRecordList = value; }
+    }
+
+    public List<AgileRecord> agileRecordList
+    {
+        get { return _agileRecordList; }
+        private set { _agileRecordList = value; }
+    }
+
+    public List<MuscRecord> muscRecordList
+    {
+        get { return _muscRecordList; }
+        private set { _muscRecordList = value; }
+    }
+
     public void Init()
     {
         _studentRecordDataList = new List<StudentRecordData>();

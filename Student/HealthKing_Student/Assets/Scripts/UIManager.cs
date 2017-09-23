@@ -563,31 +563,37 @@ public class UIManager : MonoBehaviour {
     private List<Button> _dateButtonList;
     void CreateDateButton()
     {
-        Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
-        List<StudentRecordData> listData = myRecordData[testKey];
-        if (_dateButtonList.Count == listData.Count)
-            return;
+        //Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
+        //List<StudentRecordData> listData = myRecordData[testKey];
+        //if (_dateButtonList.Count == listData.Count)
+        //    return;
 
-        for (int i = 0; i < listData.Count; ++i)
-        {
-            Button button = Instantiate(_dateButton, _dateButton.transform);
-            Text text = button.GetComponentInChildren<Text>();
-            text.text = listData[i].GetRecordDate();
-            button.transform.SetParent(_dateContent.transform);
-            button.transform.Translate(new Vector3(0, -350.0f*i));
-            _dateButtonList.Add(button);
-        }
+        //for (int i = 0; i < listData.Count; ++i)
+        //{
+        //    Button button = Instantiate(_dateButton, _dateButton.transform);
+        //    Text text = button.GetComponentInChildren<Text>();
+        //    text.text = listData[i].GetRecordDate();
+        //    button.transform.SetParent(_dateContent.transform);
+        //    button.transform.Translate(new Vector3(0, -350.0f*i));
+        //    _dateButtonList.Add(button);
+        //}
+
     }
 
     private List<Button> _meterButtonList;
     void CreateMeterButton()
     {
-        Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
-        if (_meterButtonList.Count == myRecordData.Count)
-            return;
+        Dictionary<Key, int> dic = new Dictionary<Key, int>();
+        List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
+        for(int i = 0; i < list.Count; ++i)
+        {
+            Key key = new Key(list[i].totalTrackCount, list[i].totalMeter);
+            if (!dic.ContainsKey(key))
+                dic.Add(key, list[i].totalMeter);
+        }
 
         int count = 0;
-        foreach (KeyValuePair<Key, List<StudentRecordData>> pair in myRecordData)
+        foreach (KeyValuePair<Key, int> pair in dic)
         {
             Button button = Instantiate(_meterButton, _meterButton.transform);
             Text text = button.GetComponentInChildren<Text>();
