@@ -435,7 +435,7 @@ public class UIManager : MonoBehaviour {
                 CreateMeterButton();
                 break;
             case PAGE_TYPE.RECORD_CARDI_DATE:
-                CreateDateButton();
+                //CreateDateButton();
                 break;
             case PAGE_TYPE.RECORD_CARDI_BAR_GRAPH:
                 SetBarGraphData();
@@ -561,28 +561,43 @@ public class UIManager : MonoBehaviour {
     }
 
     private List<Button> _dateButtonList;
-    void CreateDateButton()
+    void CreateDateButton(int count, int meter)
     {
-        //Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
-        //List<StudentRecordData> listData = myRecordData[testKey];
-        //if (_dateButtonList.Count == listData.Count)
-        //    return;
+        foreach (var btn in _dateButtonList)
+        {
+            Destroy(btn);
+        }
+        _dateButtonList.Clear();
 
-        //for (int i = 0; i < listData.Count; ++i)
-        //{
-        //    Button button = Instantiate(_dateButton, _dateButton.transform);
-        //    Text text = button.GetComponentInChildren<Text>();
-        //    text.text = listData[i].GetRecordDate();
-        //    button.transform.SetParent(_dateContent.transform);
-        //    button.transform.Translate(new Vector3(0, -350.0f*i));
-        //    _dateButtonList.Add(button);
-        //}
+        List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
+        for (int i = 0; i < list.Count; ++i)
+        {
+            if (list[i].totalTrackCount != count || list[i].totalMeter != meter)
+                continue;
+
+            Button button = Instantiate(_dateButton, _dateButton.transform);
+            Text text = button.GetComponentInChildren<Text>();
+            text.text = list[i].dateTime.ToString();
+            //System.Convert.ToDateTime(time).ToString("yyyy-MM-dd")
+            button.transform.SetParent(_dateContent.transform);
+            button.transform.Translate(new Vector3(0, -350.0f * i));
+            _dateButtonList.Add(button);
+        }
 
     }
 
     private List<Button> _meterButtonList;
     void CreateMeterButton()
     {
+        foreach(var btn in _meterButtonList)
+        {
+            Destroy(btn);
+        }
+
+        _meterButtonList.Clear();
+
+        Debug.Log(_meterButtonList.Count);
+
         Dictionary<Key, int> dic = new Dictionary<Key, int>();
         List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
         for(int i = 0; i < list.Count; ++i)
@@ -601,8 +616,29 @@ public class UIManager : MonoBehaviour {
             button.transform.SetParent(_meterContent.transform);
             button.transform.Translate(new Vector3(0, -350.0f * count));
             _meterButtonList.Add(button);
+            button.onClick.AddListener(
+                ()=> {
+                    CreateDateButton(pair.Key.GetCount(), pair.Key.GetSumMeter());
+                });
             ++count;
         }
+
+        for(int i = 0; i < 10; ++i)
+        {
+            Button button = Instantiate(_meterButton, _meterButton.transform);
+            Text text = button.GetComponentInChildren<Text>();
+            text.text = i + "바퀴, 총 " + i + "m";
+            button.transform.SetParent(_meterContent.transform);
+            button.transform.Translate(new Vector3(0, -350.0f * i));
+            _meterButtonList.Add(button);
+        }
+
+        Debug.Log(_meterButtonList.Count);
+    }
+
+    void HaHa(int count, int meter)
+    {
+        Debug.Log(count+"눌렸당"+meter);
     }
 
     void SetBarGraphData()
