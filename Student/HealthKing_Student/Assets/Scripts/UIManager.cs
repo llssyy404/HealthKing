@@ -632,7 +632,10 @@ public class UIManager : MonoBehaviour {
                     if (!DataManager.GetInstance().GetTrackRecord((int)cardiRecordUnique))
                         return;
 
-                    ChartManager.GetInstance().SetA();
+                    if (!DataManager.GetInstance().GetCardiAvgRecord(meter, count))
+                        return;
+
+                        ChartManager.GetInstance().SetCardiTrackRecordBarAndLineGraph();
                 });
             _dateButtonList.Add(button);
         }
@@ -668,6 +671,7 @@ public class UIManager : MonoBehaviour {
             text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].elapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
+            int elapsedTime = list[i].elapsedTime;
             button.onClick.AddListener(
                 () =>
                 {
@@ -821,10 +825,6 @@ public class UIManager : MonoBehaviour {
         //}
         //_barChart.SetValues(ref _dataSet);
 
-        if (!DataManager.GetInstance().GetTrackRecord((int)cardiRecordUnique))
-            return;
-
-        ChartManager.GetInstance().SetA();
     }
 
     private List<GameObject> _schoolMissionObjList;

@@ -5,15 +5,12 @@ using UnityEngine.UI;
 
 using CP.ProChart;
 
-public class ChartManager : MonoBehaviour {
+public class ChartManager : MonoBehaviour
+{
 
     static private ChartManager _instance;
     static public ChartManager GetInstance()
     {
-        if (_instance == null)
-        {
-            _instance = new ChartManager();
-        }
         return _instance;
     }
 
@@ -34,11 +31,6 @@ public class ChartManager : MonoBehaviour {
 
     //2D Data set
     private ChartData2D _dataSet = new ChartData2D();
-    public ChartData2D dataSet
-    {
-        get { return _dataSet; }
-        set { _dataSet = value; }
-    }
 
     //2D Data set
     private ChartData2D _nomalDataSet;
@@ -55,6 +47,7 @@ public class ChartManager : MonoBehaviour {
     ///</summary>
     void OnEnable()
     {
+        _instance = this;
         _lineChart.Thickness = 0.01f;
         _lineChart.PointSize = 0.02f;
         _normalDistChart.Thickness = 0.01f;
@@ -100,17 +93,17 @@ public class ChartManager : MonoBehaviour {
         _barLabels.Clear();
         _lineLabels.Clear();
 
-        for (int i = 0; i < dataSet.Rows; i++)
+        for (int i = 0; i < _dataSet.Rows; i++)
         {
-            for (int j = 0; j < dataSet.Columns; j++)
+            for (int j = 0; j < _dataSet.Columns; j++)
             {
-                GameObject obj = (GameObject)Instantiate(_labelBar);
+                GameObject obj = Instantiate(_labelBar);
                 obj.name = "Label" + i + "_" + j;
                 obj.transform.SetParent(_barChart.transform, false);
                 Text t = obj.GetComponentInChildren<Text>();
                 _barLabels.Add(t);
 
-                obj = (GameObject)Instantiate(_labelLine);
+                obj = Instantiate(_labelLine);
                 obj.name = "Label" + i + "_" + j;
                 obj.transform.SetParent(_lineChart.transform, false);
                 t = obj.GetComponent<Text>();
@@ -123,14 +116,14 @@ public class ChartManager : MonoBehaviour {
 
         for (int i = 0; i < _dataSet.Columns; i++)
         {
-            GameObject obj = (GameObject)Instantiate(_axisXLabel);
+            GameObject obj = Instantiate(_axisXLabel);
             obj.name = "Label" + i;
             obj.transform.SetParent(_barChart.transform, false);
             Text t = obj.GetComponent<Text>();
-            t.text = (i+1) + "바퀴";
+            t.text = (i + 1) + "바퀴";
             _barXLabels.Add(t);
 
-            obj = (GameObject)Instantiate(_axisXLabel);
+            obj = Instantiate(_axisXLabel);
             obj.name = "Label" + i;
             obj.transform.SetParent(_lineChart.transform, false);
             t = obj.GetComponent<Text>();
@@ -143,14 +136,14 @@ public class ChartManager : MonoBehaviour {
 
         for (int i = 0; i < _dataSet.Columns; i++)
         {
-            GameObject obj = (GameObject)Instantiate(_axisYLabel);
+            GameObject obj = Instantiate(_axisYLabel);
             obj.name = "Label" + i;
             obj.transform.SetParent(_barChart.transform, false);
             Text t = obj.GetComponent<Text>();
             t.text = t.gameObject.name;
             _barYLabels.Add(t);
 
-            obj = (GameObject)Instantiate(_axisYLabel);
+            obj = Instantiate(_axisYLabel);
             obj.name = "Label" + i;
             obj.transform.SetParent(_lineChart.transform, false);
             t = obj.GetComponent<Text>();
@@ -255,26 +248,28 @@ public class ChartManager : MonoBehaviour {
             }
         }
     }
-    
-    public void SetA()
+
+    public void SetCardiTrackRecordBarAndLineGraph()
     {
         List<TrackRecord> trackRecord = DataManager.GetInstance().trackRecordList;
-        _dataSet.Resize(1, trackRecord.Count);
+        List<int> avgTrackRecordList = DataManager.GetInstance().avgTrackRecordList;
+        if (trackRecord.Count != avgTrackRecordList.Count)
+        {
+            Debug.Log("trackRecord.Count != dicAvgTrackRecord.Count");
+            return;
+        }
+
+        _dataSet.Clear();
+        _dataSet = new ChartData2D();
         for (int i = 0; i < trackRecord.Count; ++i)
         {
             _dataSet[0, i] = trackRecord[i].elapsedTime;
-            _dataSet[1, i] = trackRecord[i].elapsedTime;
+            _dataSet[1, i] = avgTrackRecordList[i];
         }
-        //_barChart.Dirty = true;
-        //_barChart.SetValues(ref _dataSet);
-        //_lineChart.SetValues(ref _dataSet);
+        _barChart.SetValues(ref _dataSet);
+        _lineChart.SetValues(ref _dataSet);
 
-        _labelBar.SetActive(false);
-        _labelLine.SetActive(false);
-        _axisXLabel.SetActive(false);
-        _axisYLabel.SetActive(false);
-
-        for(int i =0; i < _barLabels.Count; ++i)
+        for (int i = 0; i < _barLabels.Count; ++i)
         {
             Destroy(_barLabels[i]);
         }
@@ -285,9 +280,9 @@ public class ChartManager : MonoBehaviour {
         }
         _lineLabels.Clear();
 
-        for (int i = 0; i < dataSet.Rows; i++)
+        for (int i = 0; i < _dataSet.Rows; i++)
         {
-            for (int j = 0; j < dataSet.Columns; j++)
+            for (int j = 0; j < _dataSet.Columns; j++)
             {
                 GameObject obj = Instantiate(_labelBar);
                 obj.name = "Label" + i + "_" + j;
@@ -358,6 +353,6 @@ public class ChartManager : MonoBehaviour {
             t.text = t.gameObject.name;
             _lineYLabels.Add(t);
         }
-
     }
+
 }

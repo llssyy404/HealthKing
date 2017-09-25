@@ -16,6 +16,11 @@ public class DataManager
     private List<MuscRecord> _muscRecordList;
     private List<TrackRecord> _trackRecordList;
     private List<SchoolMission> _schoolMissionList;
+    private List<int> _avgTrackRecordList;
+    private int _avgAgileRecord;
+    private int _avgMuscRecord;
+    private double _normalDistMyPercent;
+
     static private DataManager _instance;
     static public DataManager GetInstance()
     {
@@ -73,6 +78,30 @@ public class DataManager
         private set { _schoolMissionList = value; }
     }
 
+    public List<int> avgTrackRecordList
+    {
+        get { return _avgTrackRecordList; }
+        private set { _avgTrackRecordList = value; }
+    }
+
+    public int avgAgileRecord
+    {
+        get { return _avgAgileRecord; }
+        private set { _avgAgileRecord = value; }
+    }
+
+    public int avgMuscRecord
+    {
+        get { return _avgMuscRecord; }
+        private set { _avgMuscRecord = value; }
+    }
+
+    public double normalDistMyPercent
+    {
+        get { return _normalDistMyPercent; }
+        private set { _normalDistMyPercent = value; }
+    }
+
     public void Init()
     {
         _studentRecordDataList = new List<StudentRecordData>();
@@ -82,6 +111,7 @@ public class DataManager
         _muscRecordList = new List<MuscRecord>();
         _trackRecordList = new List<TrackRecord>();
         _schoolMissionList = new List<SchoolMission>();
+        _avgTrackRecordList = new List<int>();
 
         //string url = "http://came1230.cafe24.com/GetAllUserList.php";
         //WWW webSite = new WWW(url);
@@ -538,6 +568,7 @@ public class DataManager
 
     public bool SetTrackRecordInfo(string data)
     {
+        _trackRecordList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
@@ -573,6 +604,7 @@ public class DataManager
 
     public bool SetCardiAvgRecordInfo(string data)
     {
+        _avgTrackRecordList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
@@ -587,6 +619,7 @@ public class DataManager
                 JSONObject jObject = jsonArray[i].Obj;
                 trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
                 perTrackElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("PerTrackElapsedTime"));
+                _avgTrackRecordList.Add(perTrackElapsedTime);
                 Debug.Log(trackIndex + " " + perTrackElapsedTime);
                 ++i;
             }
@@ -610,14 +643,10 @@ public class DataManager
                 return false;
 
             int avgElapsedTime;
-            int i = 0;
-            while (i < jsonArray.Length)
-            {
-                JSONObject jObject = jsonArray[i].Obj;
-                avgElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("AvgElapsedTime"));
-                Debug.Log(avgElapsedTime);
-                ++i;
-            }
+            JSONObject jObject = jsonArray[0].Obj;
+            avgElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("AvgElapsedTime"));
+            _avgAgileRecord = avgElapsedTime;
+            Debug.Log(avgElapsedTime);
         }
         catch (Exception e)
         {
@@ -638,14 +667,10 @@ public class DataManager
                 return false;
 
             int avgCount;
-            int i = 0;
-            while (i < jsonArray.Length)
-            {
-                JSONObject jObject = jsonArray[i].Obj;
-                avgCount = (int)System.Convert.ToDouble(jObject.GetString("AvgCount"));
-                Debug.Log(avgCount);
-                ++i;
-            }
+            JSONObject jObject = jsonArray[0].Obj;
+            avgCount = (int)System.Convert.ToDouble(jObject.GetString("AvgCount"));
+            _avgMuscRecord = avgCount;
+            Debug.Log(avgCount);
         }
         catch (Exception e)
         {
@@ -666,14 +691,9 @@ public class DataManager
                 return false;
 
             double percentile = 0;
-            int i = 0;
-            while (i < jsonArray.Length)
-            {
-                JSONObject jObject = jsonArray[i].Obj;
-                percentile = System.Convert.ToInt32(jObject.GetNumber("Percentile"));
-                Debug.Log(percentile);
-                ++i;
-            }
+            JSONObject jObject = jsonArray[0].Obj;
+            percentile = jObject.GetNumber("Percentile");
+            Debug.Log(percentile);
         }
         catch (Exception e)
         {

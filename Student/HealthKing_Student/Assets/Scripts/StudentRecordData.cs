@@ -277,7 +277,6 @@ public class TrackRecord
         set { _elapsedTime = value; }
     }
 
-
     public TrackRecord(Int64 trackRecordUnique, Int64 cardiRecordUnique, int trackIndex, int elapsedTime)
     {
         _trackRecordUnique = trackRecordUnique;
