@@ -392,6 +392,15 @@ public class UIManager : MonoBehaviour {
                     SetStudentInfo();
                 }
                 break;
+            case PAGE_TYPE.PAPS:
+                {
+                    if(DataManager.GetInstance().studentInfo.schoolGrade == "초등학교" && DataManager.GetInstance().studentInfo.grade <= 3)
+                    {
+                        ShowMessageBox("PAPS 조회는 초등학교 4학년부터 가능합니다.");
+                        return false;
+                    }
+                }
+                break;
             case PAGE_TYPE.CARDI_ENDU:
                 AppManager.GetInstance().SetCardiovascularEnduranceInfo(_listString);
                 break;
@@ -467,10 +476,10 @@ public class UIManager : MonoBehaviour {
 
     void PAPSUISetting()
     {
-        List<string> info = AppManager.GetInstance().userInfo.GetInfo();
+        StudentInfo studentInfo = DataManager.GetInstance().studentInfo;
         GameObject obj = GameObject.Find("UserInform");
-        string gender = info[5] == "0" ? "남" : "여";
-        obj.GetComponent<Text>().text = info[0] + "초등학교 " + info[1] + "학년 " + info[2] + "반 " + info[4] + "(" + gender + ")";
+        obj.GetComponent<Text>().text = studentInfo.schoolName + " " +studentInfo.schoolGrade + " " + studentInfo.grade + "학년 " 
+            + studentInfo.classNum + "반 " + studentInfo.number + "번 " + studentInfo.name + "(" + studentInfo.gender + ")";
     }
 
     void PAPSResultUISetting()
