@@ -61,6 +61,12 @@ public class DataManager
         private set { _muscRecordList = value; }
     }
 
+    public List<TrackRecord> trackRecordList
+    {
+        get { return _trackRecordList; }
+        private set { _trackRecordList = value; }
+    }
+
     public List<SchoolMission> schoolMissionList
     {
         get { return _schoolMissionList; }
@@ -429,8 +435,6 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return true;
 
-            Debug.Log(jsonArray.Length);
-
             Int64 recordUnique;
             DateTime dateTime;
             int totalMeter, totalTrackCount, totalElapsedTime;
@@ -469,8 +473,6 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return true;
 
-            Debug.Log(jsonArray.Length);
-
             Int64 recordUnique;
             DateTime dateTime;
             int meter, elapsedTime;
@@ -508,8 +510,6 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return true;
 
-            Debug.Log(jsonArray.Length);
-
             Int64 recordUnique;
             DateTime dateTime;
             int count;
@@ -545,8 +545,6 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return false;
 
-            Debug.Log(jsonArray.Length);
-
             Int64 trackRecordUnique, cardiRecordUnique;
             int trackIndex, elapsedTime;
             int i = 0;
@@ -581,8 +579,6 @@ public class DataManager
             JSONArray jsonArray = jsonObject.GetArray("response");
             if (jsonArray.Length == 0)
                 return false;
-
-            Debug.Log(jsonArray.Length);
 
             int trackIndex, perTrackElapsedTime;
             int i = 0;
@@ -669,8 +665,6 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return false;
 
-            Debug.Log(jsonArray.Length);
-
             double percentile = 0;
             int i = 0;
             while (i < jsonArray.Length)
@@ -699,8 +693,6 @@ public class DataManager
             JSONArray jsonArray = jsonObject.GetArray("response");
             if (jsonArray.Length == 0)
                 return false;
-
-            Debug.Log(jsonArray.Length);
 
             Int64 missionUnique;
             string missionDesc;

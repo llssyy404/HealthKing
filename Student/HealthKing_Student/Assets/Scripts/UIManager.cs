@@ -93,7 +93,7 @@ public class UIManager : MonoBehaviour {
 
     // Chart
     public BarChart _barChart;
-    ChartData2D _dataSet = new ChartData2D();
+    ChartData2D _dataSet;
 
     // Test
     Key testKey = new Key(4, 4);
@@ -625,6 +625,15 @@ public class UIManager : MonoBehaviour {
             text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd")+ " " + list[i].dateTime.Hour + "시 : " + list[i].totalElapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
+            Int64 cardiRecordUnique = list[i].recordUnique;
+            button.onClick.AddListener(
+                () =>
+                {
+                    if (!DataManager.GetInstance().GetTrackRecord((int)cardiRecordUnique))
+                        return;
+
+                    ChartManager.GetInstance().SetA();
+                });
             _dateButtonList.Add(button);
         }
     }
@@ -659,6 +668,11 @@ public class UIManager : MonoBehaviour {
             text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].elapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
+            button.onClick.AddListener(
+                () =>
+                {
+
+                });
             _dateButtonList.Add(button);
         }
     }
@@ -776,36 +790,41 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    void SetBarGraphData()
+    void SetBarGraphData(Int64 cardiRecordUnique)
     {
-        Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
-        List<StudentRecordData> listData = myRecordData[testKey];
-        if (listData.Count == 0)
-        {
-            Debug.Log("listData.Count == 0");
+        //Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
+        //List<StudentRecordData> listData = myRecordData[testKey];
+        //if (listData.Count == 0)
+        //{
+        //    Debug.Log("listData.Count == 0");
+        //    return;
+        //}
+
+        //// Chart data test
+        //Debug.Log(listData[0].GetTrackTimeDate().Count);
+        //for (int i = 0; i < listData[0].GetTrackTimeDate().Count; ++i)
+        //{
+        //    string s = listData[0].GetTrackTimeDate()[i];
+        //    if (s == null)
+        //        return;
+
+        //    Debug.Log(s);
+        //    string[] temp = s.Split('-');
+        //    if (temp.Length != 3)
+        //        return;
+
+        //    System.DateTime time = System.DateTime.Parse("2017/09/08 " + temp[0] + ':' + temp[1] + ':' + temp[2]);
+        //    Debug.Log(time.Date);
+        //    Debug.Log(System.Convert.ToDateTime(time).ToString("yyyy-MM-dd"));
+        //    _dataSet[0, i] = i * 10;
+        //    _dataSet[1, i] = 30;
+        //}
+        //_barChart.SetValues(ref _dataSet);
+
+        if (!DataManager.GetInstance().GetTrackRecord((int)cardiRecordUnique))
             return;
-        }
 
-        // Chart data test
-        Debug.Log(listData[0].GetTrackTimeDate().Count);
-        for (int i = 0; i < listData[0].GetTrackTimeDate().Count; ++i)
-        {
-            string s = listData[0].GetTrackTimeDate()[i];
-            if (s == null)
-                return;
-
-            Debug.Log(s);
-            string[] temp = s.Split('-');
-            if (temp.Length != 3)
-                return;
-
-            System.DateTime time = System.DateTime.Parse("2017/09/08 " + temp[0] + ':' + temp[1] + ':' + temp[2]);
-            Debug.Log(time.Date);
-            Debug.Log(System.Convert.ToDateTime(time).ToString("yyyy-MM-dd"));
-            _dataSet[0, i] = i * 10;
-            _dataSet[1, i] = 30;
-        }
-        _barChart.SetValues(ref _dataSet);
+        ChartManager.GetInstance().SetA();
     }
 
     private List<GameObject> _schoolMissionObjList;

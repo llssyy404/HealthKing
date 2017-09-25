@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Grade
 {
-    static private void GetGenderAndGrade(ref int gender, ref int grade)
+    static private void GetGenderAndGrade(out int gender, out int grade)
     {
         gender = DataManager.GetInstance().studentInfo.gender == "남" ? 0 : 1;
         int schoolGrade = 0;
@@ -20,7 +20,7 @@ public class Grade
     static public PAPS_GRADE GetCardiGrade()
     {
         int gender = 0, grade = 0;
-        GetGenderAndGrade(ref gender, ref grade);
+        GetGenderAndGrade(out gender, out grade);
         int value1 = AppManager.GetInstance().papsInfo._cardiovascularEndurance.GetRepeatLongRunningCount();
         int value2 = AppManager.GetInstance().papsInfo._cardiovascularEndurance.GetLongRunningSecond();
 
@@ -32,7 +32,7 @@ public class Grade
     static public PAPS_GRADE GetAgilityGrade()
     {
         int gender = 0, grade = 0;
-        GetGenderAndGrade(ref gender, ref grade);
+        GetGenderAndGrade(out gender, out grade);
         float value1 = AppManager.GetInstance().papsInfo._agility.GetFiftyMRunningSecond();
         float value2 = AppManager.GetInstance().papsInfo._agility.GetStandingBroadJumpCm();
 
@@ -44,7 +44,7 @@ public class Grade
     static public PAPS_GRADE GetMusGrade()
     {
         int gender = 0, grade = 0;
-        GetGenderAndGrade(ref gender, ref grade);
+        GetGenderAndGrade(out gender, out grade);
         int value1 = AppManager.GetInstance().papsInfo._muscularEndurance.GetSitUpCount();
         float value2 = AppManager.GetInstance().papsInfo._muscularEndurance.GetGrip();
 
@@ -56,7 +56,7 @@ public class Grade
     static public PAPS_GRADE GetFlexibilityGrade()
     {
         int gender = 0, grade = 0;
-        GetGenderAndGrade(ref gender, ref grade);
+        GetGenderAndGrade(out gender, out grade);
         float value = AppManager.GetInstance().papsInfo._flexibility.GetFlexibility();
 
         return AppManager.GetInstance().papsTableManager.FindPAPSGrade(TABLE_TYPE.SIT_UPPERBODY_FRONTBEND, gender, (SCHOOL_GRADE)grade, value);
@@ -65,7 +65,7 @@ public class Grade
     static public PAPS_GRADE GetBMIGrade()
     {
         int gender = 0, grade = 0;
-        GetGenderAndGrade(ref gender, ref grade);
+        GetGenderAndGrade(out gender, out grade);
         float value = AppManager.GetInstance().papsInfo._BMI.GetBMI();
 
         return AppManager.GetInstance().papsTableManager.FindPAPSGrade(TABLE_TYPE.BMI, gender, (SCHOOL_GRADE)grade, value);
