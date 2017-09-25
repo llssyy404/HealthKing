@@ -343,6 +343,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -400,6 +401,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -412,7 +414,7 @@ public class DataManager
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
             if (jsonArray.Length == 0)
-                return false;
+                return true;
 
             Debug.Log(jsonArray.Length);
 
@@ -438,6 +440,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -450,7 +453,7 @@ public class DataManager
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
             if (jsonArray.Length == 0)
-                return false;
+                return true;
 
             Debug.Log(jsonArray.Length);
 
@@ -475,6 +478,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -487,7 +491,7 @@ public class DataManager
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONArray jsonArray = jsonObject.GetArray("response");
             if (jsonArray.Length == 0)
-                return false;
+                return true;
 
             Debug.Log(jsonArray.Length);
 
@@ -511,6 +515,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -547,6 +552,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -577,6 +583,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -604,6 +611,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -631,6 +639,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -660,6 +669,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;
@@ -691,6 +701,7 @@ public class DataManager
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            return false;
         }
 
         return true;

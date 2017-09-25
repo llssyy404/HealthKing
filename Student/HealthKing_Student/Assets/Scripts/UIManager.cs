@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,6 +52,13 @@ enum STUDENT_INFO_TEXT
     GENDER
 }
 
+enum RECORD_TYPE
+{
+    CARDI,
+    AGILE,
+    MUSC
+}
+
 public class UIManager : MonoBehaviour {
 
     public List<Text> _studentInput;
@@ -75,6 +83,8 @@ public class UIManager : MonoBehaviour {
     private string[] _strPAPSGrade;
     private string[] _strBMIGrade;
     private string _input = null;
+    private RECORD_TYPE _selRecordType = RECORD_TYPE.CARDI;
+
     const int _MAX_GRADE_COUNT = 6;
     const int _SCH_GRADE_VALUE = 4;
     const int _MAX_MISSION = 4;
@@ -354,6 +364,11 @@ public class UIManager : MonoBehaviour {
         _missionObj[_curMissionCount].GetComponent<Text>().text = "뇽뇽";
         ++_curMissionCount;
     }
+
+    public void OnClickRecordTypeBtn(int recordType)
+    {
+        _selRecordType = (RECORD_TYPE)recordType;
+    }
     //
 
     bool PreSettingPage(int sel)
@@ -438,7 +453,7 @@ public class UIManager : MonoBehaviour {
                 //CreateDateButton();
                 break;
             case PAGE_TYPE.RECORD_CARDI_BAR_GRAPH:
-                SetBarGraphData();
+                //SetBarGraphData();
                 break;
             default:
                 break;
@@ -529,7 +544,12 @@ public class UIManager : MonoBehaviour {
                 OnClickStartBtn((int)PAGE_TYPE.MY_RECORD);
                 break;
             case PAGE_TYPE.RECORD_CARDI_DATE:
-                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI);
+                {
+                    if(_selRecordType == RECORD_TYPE.MUSC)
+                        OnClickStartBtn((int)PAGE_TYPE.MY_RECORD);
+                    else
+                        OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI);
+                }
                 break;
             case PAGE_TYPE.RECORD_CARDI_BAR_GRAPH:
                 OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
@@ -561,13 +581,24 @@ public class UIManager : MonoBehaviour {
     }
 
     private List<Button> _dateButtonList;
-    void CreateDateButton(int count, int meter)
+    void CreateCardiDateButton(int count, int meter)
     {
+        if (_selRecordType != RECORD_TYPE.CARDI)
+            return;
+
         foreach (var btn in _dateButtonList)
         {
-            Destroy(btn);
+            btn.onClick.RemoveAllListeners();
+            Destroy(btn.gameObject);
         }
         _dateButtonList.Clear();
+
+        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("LittleTitle").gameObject;
+        Text titleTxt = titleObj.GetComponent<Text>();
+        titleTxt.text = "심폐지구력";
+        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("MeterTitle").gameObject;
+        Text meterTxt = meterObj.GetComponent<Text>();
+        meterTxt.text = count.ToString() + "바퀴, 총 " + meter.ToString() + "m";
 
         List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
         for (int i = 0; i < list.Count; ++i)
@@ -577,13 +608,76 @@ public class UIManager : MonoBehaviour {
 
             Button button = Instantiate(_dateButton, _dateButton.transform);
             Text text = button.GetComponentInChildren<Text>();
-            text.text = list[i].dateTime.ToString();
-            //System.Convert.ToDateTime(time).ToString("yyyy-MM-dd")
+            text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd")+ " " + list[i].dateTime.Hour + "시 : " + list[i].totalElapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
             _dateButtonList.Add(button);
         }
+    }
 
+    void CreateAgileDateButton(int meter)
+    {
+        if (_selRecordType != RECORD_TYPE.AGILE)
+            return;
+
+        foreach (Button btn in _dateButtonList)
+        {
+            btn.onClick.RemoveAllListeners();
+            Destroy(btn.gameObject);
+        }
+        _dateButtonList.Clear();
+
+        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("LittleTitle").gameObject;
+        Text titleTxt = titleObj.GetComponent<Text>();
+        titleTxt.text = "순발력";
+        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("MeterTitle").gameObject;
+        Text meterTxt = meterObj.GetComponent<Text>();
+        meterTxt.text = meter.ToString() + "m";
+
+        List<AgileRecord> list = DataManager.GetInstance().agileRecordList;
+        for (int i = 0; i < list.Count; ++i)
+        {
+            if (list[i].meter != meter)
+                continue;
+
+            Button button = Instantiate(_dateButton, _dateButton.transform);
+            Text text = button.GetComponentInChildren<Text>();
+            text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].elapsedTime;
+            button.transform.SetParent(_dateContent.transform);
+            button.gameObject.SetActive(true);
+            _dateButtonList.Add(button);
+        }
+    }
+
+    public void CreateMuscDateButton()
+    {
+        if (_selRecordType != RECORD_TYPE.MUSC)
+            return;
+
+        foreach (Button btn in _dateButtonList)
+        {
+            btn.onClick.RemoveAllListeners();
+            Destroy(btn.gameObject);
+        }
+        _dateButtonList.Clear();
+
+        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("LittleTitle").gameObject;
+        Text titleTxt = titleObj.GetComponent<Text>();
+        titleTxt.text = "근력근지구력";
+        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("MeterTitle").gameObject;
+        Text meterTxt = meterObj.GetComponent<Text>();
+        meterTxt.text = "";
+
+        List<MuscRecord> list = DataManager.GetInstance().muscRecordList;
+        for (int i = 0; i < list.Count; ++i)
+        {
+            Button button = Instantiate(_dateButton, _dateButton.transform);
+            Text text = button.GetComponentInChildren<Text>();
+            text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].count;
+            button.transform.SetParent(_dateContent.transform);
+            button.gameObject.SetActive(true);
+            _dateButtonList.Add(button);
+        }
     }
 
     private List<Button> _meterButtonList;
@@ -591,54 +685,81 @@ public class UIManager : MonoBehaviour {
     {
         foreach(var btn in _meterButtonList)
         {
-            Destroy(btn);
+            btn.onClick.RemoveAllListeners();
+            Destroy(btn.gameObject);
         }
-
         _meterButtonList.Clear();
 
-        Debug.Log(_meterButtonList.Count);
-
-        Dictionary<Key, int> dic = new Dictionary<Key, int>();
-        List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
-        for(int i = 0; i < list.Count; ++i)
+        switch(_selRecordType)
         {
-            Key key = new Key(list[i].totalTrackCount, list[i].totalMeter);
-            if (!dic.ContainsKey(key))
-                dic.Add(key, list[i].totalMeter);
+            case RECORD_TYPE.CARDI:
+                {
+                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_CARDI].transform.Find("LittleTitle").gameObject;
+                    Text txt = obj.GetComponent<Text>();
+                    txt.text = "심폐지구력";
+
+                    Dictionary<Key, int> dic = new Dictionary<Key, int>();
+                    List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
+                    for (int i = 0; i < list.Count; ++i)
+                    {
+                        Key key = new Key(list[i].totalTrackCount, list[i].totalMeter);
+                        if (!dic.ContainsKey(key))
+                            dic.Add(key, list[i].totalMeter);
+                    }
+
+                    int count = 0;
+                    foreach (KeyValuePair<Key, int> pair in dic)
+                    {
+                        Button button = Instantiate(_meterButton, _meterButton.transform);
+                        Text text = button.GetComponentInChildren<Text>();
+                        text.text = pair.Key.GetCount().ToString() + "바퀴, 총 " + pair.Key.GetSumMeter().ToString() + "m";
+                        button.transform.SetParent(_meterContent.transform);
+                        button.gameObject.SetActive(true);
+                        button.onClick.AddListener(
+                            () =>
+                            {
+                                CreateCardiDateButton(pair.Key.GetCount(), pair.Key.GetSumMeter());
+                            });
+                        _meterButtonList.Add(button);
+                        ++count;
+                    }
+                }
+                break;
+            case RECORD_TYPE.AGILE:
+                {
+                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_CARDI].transform.Find("LittleTitle").gameObject;
+                    Text txt = obj.GetComponent<Text>();
+                    txt.text = "순발력";
+
+                    List<AgileRecord> list = DataManager.GetInstance().agileRecordList;
+                    Dictionary<int, int> dic = new Dictionary<int, int>();
+                    for (int i = 0; i < list.Count; ++i)
+                    {
+                        if (!dic.ContainsKey(list[i].meter))
+                            dic.Add(list[i].meter, i);
+                    }
+
+                    int count = 0;
+                    foreach (KeyValuePair<int, int> pair in dic)
+                    {
+                        Button button = Instantiate(_meterButton, _meterButton.transform);
+                        Text text = button.GetComponentInChildren<Text>();
+                        text.text = pair.Key.ToString() + "m";
+                        button.transform.SetParent(_meterContent.transform);
+                        button.gameObject.SetActive(true);
+                        button.onClick.AddListener(
+                            () =>
+                            {
+                                CreateAgileDateButton(pair.Key);
+                            });
+                        _meterButtonList.Add(button);
+                        ++count;
+                    }
+                }
+                break;
+            default:
+                return;
         }
-
-        int count = 0;
-        foreach (KeyValuePair<Key, int> pair in dic)
-        {
-            Button button = Instantiate(_meterButton, _meterButton.transform);
-            Text text = button.GetComponentInChildren<Text>();
-            text.text = pair.Key.GetCount().ToString() + "바퀴, 총 " + pair.Key.GetSumMeter().ToString() + "m";
-            button.transform.SetParent(_meterContent.transform);
-            button.gameObject.SetActive(true);
-            _meterButtonList.Add(button);
-            button.onClick.AddListener(
-                ()=> {
-                    CreateDateButton(pair.Key.GetCount(), pair.Key.GetSumMeter());
-                });
-            ++count;
-        }
-
-        for(int i = 0; i < 10; ++i)
-        {
-            Button button = Instantiate(_meterButton, _meterButton.transform);
-            Text text = button.GetComponentInChildren<Text>();
-            text.text = i + "바퀴, 총 " + i + "m";
-            button.transform.SetParent(_meterContent.transform);
-            button.gameObject.SetActive(true);
-            _meterButtonList.Add(button);
-        }
-
-        Debug.Log(_meterButtonList.Count);
-    }
-
-    void HaHa(int count, int meter)
-    {
-        Debug.Log(count+"눌렸당"+meter);
     }
 
     void SetBarGraphData()
