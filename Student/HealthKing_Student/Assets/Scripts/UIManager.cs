@@ -580,7 +580,7 @@ public class UIManager : MonoBehaviour {
             text.text = list[i].dateTime.ToString();
             //System.Convert.ToDateTime(time).ToString("yyyy-MM-dd")
             button.transform.SetParent(_dateContent.transform);
-            button.transform.Translate(new Vector3(0, -350.0f * i));
+            button.gameObject.SetActive(true);
             _dateButtonList.Add(button);
         }
 
@@ -614,7 +614,7 @@ public class UIManager : MonoBehaviour {
             Text text = button.GetComponentInChildren<Text>();
             text.text = pair.Key.GetCount().ToString() + "바퀴, 총 " + pair.Key.GetSumMeter().ToString() + "m";
             button.transform.SetParent(_meterContent.transform);
-            button.transform.Translate(new Vector3(0, -350.0f * count));
+            button.gameObject.SetActive(true);
             _meterButtonList.Add(button);
             button.onClick.AddListener(
                 ()=> {
@@ -629,7 +629,7 @@ public class UIManager : MonoBehaviour {
             Text text = button.GetComponentInChildren<Text>();
             text.text = i + "바퀴, 총 " + i + "m";
             button.transform.SetParent(_meterContent.transform);
-            button.transform.Translate(new Vector3(0, -350.0f * i));
+            button.gameObject.SetActive(true);
             _meterButtonList.Add(button);
         }
 
