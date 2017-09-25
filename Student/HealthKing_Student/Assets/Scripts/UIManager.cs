@@ -73,6 +73,8 @@ public class UIManager : MonoBehaviour {
     public GameObject _meterContent;
     public Button _dateButton;
     public GameObject _dateContent;
+    public GameObject _schoolMissionObj;
+    public GameObject _schoolMissionContent;
 
     private GameObject[] _obj = null;
     private GameObject[] _missionObj = null;
@@ -142,6 +144,7 @@ public class UIManager : MonoBehaviour {
         Debug.Log("미션초기화");
         _dateButtonList = new List<Button>();
         _meterButtonList = new List<Button>();
+        _schoolMissionObjList = new List<GameObject>();
     }
 
     void InitGrade()
@@ -356,18 +359,18 @@ public class UIManager : MonoBehaviour {
         AfterSettingPage();
     }
 
-    public void OnClickMissionRegBtn()
-    {
-        if (_curMissionCount >= _MAX_MISSION)
-            return;
-
-        _missionObj[_curMissionCount].GetComponent<Text>().text = "뇽뇽";
-        ++_curMissionCount;
-    }
-
     public void OnClickRecordTypeBtn(int recordType)
     {
         _selRecordType = (RECORD_TYPE)recordType;
+    }
+
+    public void ClearMission(int index)
+    {
+        if (_listString.Count < index)
+            return;
+
+        _listString[index] = "";
+        _missionInput[index].text = "";
     }
     //
 
@@ -394,7 +397,7 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.PAPS:
                 {
-                    if(DataManager.GetInstance().studentInfo.schoolGrade == "초등학교" && DataManager.GetInstance().studentInfo.grade <= 3)
+                    if(DataManager.GetInstance().studentInfo.schoolGrade == "초등학교" && DataManager.GetInstance().studentInfo.grade < 4)
                     {
                         ShowMessageBox("PAPS 조회는 초등학교 4학년부터 가능합니다.");
                         return false;
@@ -452,10 +455,7 @@ public class UIManager : MonoBehaviour {
                 _listString = AppManager.GetInstance().papsInfo._BMI.GetInfo();
                 break;
             case PAGE_TYPE.MY_MISSION:
-                {
-                    _listString = AppManager.GetInstance().missionInfo.GetInfo();
-                    Debug.Log("Get"+_listString.Count);
-                }
+                SetSchoolMission();
                 break;
             case PAGE_TYPE.PAPS_RESULT:
                 PAPSResultUISetting();
@@ -806,5 +806,34 @@ public class UIManager : MonoBehaviour {
             _dataSet[1, i] = 30;
         }
         _barChart.SetValues(ref _dataSet);
+    }
+
+    private List<GameObject> _schoolMissionObjList;
+    void SetSchoolMission()
+    {
+        foreach (var obj in _schoolMissionObjList)
+        {
+            Destroy(obj);
+        }
+        _schoolMissionObjList.Clear();
+
+        List<SchoolMission> schoolMission = DataManager.GetInstance().schoolMissionList;
+        for(int i = 0; i < schoolMission.Count; ++i)
+        {
+            GameObject obj = Instantiate(_schoolMissionObj, _schoolMissionObj.transform);
+            Text text = obj.transform.Find("Text").gameObject.GetComponent<Text>();
+            text.text = schoolMission[i].missionDesc;
+            Button btn = obj.transform.Find("Button").gameObject.GetComponent<Button>();
+            int missionUnique = (int)schoolMission[i].missionUnique;
+            btn.onClick.AddListener(
+                () =>
+                {
+                    DataManager.GetInstance().SetFinMissionOfStudent(missionUnique);
+                    btn.gameObject.SetActive(false);
+                });
+            obj.transform.SetParent(_schoolMissionContent.transform);
+            obj.gameObject.SetActive(true);
+            _schoolMissionObjList.Add(obj);
+        }
     }
 }

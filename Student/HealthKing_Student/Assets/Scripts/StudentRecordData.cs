@@ -291,3 +291,27 @@ public class TrackRecord
         Debug.Log(_trackRecordUnique + " " + _cardiRecordUnique + " " + _trackIndex + " " + _elapsedTime);
     }
 }
+
+public class SchoolMission
+{
+    private Int64 _missionUnique;
+    private string _missionDesc;
+
+    public Int64 missionUnique
+    {
+        get { return _missionUnique; }
+        private set { _missionUnique = value; }
+    }
+
+    public string missionDesc
+    {
+        get { return _missionDesc; }
+        private set { _missionDesc = value; }
+    }
+
+    public SchoolMission(Int64 missionUnique, string missionDesc)
+    {
+        _missionUnique = missionUnique;
+        _missionDesc = missionDesc;
+    }
+}

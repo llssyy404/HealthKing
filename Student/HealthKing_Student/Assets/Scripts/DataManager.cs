@@ -15,6 +15,7 @@ public class DataManager
     private List<AgileRecord> _agileRecordList;
     private List<MuscRecord> _muscRecordList;
     private List<TrackRecord> _trackRecordList;
+    private List<SchoolMission> _schoolMissionList;
     static private DataManager _instance;
     static public DataManager GetInstance()
     {
@@ -60,6 +61,12 @@ public class DataManager
         private set { _muscRecordList = value; }
     }
 
+    public List<SchoolMission> schoolMissionList
+    {
+        get { return _schoolMissionList; }
+        private set { _schoolMissionList = value; }
+    }
+
     public void Init()
     {
         _studentRecordDataList = new List<StudentRecordData>();
@@ -68,6 +75,7 @@ public class DataManager
         _agileRecordList = new List<AgileRecord>();
         _muscRecordList = new List<MuscRecord>();
         _trackRecordList = new List<TrackRecord>();
+        _schoolMissionList = new List<SchoolMission>();
 
         //string url = "http://came1230.cafe24.com/GetAllUserList.php";
         //WWW webSite = new WWW(url);
@@ -684,6 +692,7 @@ public class DataManager
 
     public bool SetMissionInfo(string data)
     {
+        _schoolMissionList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
@@ -701,6 +710,8 @@ public class DataManager
                 JSONObject jObject = jsonArray[i].Obj;
                 missionUnique = System.Convert.ToInt64(jObject.GetString("MissionUnique"));
                 missionDesc = jObject.GetString("MissionDesc");
+                SchoolMission mission = new SchoolMission(missionUnique, missionDesc);
+                _schoolMissionList.Add(mission);
                 Debug.Log(missionUnique + " " + missionDesc);
                 ++i;
             }
