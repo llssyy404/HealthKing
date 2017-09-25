@@ -109,18 +109,22 @@ public class DataManager
         if (!SetStudentInfo(www.text))
             return false;
 
-        GetCardiRecord();
-        GetAgileRecord();
-        GetMuscRecord();
-        GetTrackRecord();
-        GetCardiAvgRecord();
-        GetAgileAvgRecord();
-        GetMuscAvgRecord();
-        GetCardiNorDistRecord();
-        GetAgileNorDistRecord();
-        GetMuscNorDistRecord();
-        GetMission();
-        //SetFinMissionOfStudent();
+        return true;
+    }
+
+    public bool LoadData()
+    {
+        if (!GetCardiRecord())
+            return false;
+
+        if (!GetAgileRecord())
+            return false;
+
+        if (!GetMuscRecord())
+            return false;
+
+        if (!GetMission())
+            return false;
 
         return true;
     }
@@ -170,10 +174,10 @@ public class DataManager
         return true;
     }
 
-    public bool GetTrackRecord()
+    public bool GetTrackRecord(int cardiRecordUnique)
     {
         WWWForm form = new WWWForm();
-        form.AddField("CardiRecordUnique", 1);
+        form.AddField("CardiRecordUnique", cardiRecordUnique);
         WWW www = new WWW("http://came1230.cafe24.com/GetTrackRecord.php", form);
         while (!www.isDone)
             continue;
@@ -185,12 +189,12 @@ public class DataManager
         return true;
     }
 
-    public bool GetCardiAvgRecord()
+    public bool GetCardiAvgRecord(int totalMeter, int totalTrackCount)
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
-        form.AddField("TotalMeter", 1000);
-        form.AddField("TotalTrackCount", 5);
+        form.AddField("ID", _studentInfo.id);
+        form.AddField("TotalMeter", totalMeter);
+        form.AddField("TotalTrackCount", totalTrackCount);
         WWW www = new WWW("http://came1230.cafe24.com/GetCardiAvgPerTrackRecord.php", form);
         while (!www.isDone)
             continue;
@@ -202,11 +206,11 @@ public class DataManager
         return true;
     }
 
-    public bool GetAgileAvgRecord()
+    public bool GetAgileAvgRecord(int meter)
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
-        form.AddField("Meter", 50);
+        form.AddField("ID", _studentInfo.id);
+        form.AddField("Meter", meter);
         WWW www = new WWW("http://came1230.cafe24.com/GetAgileAvgRecord.php", form);
         while (!www.isDone)
             continue;
@@ -221,7 +225,7 @@ public class DataManager
     public bool GetMuscAvgRecord()
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
+        form.AddField("ID", _studentInfo.id);
         WWW www = new WWW("http://came1230.cafe24.com/GetMuscAvgRecord.php", form);
         while (!www.isDone)
             continue;
@@ -233,14 +237,14 @@ public class DataManager
         return true;
     }
 
-    public bool GetCardiNorDistRecord()
+    public bool GetCardiNorDistRecord(int cardiRecordUnique, int totalMeter, int totalTrackCount, int totalElapsedTime)
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
-        form.AddField("RecordUnique", 2);
-        form.AddField("TotalMeter", 1000);
-        form.AddField("TotalTrackCount", 5);
-        form.AddField("TotalElapsedTime", 400000);
+        form.AddField("ID", _studentInfo.id);
+        form.AddField("RecordUnique", cardiRecordUnique);
+        form.AddField("TotalMeter", totalMeter);
+        form.AddField("TotalTrackCount", totalTrackCount);
+        form.AddField("TotalElapsedTime", totalElapsedTime);
         WWW www = new WWW("http://came1230.cafe24.com/GetCardiNormalDistributionRecord.php", form);
         while (!www.isDone)
             continue;
@@ -252,13 +256,13 @@ public class DataManager
         return true;
     }
 
-    public bool GetAgileNorDistRecord()
+    public bool GetAgileNorDistRecord(int agileRecordUnique, int meter, int elapsedTime)
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
-        form.AddField("RecordUnique", 2);
-        form.AddField("Meter", 50);
-        form.AddField("ElapsedTime", 8210);
+        form.AddField("ID", _studentInfo.id);
+        form.AddField("RecordUnique", agileRecordUnique);
+        form.AddField("Meter", meter);
+        form.AddField("ElapsedTime", elapsedTime);
         WWW www = new WWW("http://came1230.cafe24.com/GetAgileNormalDistributionRecord.php", form);
         while (!www.isDone)
             continue;
@@ -270,12 +274,12 @@ public class DataManager
         return true;
     }
 
-    public bool GetMuscNorDistRecord()
+    public bool GetMuscNorDistRecord(int muscRecordUnique, int count)
     {
         WWWForm form = new WWWForm();
-        form.AddField("ID", "22");
-        form.AddField("RecordUnique", 1);
-        form.AddField("Count", 40);
+        form.AddField("ID", _studentInfo.id);
+        form.AddField("RecordUnique", muscRecordUnique);
+        form.AddField("Count", count);
         WWW www = new WWW("http://came1230.cafe24.com/GetMuscNormalDistributionRecord.php", form);
         while (!www.isDone)
             continue;
@@ -290,8 +294,8 @@ public class DataManager
     public bool GetMission()
     {
         WWWForm form = new WWWForm();
-        form.AddField("SchoolUnique", 1);
-        form.AddField("Grade", 6);
+        form.AddField("SchoolUnique", _studentInfo.schoolUnique);
+        form.AddField("Grade", _studentInfo.grade);
         WWW www = new WWW("http://came1230.cafe24.com/GetMission.php", form);
         while (!www.isDone)
             continue;
@@ -303,11 +307,11 @@ public class DataManager
         return true;
     }
 
-    public bool SetFinMissionOfStudent()
+    public bool SetFinMissionOfStudent(int missionUnique)
     {
         WWWForm form = new WWWForm();
-        form.AddField("MissionUnique", 1);
-        form.AddField("ID", "22");
+        form.AddField("MissionUnique", missionUnique);
+        form.AddField("ID", _studentInfo.id);
         WWW www = new WWW("http://came1230.cafe24.com/SetFinishedMissionOfStudent.php", form);
         while (!www.isDone)
             continue;
@@ -409,6 +413,7 @@ public class DataManager
 
     public bool SetCardiRecordInfo(string data)
     {
+        _cardiRecordList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
@@ -448,6 +453,7 @@ public class DataManager
 
     public bool SetAgileRecordInfo(string data)
     {
+        _agileRecordList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);
@@ -486,6 +492,7 @@ public class DataManager
 
     public bool SetMuscRecordInfo(string data)
     {
+        _muscRecordList.Clear();
         try
         {
             JSONObject jsonObject = JSONObject.Parse(data);

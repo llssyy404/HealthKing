@@ -383,8 +383,13 @@ public class UIManager : MonoBehaviour {
                         return false;
                     }
 
+                    if (!DataManager.GetInstance().LoadData())
+                    {
+                        ShowMessageBox("데이터 로딩에 실패하였습니다.");
+                        return false;
+                    }
+
                     SetStudentInfo();
-                    DataManager.GetInstance().GetStudentRecordData();
                 }
                 break;
             case PAGE_TYPE.CARDI_ENDU:
