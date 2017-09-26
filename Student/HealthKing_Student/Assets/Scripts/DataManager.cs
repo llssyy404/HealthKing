@@ -365,6 +365,22 @@ public class DataManager
         return true;
     }
 
+    public bool ExistFinMissionOfStudent(int missionUnique)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("MissionUnique", missionUnique);
+        form.AddField("ID", _studentInfo.id);
+        WWW www = new WWW("http://came1230.cafe24.com/ExistFinishedMissionOfStudent.php", form);
+        while (!www.isDone)
+            continue;
+
+        Debug.Log(www.text);
+        if (!IsExistFinMissionOfStudent(www.text))
+            return false;
+
+        return true;
+    }
+
     public bool SetStudentInfo(string data)
     {
         try
@@ -736,5 +752,23 @@ public class DataManager
         }
 
         return true;
+    }
+
+    public bool IsExistFinMissionOfStudent(string data)
+    {
+        try
+        {
+            bool exist = false;
+            JSONObject jsonObject = JSONObject.Parse(data);
+            JSONObject obj = jsonObject.GetObject("response");
+            exist = obj.GetBoolean("Exist");
+            Debug.Log(exist);
+            return exist;
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+            return false;
+        }
     }
 }

@@ -955,13 +955,23 @@ public class UIManager : MonoBehaviour {
             Text text = obj.transform.Find("Text").gameObject.GetComponent<Text>();
             text.text = schoolMission[i].missionDesc;
             Button btn = obj.transform.Find("Button").gameObject.GetComponent<Button>();
+            GameObject isClear = obj.transform.Find("IsClear").gameObject;
             int missionUnique = (int)schoolMission[i].missionUnique;
-            btn.onClick.AddListener(
-                () =>
-                {
-                    DataManager.GetInstance().SetFinMissionOfStudent(missionUnique);
-                    btn.gameObject.SetActive(false);
-                });
+            if(DataManager.GetInstance().ExistFinMissionOfStudent(missionUnique))
+            {
+                btn.gameObject.SetActive(false);
+                isClear.SetActive(true);
+            }
+            else
+            {
+                btn.onClick.AddListener(
+                    () =>
+                    {
+                        DataManager.GetInstance().SetFinMissionOfStudent(missionUnique);
+                        btn.gameObject.SetActive(false);
+                        isClear.SetActive(true);
+                    });
+            }
             obj.transform.SetParent(_schoolMissionContent.transform);
             obj.gameObject.SetActive(true);
             _schoolMissionObjList.Add(obj);
