@@ -713,6 +713,8 @@ public class UIManager : MonoBehaviour {
                     GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
                     Text dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LineButton").gameObject;
+                    nObj.SetActive(true);
 
                     tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
@@ -723,6 +725,8 @@ public class UIManager : MonoBehaviour {
                     dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("LineButton").gameObject;
+                    nObj.SetActive(true);
 
                     tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
@@ -733,6 +737,8 @@ public class UIManager : MonoBehaviour {
                     dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
+                    nObj.SetActive(true);
 
                     GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
@@ -795,6 +801,8 @@ public class UIManager : MonoBehaviour {
                     GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
                     Text dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LineButton").gameObject;
+                    nObj.SetActive(false);
 
                     tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
@@ -805,6 +813,8 @@ public class UIManager : MonoBehaviour {
                     dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
+                    nObj.SetActive(false);
 
                     GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
@@ -864,6 +874,8 @@ public class UIManager : MonoBehaviour {
                     GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
                     Text dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LineButton").gameObject;
+                    nObj.SetActive(false);
 
                     tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
@@ -874,6 +886,8 @@ public class UIManager : MonoBehaviour {
                     dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
+                    nObj.SetActive(false);
 
                     GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
