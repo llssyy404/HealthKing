@@ -75,6 +75,8 @@ public class UIManager : MonoBehaviour {
     public GameObject _dateContent;
     public GameObject _schoolMissionObj;
     public GameObject _schoolMissionContent;
+    public GameObject _percentileLine;
+    public GameObject _percentLineStandard;
 
     private GameObject[] _obj = null;
     private GameObject[] _missionObj = null;
@@ -743,6 +745,11 @@ public class UIManager : MonoBehaviour {
                     GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
                     t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
+                    Vector2 vector = _percentileLine.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta;
+                    float f = vector.x / 100 * (100 - DataManager.GetInstance().normalDistMyPercent);
+                    Debug.Log(f);
+                    _percentileLine.GetComponent<RectTransform>().localPosition = new Vector3(_percentLineStandard.GetComponent<RectTransform>().localPosition.x + f,
+                        _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
                     obj.SetCardiTrackRecordBarAndLineGraph();
@@ -819,6 +826,11 @@ public class UIManager : MonoBehaviour {
                     GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
                     t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
+                    Vector2 vector = _percentileLine.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta;
+                    float f = vector.x / 100 * (100 - DataManager.GetInstance().normalDistMyPercent);
+                    Debug.Log(f);
+                    _percentileLine.GetComponent<RectTransform>().localPosition = new Vector3(_percentLineStandard.GetComponent<RectTransform>().localPosition.x + f,
+                        _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
                     obj.SetAgileRecordBarGraph(elapsedTime);
@@ -892,6 +904,11 @@ public class UIManager : MonoBehaviour {
                     GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
                     t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
+                    Vector2 vector = _percentileLine.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta;
+                    float f = vector.x / 100 * (100-DataManager.GetInstance().normalDistMyPercent);
+                    Debug.Log(f);
+                    _percentileLine.GetComponent<RectTransform>().localPosition = new Vector3(_percentLineStandard.GetComponent<RectTransform>().localPosition.x+f,
+                        _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
                     obj.SetMuscRecordBarGraph(count);
