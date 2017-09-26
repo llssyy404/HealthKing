@@ -93,8 +93,6 @@ public class MissionInfo
             _mission.Add("");
             _clearMission.Add(false);
         }
-
-        Debug.Log(_mission.Count);
     }
 
     public bool GetClearMission(int index)

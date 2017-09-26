@@ -143,7 +143,6 @@ public class UIManager : MonoBehaviour {
         _missionObj[1] = GameObject.Find("Mission2");
         _missionObj[2] = GameObject.Find("Mission3");
         _missionObj[3] = GameObject.Find("Mission4");
-        Debug.Log("미션초기화");
         _dateButtonList = new List<Button>();
         _meterButtonList = new List<Button>();
         _schoolMissionObjList = new List<GameObject>();
@@ -270,7 +269,6 @@ public class UIManager : MonoBehaviour {
 
             if(PlayerPrefs.HasKey("ClearMission" + i))
             {
-                Debug.Log(System.Convert.ToBoolean(PlayerPrefs.GetString("ClearMission" + i)));
                 AppManager.GetInstance().missionInfo.SetClearMission(i, System.Convert.ToBoolean(PlayerPrefs.GetString("ClearMission" + i)));
             }
         }

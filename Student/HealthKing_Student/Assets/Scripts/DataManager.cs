@@ -149,7 +149,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetStudentInfo(www.text))
             return false;
 
@@ -181,7 +180,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetCardiRecordInfo(www.text))
             return false;
 
@@ -196,7 +194,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetAgileRecordInfo(www.text))
             return false;
 
@@ -211,7 +208,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetMuscRecordInfo(www.text))
             return false;
 
@@ -226,7 +222,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetTrackRecordInfo(www.text))
             return false;
 
@@ -243,7 +238,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetCardiAvgRecordInfo(www.text))
             return false;
 
@@ -259,7 +253,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetAgileAvgRecordInfo(www.text))
             return false;
 
@@ -274,7 +267,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetMuscAvgRecordInfo(www.text))
             return false;
 
@@ -293,7 +285,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetNorDistRecordInfo(www.text))
             return false;
 
@@ -311,7 +302,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetNorDistRecordInfo(www.text))
             return false;
 
@@ -328,7 +318,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetNorDistRecordInfo(www.text))
             return false;
 
@@ -344,7 +333,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!SetMissionInfo(www.text))
             return false;
 
@@ -360,8 +348,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
-
         return true;
     }
 
@@ -374,7 +360,6 @@ public class DataManager
         while (!www.isDone)
             continue;
 
-        Debug.Log(www.text);
         if (!IsExistFinMissionOfStudent(www.text))
             return false;
 
@@ -636,7 +621,6 @@ public class DataManager
                 trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
                 perTrackElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("PerTrackElapsedTime"));
                 _avgTrackRecordList.Add(perTrackElapsedTime);
-                Debug.Log(trackIndex + " " + perTrackElapsedTime);
                 ++i;
             }
         }
@@ -662,7 +646,6 @@ public class DataManager
             JSONObject jObject = jsonArray[0].Obj;
             avgElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("AvgElapsedTime"));
             _avgAgileRecord = avgElapsedTime;
-            Debug.Log(avgElapsedTime);
         }
         catch (Exception e)
         {
@@ -686,7 +669,6 @@ public class DataManager
             JSONObject jObject = jsonArray[0].Obj;
             avgCount = (int)System.Convert.ToDouble(jObject.GetString("AvgCount"));
             _avgMuscRecord = avgCount;
-            Debug.Log(avgCount);
         }
         catch (Exception e)
         {
@@ -710,7 +692,6 @@ public class DataManager
             JSONObject jObject = jsonArray[0].Obj;
             percentile = System.Convert.ToInt32(jObject.GetNumber("Percentile"));
             _normalDistMyPercent = percentile;
-            Debug.Log(percentile);
         }
         catch (Exception e)
         {
@@ -741,7 +722,6 @@ public class DataManager
                 missionDesc = jObject.GetString("MissionDesc");
                 SchoolMission mission = new SchoolMission(missionUnique, missionDesc);
                 _schoolMissionList.Add(mission);
-                Debug.Log(missionUnique + " " + missionDesc);
                 ++i;
             }
         }
@@ -762,7 +742,6 @@ public class DataManager
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONObject obj = jsonObject.GetObject("response");
             exist = obj.GetBoolean("Exist");
-            Debug.Log(exist);
             return exist;
         }
         catch (Exception e)
