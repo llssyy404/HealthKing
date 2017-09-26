@@ -621,8 +621,8 @@ public class UIManager : MonoBehaviour {
                 continue;
 
             Button button = Instantiate(_dateButton, _dateButton.transform);
-            Text text = button.GetComponentInChildren<Text>();
-            text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd")+ " " + list[i].dateTime.Hour + "시 : " + list[i].totalElapsedTime;
+            Text dateText = button.GetComponentInChildren<Text>();
+            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd")+ " " + list[i].dateTime.Hour + "시 : " + list[i].totalElapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
             Int64 cardiRecordUnique = list[i].recordUnique;
@@ -635,7 +635,38 @@ public class UIManager : MonoBehaviour {
                     if (!DataManager.GetInstance().GetCardiAvgRecord(meter, count))
                         return;
 
-                        ChartManager.GetInstance().SetCardiTrackRecordBarAndLineGraph();
+                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
+                    Text tTxt = tObj.GetComponent<Text>();
+                    tTxt.text = titleTxt.text;
+                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
+                    Text mTxt = mObj.GetComponent<Text>();
+                    mTxt.text = meterTxt.text;
+                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
+                    Text dTxt = dObj.GetComponent<Text>();
+                    dTxt.text = dateText.text;
+
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("LittleTitle").gameObject;
+                    tTxt = tObj.GetComponent<Text>();
+                    tTxt.text = titleTxt.text;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("MeterTitle").gameObject;
+                    mTxt = mObj.GetComponent<Text>();
+                    mTxt.text = meterTxt.text;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("DateTitle").gameObject;
+                    dTxt = dObj.GetComponent<Text>();
+                    dTxt.text = dateText.text;
+
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
+                    tTxt = tObj.GetComponent<Text>();
+                    tTxt.text = titleTxt.text;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
+                    mTxt = mObj.GetComponent<Text>();
+                    mTxt.text = meterTxt.text;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
+                    dTxt = dObj.GetComponent<Text>();
+                    dTxt.text = dateText.text;
+
+                    ChartManager obj = FindObjectOfType<ChartManager>();
+                    obj.SetCardiTrackRecordBarAndLineGraph();
                 });
             _dateButtonList.Add(button);
         }
@@ -667,15 +698,39 @@ public class UIManager : MonoBehaviour {
                 continue;
 
             Button button = Instantiate(_dateButton, _dateButton.transform);
-            Text text = button.GetComponentInChildren<Text>();
-            text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].elapsedTime;
+            Text dateText = button.GetComponentInChildren<Text>();
+            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].elapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
             int elapsedTime = list[i].elapsedTime;
             button.onClick.AddListener(
                 () =>
                 {
+                    if (!DataManager.GetInstance().GetAgileAvgRecord(meter))
+                        return;
 
+                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
+                    Text tTxt = tObj.GetComponent<Text>();
+                    tTxt.text = titleTxt.text;
+                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
+                    Text mTxt = mObj.GetComponent<Text>();
+                    mTxt.text = meterTxt.text;
+                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
+                    Text dTxt = dObj.GetComponent<Text>();
+                    dTxt.text = dateText.text;
+
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
+                    tTxt = tObj.GetComponent<Text>();
+                    tTxt.text = titleTxt.text;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
+                    mTxt = mObj.GetComponent<Text>();
+                    mTxt.text = meterTxt.text;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
+                    dTxt = dObj.GetComponent<Text>();
+                    dTxt.text = dateText.text;
+
+                    ChartManager obj = FindObjectOfType<ChartManager>();
+                    obj.SetAgileRecordBarGraph(elapsedTime);
                 });
             _dateButtonList.Add(button);
         }
@@ -704,10 +759,40 @@ public class UIManager : MonoBehaviour {
         for (int i = 0; i < list.Count; ++i)
         {
             Button button = Instantiate(_dateButton, _dateButton.transform);
-            Text text = button.GetComponentInChildren<Text>();
-            text.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].count;
+            Text dateText = button.GetComponentInChildren<Text>();
+            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].count;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
+            int count = list[i].count;
+            button.onClick.AddListener(
+                () =>
+                {
+                    if (!DataManager.GetInstance().GetMuscAvgRecord())
+                        return;
+
+                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
+                    Text tTxt = tObj.GetComponent<Text>();
+                    tTxt.text = titleTxt.text;
+                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
+                    Text mTxt = mObj.GetComponent<Text>();
+                    mTxt.text = meterTxt.text;
+                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
+                    Text dTxt = dObj.GetComponent<Text>();
+                    dTxt.text = dateText.text;
+
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
+                    tTxt = tObj.GetComponent<Text>();
+                    tTxt.text = titleTxt.text;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
+                    mTxt = mObj.GetComponent<Text>();
+                    mTxt.text = meterTxt.text;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
+                    dTxt = dObj.GetComponent<Text>();
+                    dTxt.text = dateText.text;
+
+                    ChartManager obj = FindObjectOfType<ChartManager>();
+                    obj.SetMuscRecordBarGraph(count);
+                });
             _dateButtonList.Add(button);
         }
     }
@@ -792,39 +877,6 @@ public class UIManager : MonoBehaviour {
             default:
                 return;
         }
-    }
-
-    void SetBarGraphData(Int64 cardiRecordUnique)
-    {
-        //Dictionary<Key, List<StudentRecordData>> myRecordData = DataManager.GetInstance().GetMyRecordData().GetDicRecordData();
-        //List<StudentRecordData> listData = myRecordData[testKey];
-        //if (listData.Count == 0)
-        //{
-        //    Debug.Log("listData.Count == 0");
-        //    return;
-        //}
-
-        //// Chart data test
-        //Debug.Log(listData[0].GetTrackTimeDate().Count);
-        //for (int i = 0; i < listData[0].GetTrackTimeDate().Count; ++i)
-        //{
-        //    string s = listData[0].GetTrackTimeDate()[i];
-        //    if (s == null)
-        //        return;
-
-        //    Debug.Log(s);
-        //    string[] temp = s.Split('-');
-        //    if (temp.Length != 3)
-        //        return;
-
-        //    System.DateTime time = System.DateTime.Parse("2017/09/08 " + temp[0] + ':' + temp[1] + ':' + temp[2]);
-        //    Debug.Log(time.Date);
-        //    Debug.Log(System.Convert.ToDateTime(time).ToString("yyyy-MM-dd"));
-        //    _dataSet[0, i] = i * 10;
-        //    _dataSet[1, i] = 30;
-        //}
-        //_barChart.SetValues(ref _dataSet);
-
     }
 
     private List<GameObject> _schoolMissionObjList;
