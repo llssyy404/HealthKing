@@ -341,6 +341,9 @@ public class DataManager
 
     public bool SetFinMissionOfStudent(int missionUnique)
     {
+        if (ExistFinMissionOfStudent(missionUnique))
+            return false;
+
         WWWForm form = new WWWForm();
         form.AddField("MissionUnique", missionUnique);
         form.AddField("ID", _studentInfo.id);

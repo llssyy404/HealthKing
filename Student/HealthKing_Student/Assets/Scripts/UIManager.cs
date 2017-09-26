@@ -1025,9 +1025,11 @@ public class UIManager : MonoBehaviour {
                 btn.onClick.AddListener(
                     () =>
                     {
-                        DataManager.GetInstance().SetFinMissionOfStudent(missionUnique);
-                        btn.gameObject.SetActive(false);
-                        isClear.SetActive(true);
+                        if(DataManager.GetInstance().SetFinMissionOfStudent(missionUnique))
+                        {
+                            btn.gameObject.SetActive(false);
+                            isClear.SetActive(true);
+                        }
                     });
             }
             obj.transform.SetParent(_schoolMissionContent.transform);
