@@ -10,8 +10,6 @@ public class AppManager : MonoBehaviour {
         return _instance;
     }
 
-    private UserInfo _userInfo;
-    public UserInfo userInfo { get { return _userInfo; } }
     private PAPSInfo _papsInfo;
     public PAPSInfo papsInfo { get { return _papsInfo; } }
     private MissionInfo _missionInfo;
@@ -25,7 +23,6 @@ public class AppManager : MonoBehaviour {
     void Awake()
     {
         _instance = this;
-        _userInfo = new UserInfo();
         _papsInfo = new PAPSInfo();
         _missionInfo = new MissionInfo();
         _papsTableManager = new PAPSTableManager();
@@ -39,30 +36,6 @@ public class AppManager : MonoBehaviour {
     }
 
     //
-    public bool SetUserInfo(List<string> listString)
-    {
-        if (listString.Count != _MAXCOUNT)
-        {
-            Debug.Log("정보를 입력해주세요");
-            return false;
-        }
-
-        if (!_userInfo.InitUserInfo(listString))
-        {
-            Debug.Log("정보를 입력해주세요");
-            return false;
-        }
-
-        PlayerPrefs.SetString("User_SchoolName", listString[0]);
-        PlayerPrefs.SetString("User_SchoolGrade", listString[1]);
-        PlayerPrefs.SetString("User_ClassNum", listString[2]);
-        PlayerPrefs.SetString("User_Number", listString[3]);
-        PlayerPrefs.SetString("User_Name", listString[4]);
-        PlayerPrefs.SetString("User_Gender", listString[5]);
-
-        return true;
-    }
-
     public void SetCardiovascularEnduranceInfo(List<string> listString)
     {
         if (listString.Count != (int)DEFINE.CARDI_INFO.MAX_CARDI_INFO)

@@ -25,7 +25,6 @@ enum PAGE_TYPE
     RECORD_CARDI_BAR_GRAPH,
     RECORD_CARDI_LINE_GRAPH,
     RECORD_CARDI_NORMAL_DISTRIB,
-    RECORD_AGILE_MUSC_BAR_GRAPH,
     MAX_PAGE_TYPE
 }
 
@@ -59,6 +58,28 @@ enum RECORD_TYPE
     MUSC
 }
 
+struct Key
+{
+    int _count;
+    int _sumMeter;
+    public Key(int count, int sumMeter)
+    {
+        _count = count;
+        _sumMeter = sumMeter;
+    }
+
+    public int count
+    {
+        get { return _count;}
+        
+    }
+
+    public int sumMeter
+    {
+        get { return _sumMeter; }
+    }
+}
+
 public class UIManager : MonoBehaviour {
 
     public List<Text> _studentInput;
@@ -82,7 +103,6 @@ public class UIManager : MonoBehaviour {
     private GameObject[] _missionObj = null;
     private int _selNum = 0;
     private int _prevSelNum = 0;
-    private int _curMissionCount = 0;
     private List<string> _listString;
     private string[] _strPAPSGrade;
     private string[] _strBMIGrade;
@@ -92,13 +112,6 @@ public class UIManager : MonoBehaviour {
     const int _MAX_GRADE_COUNT = 6;
     const int _SCH_GRADE_VALUE = 4;
     const int _MAX_MISSION = 4;
-
-    // Chart
-    public BarChart _barChart;
-    ChartData2D _dataSet;
-
-    // Test
-    Key testKey = new Key(4, 4);
 
     // Use this for initialization
     void Start () {
@@ -135,7 +148,6 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_BarGraph").gameObject;
         _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_LineGraph").gameObject;
         _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Cardi_Normal_Distribution").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_AGILE_MUSC_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Agile_Musc_BarGraph").gameObject;
 
         // 미션
         _missionObj = new GameObject[_MAX_MISSION];
@@ -293,27 +305,7 @@ public class UIManager : MonoBehaviour {
 
         _listString[num] = _input;
     }
-
-    public void OnValueChanged(int value)
-    {
-        if (_selNum != (int)PAGE_TYPE.BASE_INFORM)
-            return;
-
-        int input = value + _SCH_GRADE_VALUE;  // 4학년부터라...
-        _listString[1] = input.ToString();
-    }
-
-    public void OnValueChanged(bool isCheck)
-    {
-        if (_selNum != (int)PAGE_TYPE.BASE_INFORM)
-            return;
-
-        if (isCheck)
-            _listString[5] = "0";
-        else
-            _listString[5] = "1";
-    }
-
+    
     public void OnClickBtnPlayVideo(int sel)
     {
         switch((URL_TYPE)sel)
@@ -497,9 +489,6 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.PAPS:
                 PAPSUISetting();
                 break;
-            case PAGE_TYPE.BASE_INFORM:
-                _listString = AppManager.GetInstance().userInfo.GetInfo();
-                break;
             case PAGE_TYPE.CARDI_ENDU:
                 _listString = AppManager.GetInstance().papsInfo._cardiovascularEndurance.GetInfo();
                 break;
@@ -527,12 +516,6 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.RECORD_CARDI:
                 CreateMeterButton();
-                break;
-            case PAGE_TYPE.RECORD_CARDI_DATE:
-                //CreateDateButton();
-                break;
-            case PAGE_TYPE.RECORD_CARDI_BAR_GRAPH:
-                //SetBarGraphData();
                 break;
             default:
                 break;
@@ -638,9 +621,6 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB:
                 OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
-                break;
-            case PAGE_TYPE.RECORD_AGILE_MUSC_BAR_GRAPH:
-                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI);   // 나중에 수정
                 break;
             default:
                 Debug.Log("Invalid PAGE_TYPE");
@@ -947,13 +927,13 @@ public class UIManager : MonoBehaviour {
                     {
                         Button button = Instantiate(_meterButton, _meterButton.transform);
                         Text text = button.GetComponentInChildren<Text>();
-                        text.text = pair.Key.GetCount().ToString() + "바퀴, 총 " + pair.Key.GetSumMeter().ToString() + "m";
+                        text.text = pair.Key.count.ToString() + "바퀴, 총 " + pair.Key.sumMeter.ToString() + "m";
                         button.transform.SetParent(_meterContent.transform);
                         button.gameObject.SetActive(true);
                         button.onClick.AddListener(
                             () =>
                             {
-                                CreateCardiDateButton(pair.Key.GetCount(), pair.Key.GetSumMeter());
+                                CreateCardiDateButton(pair.Key.count, pair.Key.sumMeter);
                             });
                         _meterButtonList.Add(button);
                         ++count;
