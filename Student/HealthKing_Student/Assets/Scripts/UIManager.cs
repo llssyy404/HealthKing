@@ -625,14 +625,18 @@ public class UIManager : MonoBehaviour {
             dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd")+ " " + list[i].dateTime.Hour + "시 : " + list[i].totalElapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
-            Int64 cardiRecordUnique = list[i].recordUnique;
+            int cardiRecordUnique = (int)list[i].recordUnique;
+            int totalElapsedTime = list[i].totalElapsedTime;
             button.onClick.AddListener(
                 () =>
                 {
-                    if (!DataManager.GetInstance().GetTrackRecord((int)cardiRecordUnique))
+                    if (!DataManager.GetInstance().GetTrackRecord(cardiRecordUnique))
                         return;
 
                     if (!DataManager.GetInstance().GetCardiAvgRecord(meter, count))
+                        return;
+
+                    if (!DataManager.GetInstance().GetCardiNorDistRecord(cardiRecordUnique, meter, count, totalElapsedTime))
                         return;
 
                     GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
@@ -664,6 +668,10 @@ public class UIManager : MonoBehaviour {
                     dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+
+                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
+                    Text t = percentObj.GetComponent<Text>();
+                    t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
                     obj.SetCardiTrackRecordBarAndLineGraph();
@@ -702,11 +710,15 @@ public class UIManager : MonoBehaviour {
             dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].elapsedTime;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
+            int agileRecordUnique = (int)list[i].recordUnique;
             int elapsedTime = list[i].elapsedTime;
             button.onClick.AddListener(
                 () =>
                 {
                     if (!DataManager.GetInstance().GetAgileAvgRecord(meter))
+                        return;
+
+                    if (!DataManager.GetInstance().GetAgileNorDistRecord(agileRecordUnique, meter, elapsedTime))
                         return;
 
                     GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
@@ -728,6 +740,10 @@ public class UIManager : MonoBehaviour {
                     dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+
+                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
+                    Text t = percentObj.GetComponent<Text>();
+                    t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
                     obj.SetAgileRecordBarGraph(elapsedTime);
@@ -763,11 +779,15 @@ public class UIManager : MonoBehaviour {
             dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].count;
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
+            int muscRecordUnique = (int)list[i].recordUnique;
             int count = list[i].count;
             button.onClick.AddListener(
                 () =>
                 {
                     if (!DataManager.GetInstance().GetMuscAvgRecord())
+                        return;
+
+                    if (!DataManager.GetInstance().GetMuscNorDistRecord(muscRecordUnique, count))
                         return;
 
                     GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
@@ -789,6 +809,10 @@ public class UIManager : MonoBehaviour {
                     dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
+
+                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
+                    Text t = percentObj.GetComponent<Text>();
+                    t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
                     obj.SetMuscRecordBarGraph(count);

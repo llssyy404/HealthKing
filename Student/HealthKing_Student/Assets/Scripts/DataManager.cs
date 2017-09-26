@@ -19,7 +19,7 @@ public class DataManager
     private List<int> _avgTrackRecordList;
     private int _avgAgileRecord;
     private int _avgMuscRecord;
-    private double _normalDistMyPercent;
+    private int _normalDistMyPercent;
 
     static private DataManager _instance;
     static public DataManager GetInstance()
@@ -96,7 +96,7 @@ public class DataManager
         private set { _avgMuscRecord = value; }
     }
 
-    public double normalDistMyPercent
+    public int normalDistMyPercent
     {
         get { return _normalDistMyPercent; }
         private set { _normalDistMyPercent = value; }
@@ -690,9 +690,10 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return false;
 
-            double percentile = 0;
+            int percentile = 0;
             JSONObject jObject = jsonArray[0].Obj;
-            percentile = jObject.GetNumber("Percentile");
+            percentile = System.Convert.ToInt32(jObject.GetNumber("Percentile"));
+            _normalDistMyPercent = percentile;
             Debug.Log(percentile);
         }
         catch (Exception e)
