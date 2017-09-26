@@ -274,8 +274,8 @@ public class ChartManager : MonoBehaviour
     public void SetCardiTrackRecordGraph()
     {
         recordType = RECORD_TYPE.CARDI;
-        List<TrackRecord> trackRecord = DataManager.GetInstance().trackRecordList;
-        List<int> avgTrackRecordList = DataManager.GetInstance().avgTrackRecordList;
+        List<TrackRecordDBInfo> trackRecord = NetworkManager.GetInstance().trackRecordList;
+        List<int> avgTrackRecordList = NetworkManager.GetInstance().avgTrackRecordList;
         if (trackRecord.Count != avgTrackRecordList.Count)
         {
             Debug.Log("trackRecord.Count != dicAvgTrackRecord.Count");
@@ -396,7 +396,7 @@ public class ChartManager : MonoBehaviour
     public void SetAgileRecordGraph(int elapsedTime)
     {
         recordType = RECORD_TYPE.AGILE;
-        int avgElapsedTime = DataManager.GetInstance().avgAgileRecord;
+        int avgElapsedTime = NetworkManager.GetInstance().avgAgileRecord;
 
         _barChart.Thickness = 0.5f;
         _dataSet.Clear();
@@ -449,7 +449,7 @@ public class ChartManager : MonoBehaviour
     public void SetMuscRecordGraph(int count)
     {
         recordType = RECORD_TYPE.MUSC;
-        int avgCount = DataManager.GetInstance().avgMuscRecord;
+        int avgCount = NetworkManager.GetInstance().avgMuscRecord;
 
         _barChart.Thickness = 0.5f;
         _dataSet.Clear();

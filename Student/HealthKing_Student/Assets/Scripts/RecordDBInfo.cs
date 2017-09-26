@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Record
+public class RecordDBInfo
 {
-    protected Int64 _recordUnique;
+    protected long _recordUnique;
     protected DateTime _dateTime;
 
-    public Int64 recordUnique
+    public long recordUnique
     {
         get { return _recordUnique; }
         private set { _recordUnique = value; }
@@ -20,10 +20,10 @@ public class Record
         private set { _dateTime = value; }
     }
 
-    public Record() { }
+    public RecordDBInfo() { }
 }
 
-public class CardiRecord : Record
+public class CardiRecordDBInfo : RecordDBInfo
 {
     private int _totalMeter;
     private int _totalTrackCount;
@@ -47,7 +47,7 @@ public class CardiRecord : Record
         private set { _totalElapsedTime = value; }
     }
 
-    public CardiRecord(Int64 recordUnique, DateTime dateTime, int totalMeter, int totalTrackCount, int totalElapsedTime)
+    public CardiRecordDBInfo(long recordUnique, DateTime dateTime, int totalMeter, int totalTrackCount, int totalElapsedTime)
     {
         _recordUnique = recordUnique;
         _dateTime = dateTime;
@@ -62,7 +62,7 @@ public class CardiRecord : Record
     }
 }
 
-public class AgileRecord : Record
+public class AgileRecordDBInfo : RecordDBInfo
 {
     private int _meter;
     private int _elapsedTime;
@@ -79,7 +79,7 @@ public class AgileRecord : Record
         private set { _elapsedTime = value; }
     }
 
-    public AgileRecord(Int64 recordUnique, DateTime dateTime, int meter, int elapsedTime)
+    public AgileRecordDBInfo(long recordUnique, DateTime dateTime, int meter, int elapsedTime)
     {
         _recordUnique = recordUnique;
         _dateTime = dateTime;
@@ -93,7 +93,7 @@ public class AgileRecord : Record
     }
 }
 
-public class MuscRecord : Record
+public class MuscRecordDBInfo : RecordDBInfo
 {
     private int _count;
 
@@ -103,7 +103,7 @@ public class MuscRecord : Record
         private set { _count = value; }
     }
 
-    public MuscRecord(Int64 recordUnique, DateTime dateTime, int count)
+    public MuscRecordDBInfo(long recordUnique, DateTime dateTime, int count)
     {
         _recordUnique = recordUnique;
         _dateTime = dateTime;
@@ -116,20 +116,20 @@ public class MuscRecord : Record
     }
 }
 
-public class TrackRecord
+public class TrackRecordDBInfo
 {
-    private Int64 _trackRecordUnique;
-    private Int64 _cardiRecordUnique;
+    private long _trackRecordUnique;
+    private long _cardiRecordUnique;
     private int _trackIndex;
     private int _elapsedTime;
 
-    public Int64 trackRecordUnique
+    public long trackRecordUnique
     {
         get { return _trackRecordUnique; }
         private set { _trackRecordUnique = value; }
     }
 
-    public Int64 cardiRecordUnique
+    public long cardiRecordUnique
     {
         get { return _cardiRecordUnique; }
         private set { _cardiRecordUnique = value; }
@@ -147,7 +147,7 @@ public class TrackRecord
         private set { _elapsedTime = value; }
     }
 
-    public TrackRecord(Int64 trackRecordUnique, Int64 cardiRecordUnique, int trackIndex, int elapsedTime)
+    public TrackRecordDBInfo(long trackRecordUnique, long cardiRecordUnique, int trackIndex, int elapsedTime)
     {
         _trackRecordUnique = trackRecordUnique;
         _cardiRecordUnique = cardiRecordUnique;
@@ -158,29 +158,5 @@ public class TrackRecord
     public void Print()
     {
         Debug.Log(_trackRecordUnique + " " + _cardiRecordUnique + " " + _trackIndex + " " + _elapsedTime);
-    }
-}
-
-public class SchoolMission
-{
-    private Int64 _missionUnique;
-    private string _missionDesc;
-
-    public Int64 missionUnique
-    {
-        get { return _missionUnique; }
-        private set { _missionUnique = value; }
-    }
-
-    public string missionDesc
-    {
-        get { return _missionDesc; }
-        private set { _missionDesc = value; }
-    }
-
-    public SchoolMission(Int64 missionUnique, string missionDesc)
-    {
-        _missionUnique = missionUnique;
-        _missionDesc = missionDesc;
     }
 }

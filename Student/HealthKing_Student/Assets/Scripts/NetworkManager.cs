@@ -5,62 +5,61 @@ using UnityEngine;
 using Boomlagoon.JSON;  // JSON 파서 사용
 using UnityEngine.UI;
 
-public class DataManager
+public class NetworkManager
 {
-    private StudentInfo _studentInfo;
-
-    private List<CardiRecord> _cardiRecordList;
-    private List<AgileRecord> _agileRecordList;
-    private List<MuscRecord> _muscRecordList;
-    private List<TrackRecord> _trackRecordList;
-    private List<SchoolMission> _schoolMissionList;
-    private List<int> _avgTrackRecordList;
-    private int _avgAgileRecord;
-    private int _avgMuscRecord;
-    private int _normalDistMyPercent;
-
-    static private DataManager _instance;
-    static public DataManager GetInstance()
+    static private NetworkManager _instance;
+    static public NetworkManager GetInstance()
     {
         if (_instance == null)
         {
-            _instance = new DataManager();
+            _instance = new NetworkManager();
             _instance.Init();
         }
         return _instance;
     }
 
-    public StudentInfo studentInfo
+    private StudentDBInfo _studentInfo;
+    private List<CardiRecordDBInfo> _cardiRecordList;
+    private List<AgileRecordDBInfo> _agileRecordList;
+    private List<MuscRecordDBInfo> _muscRecordList;
+    private List<TrackRecordDBInfo> _trackRecordList;
+    private List<SchoolMissionDBInfo> _schoolMissionList;
+    private List<int> _avgTrackRecordList;
+    private int _avgAgileRecord;
+    private int _avgMuscRecord;
+    private int _normalDistMyPercent;
+
+    public StudentDBInfo studentInfo
     {
         get { return _studentInfo; }
         private set { _studentInfo = value; }
     }
 
-    public List<CardiRecord> cardiRecordList
+    public List<CardiRecordDBInfo> cardiRecordList
     {
         get { return _cardiRecordList; }
         private set { _cardiRecordList = value; }
     }
 
-    public List<AgileRecord> agileRecordList
+    public List<AgileRecordDBInfo> agileRecordList
     {
         get { return _agileRecordList; }
         private set { _agileRecordList = value; }
     }
 
-    public List<MuscRecord> muscRecordList
+    public List<MuscRecordDBInfo> muscRecordList
     {
         get { return _muscRecordList; }
         private set { _muscRecordList = value; }
     }
 
-    public List<TrackRecord> trackRecordList
+    public List<TrackRecordDBInfo> trackRecordList
     {
         get { return _trackRecordList; }
         private set { _trackRecordList = value; }
     }
 
-    public List<SchoolMission> schoolMissionList
+    public List<SchoolMissionDBInfo> schoolMissionList
     {
         get { return _schoolMissionList; }
         private set { _schoolMissionList = value; }
@@ -92,11 +91,11 @@ public class DataManager
 
     public void Init()
     {
-        _cardiRecordList = new List<CardiRecord>();
-        _agileRecordList = new List<AgileRecord>();
-        _muscRecordList = new List<MuscRecord>();
-        _trackRecordList = new List<TrackRecord>();
-        _schoolMissionList = new List<SchoolMission>();
+        _cardiRecordList = new List<CardiRecordDBInfo>();
+        _agileRecordList = new List<AgileRecordDBInfo>();
+        _muscRecordList = new List<MuscRecordDBInfo>();
+        _trackRecordList = new List<TrackRecordDBInfo>();
+        _schoolMissionList = new List<SchoolMissionDBInfo>();
         _avgTrackRecordList = new List<int>();
     }
 
@@ -367,7 +366,7 @@ public class DataManager
             string gender = jObject.GetString("Gender");
             string name = jObject.GetString("Name");
 
-            _studentInfo = new StudentInfo(ID, schoolUnique, schoolName, schoolGrade, grade, classNum, number, gender, name);
+            _studentInfo = new StudentDBInfo(ID, schoolUnique, schoolName, schoolGrade, grade, classNum, number, gender, name);
             _studentInfo.Print();
         }
         catch (Exception e)
@@ -389,7 +388,7 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return true;
 
-            Int64 recordUnique;
+            long recordUnique;
             DateTime dateTime;
             int totalMeter, totalTrackCount, totalElapsedTime;
             int i = 0;
@@ -402,7 +401,7 @@ public class DataManager
                 totalTrackCount = System.Convert.ToInt32(jObject.GetString("TotalTrackCount"));
                 totalElapsedTime = System.Convert.ToInt32(jObject.GetString("TotalElapsedTime"));
 
-                CardiRecord cardiRecord = new CardiRecord(recordUnique, dateTime, totalMeter, totalTrackCount, totalElapsedTime);
+                CardiRecordDBInfo cardiRecord = new CardiRecordDBInfo(recordUnique, dateTime, totalMeter, totalTrackCount, totalElapsedTime);
                 _cardiRecordList.Add(cardiRecord);
                 cardiRecord.Print();
                 ++i;
@@ -427,7 +426,7 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return true;
 
-            Int64 recordUnique;
+            long recordUnique;
             DateTime dateTime;
             int meter, elapsedTime;
             int i = 0;
@@ -439,7 +438,7 @@ public class DataManager
                 meter = System.Convert.ToInt32(jObject.GetString("Meter"));
                 elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
 
-                AgileRecord agileRecord = new AgileRecord(recordUnique, dateTime, meter, elapsedTime);
+                AgileRecordDBInfo agileRecord = new AgileRecordDBInfo(recordUnique, dateTime, meter, elapsedTime);
                 _agileRecordList.Add(agileRecord);
                 agileRecord.Print();
                 ++i;
@@ -464,7 +463,7 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return true;
 
-            Int64 recordUnique;
+            long recordUnique;
             DateTime dateTime;
             int count;
             int i = 0;
@@ -475,7 +474,7 @@ public class DataManager
                 dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
                 count = System.Convert.ToInt32(jObject.GetString("Count"));
 
-                MuscRecord muscRecord = new MuscRecord(recordUnique, dateTime, count);
+                MuscRecordDBInfo muscRecord = new MuscRecordDBInfo(recordUnique, dateTime, count);
                 _muscRecordList.Add(muscRecord);
                 muscRecord.Print();
                 ++i;
@@ -500,7 +499,7 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return false;
 
-            Int64 trackRecordUnique, cardiRecordUnique;
+            long trackRecordUnique, cardiRecordUnique;
             int trackIndex, elapsedTime;
             int i = 0;
             while (i < jsonArray.Length)
@@ -511,7 +510,7 @@ public class DataManager
                 trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
                 elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
 
-                TrackRecord trackRecord = new TrackRecord(trackRecordUnique, cardiRecordUnique, trackIndex, elapsedTime);
+                TrackRecordDBInfo trackRecord = new TrackRecordDBInfo(trackRecordUnique, cardiRecordUnique, trackIndex, elapsedTime);
                 _trackRecordList.Add(trackRecord);
                 trackRecord.Print();
                 ++i;
@@ -635,7 +634,7 @@ public class DataManager
             if (jsonArray.Length == 0)
                 return false;
 
-            Int64 missionUnique;
+            long missionUnique;
             string missionDesc;
             int i = 0;
             while (i < jsonArray.Length)
@@ -643,7 +642,7 @@ public class DataManager
                 JSONObject jObject = jsonArray[i].Obj;
                 missionUnique = System.Convert.ToInt64(jObject.GetString("MissionUnique"));
                 missionDesc = jObject.GetString("MissionDesc");
-                SchoolMission mission = new SchoolMission(missionUnique, missionDesc);
+                SchoolMissionDBInfo mission = new SchoolMissionDBInfo(missionUnique, missionDesc);
                 _schoolMissionList.Add(mission);
                 ++i;
             }

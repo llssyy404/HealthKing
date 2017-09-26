@@ -6,15 +6,15 @@ public class Grade
 {
     static private void GetGenderAndGrade(out int gender, out int grade)
     {
-        gender = DataManager.GetInstance().studentInfo.gender == "남" ? 0 : 1;
+        gender = NetworkManager.GetInstance().studentInfo.gender == "남" ? 0 : 1;
         int schoolGrade = 0;
-        if (DataManager.GetInstance().studentInfo.schoolGrade == "초등학교")
+        if (NetworkManager.GetInstance().studentInfo.schoolGrade == "초등학교")
             schoolGrade = 0;
-        else if (DataManager.GetInstance().studentInfo.schoolGrade == "중학교")
+        else if (NetworkManager.GetInstance().studentInfo.schoolGrade == "중학교")
             schoolGrade = 2;
         else
             schoolGrade = 3;
-        grade = DataManager.GetInstance().studentInfo.grade + schoolGrade * 3;
+        grade = NetworkManager.GetInstance().studentInfo.grade + schoolGrade * 3;
     }
 
     static public PAPS_GRADE GetCardiGrade()

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StudentInfo
+public class StudentDBInfo
 {
     private string _id;          // 아이디
     private int _schoolUnique;   // 학교번호
@@ -69,7 +69,7 @@ public class StudentInfo
         set { _name = value; }
     }
 
-    public StudentInfo(string id, int schoolUnique, string schoolName, string schoolGrade, byte grade, byte classNum, byte number, string gender, string name)
+    public StudentDBInfo(string id, int schoolUnique, string schoolName, string schoolGrade, byte grade, byte classNum, byte number, string gender, string name)
     {
         _id = id;
         _schoolUnique = schoolUnique;

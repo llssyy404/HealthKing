@@ -20,11 +20,11 @@ enum PAGE_TYPE
     FITNESS_UP_TIP,
     MY_RECORD,
     MY_MISSION,
-    RECORD_CARDI,
-    RECORD_CARDI_DATE,
-    RECORD_CARDI_BAR_GRAPH,
-    RECORD_CARDI_LINE_GRAPH,
-    RECORD_CARDI_NORMAL_DISTRIB,
+    RECORD_METER,
+    RECORD_DATE,
+    RECORD_BAR_GRAPH,
+    RECORD_LINE_GRAPH,
+    RECORD_NORMAL_DISTRIB,
     MAX_PAGE_TYPE
 }
 
@@ -71,7 +71,6 @@ struct Key
     public int count
     {
         get { return _count;}
-        
     }
 
     public int sumMeter
@@ -143,11 +142,11 @@ public class UIManager : MonoBehaviour {
         _obj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
         _obj[(int)PAGE_TYPE.MY_RECORD] = GameObject.Find("Canvas").transform.Find("MyRecord").gameObject;
         _obj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_CARDI] = GameObject.Find("Canvas").transform.Find("Record_Cardi").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE] = GameObject.Find("Canvas").transform.Find("Record_Cardi_Date").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_BarGraph").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_Cardi_LineGraph").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Cardi_Normal_Distribution").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_METER] = GameObject.Find("Canvas").transform.Find("Record_Meter").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_DATE] = GameObject.Find("Canvas").transform.Find("Record_Date").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_BarGraph").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_LINE_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_LineGraph").gameObject;
+        _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Normal_Distribution").gameObject;
 
         // 미션
         _missionObj = new GameObject[_MAX_MISSION];
@@ -397,13 +396,13 @@ public class UIManager : MonoBehaviour {
         {
             case PAGE_TYPE.LOGIN:
                 {
-                    if (!DataManager.GetInstance().LoginStudent(_id_pwInput))
+                    if (!NetworkManager.GetInstance().LoginStudent(_id_pwInput))
                     {
                         ShowMessageBox("ID 또는 비밀번호가 일치하지 않습니다.");
                         return false;
                     }
 
-                    if (!DataManager.GetInstance().LoadData())
+                    if (!NetworkManager.GetInstance().LoadData())
                     {
                         ShowMessageBox("데이터 로딩에 실패하였습니다.");
                         return false;
@@ -414,7 +413,7 @@ public class UIManager : MonoBehaviour {
                 break;
             case PAGE_TYPE.PAPS:
                 {
-                    if(DataManager.GetInstance().studentInfo.schoolGrade == "초등학교" && DataManager.GetInstance().studentInfo.grade < 4)
+                    if(NetworkManager.GetInstance().studentInfo.schoolGrade == "초등학교" && NetworkManager.GetInstance().studentInfo.grade < 4)
                     {
                         ShowMessageBox("PAPS 조회는 초등학교 4학년부터 가능합니다.");
                         return false;
@@ -439,13 +438,13 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.MY_MISSION:
                 AppManager.GetInstance().SetMissionInfo(_listString);
                 break;
-            case PAGE_TYPE.RECORD_CARDI:
+            case PAGE_TYPE.RECORD_METER:
                 {
                     switch(_selRecordType)
                     {
                         case RECORD_TYPE.CARDI:
                             {
-                                if(DataManager.GetInstance().cardiRecordList.Count == 0)
+                                if(NetworkManager.GetInstance().cardiRecordList.Count == 0)
                                 {
                                     ShowMessageBox("심폐지구력 측정 기록이 없습니다.");
                                     return false;
@@ -454,7 +453,7 @@ public class UIManager : MonoBehaviour {
                             break;
                         case RECORD_TYPE.AGILE:
                             {
-                                if (DataManager.GetInstance().agileRecordList.Count == 0)
+                                if (NetworkManager.GetInstance().agileRecordList.Count == 0)
                                 {
                                     ShowMessageBox("순발력 측정 기록이 없습니다.");
                                     return false;
@@ -463,7 +462,7 @@ public class UIManager : MonoBehaviour {
                             break;
                         case RECORD_TYPE.MUSC:
                             {
-                                if (DataManager.GetInstance().muscRecordList.Count == 0)
+                                if (NetworkManager.GetInstance().muscRecordList.Count == 0)
                                 {
                                     ShowMessageBox("근력근지구력 측정 기록이 없습니다.");
                                     return false;
@@ -514,7 +513,7 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.PAPS_RESULT:
                 PAPSResultUISetting();
                 break;
-            case PAGE_TYPE.RECORD_CARDI:
+            case PAGE_TYPE.RECORD_METER:
                 CreateMeterButton();
                 break;
             default:
@@ -524,7 +523,7 @@ public class UIManager : MonoBehaviour {
 
     void PAPSUISetting()
     {
-        StudentInfo studentInfo = DataManager.GetInstance().studentInfo;
+        StudentDBInfo studentInfo = NetworkManager.GetInstance().studentInfo;
         GameObject obj = GameObject.Find("UserInform");
         obj.GetComponent<Text>().text = studentInfo.schoolName + " " +studentInfo.schoolGrade + " " + studentInfo.grade + "학년 " 
             + studentInfo.classNum + "반 " + studentInfo.number + "번 " + studentInfo.name + "(" + studentInfo.gender + ")";
@@ -602,25 +601,25 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.MY_MISSION:
                 OnClickStartBtn((int)PAGE_TYPE.MAIN);
                 break;
-            case PAGE_TYPE.RECORD_CARDI:
+            case PAGE_TYPE.RECORD_METER:
                 OnClickStartBtn((int)PAGE_TYPE.MY_RECORD);
                 break;
-            case PAGE_TYPE.RECORD_CARDI_DATE:
+            case PAGE_TYPE.RECORD_DATE:
                 {
                     if(_selRecordType == RECORD_TYPE.MUSC)
                         OnClickStartBtn((int)PAGE_TYPE.MY_RECORD);
                     else
-                        OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI);
+                        OnClickStartBtn((int)PAGE_TYPE.RECORD_METER);
                 }
                 break;
-            case PAGE_TYPE.RECORD_CARDI_BAR_GRAPH:
-                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
+            case PAGE_TYPE.RECORD_BAR_GRAPH:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_DATE);
                 break;
-            case PAGE_TYPE.RECORD_CARDI_LINE_GRAPH:
-                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
+            case PAGE_TYPE.RECORD_LINE_GRAPH:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_DATE);
                 break;
-            case PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB:
-                OnClickStartBtn((int)PAGE_TYPE.RECORD_CARDI_DATE);
+            case PAGE_TYPE.RECORD_NORMAL_DISTRIB:
+                OnClickStartBtn((int)PAGE_TYPE.RECORD_DATE);
                 break;
             default:
                 Debug.Log("Invalid PAGE_TYPE");
@@ -630,13 +629,13 @@ public class UIManager : MonoBehaviour {
 
     void SetStudentInfo()
     {
-        _studentInput[(int)STUDENT_INFO_TEXT.SCHOOLNAME].text = DataManager.GetInstance().studentInfo.schoolName;
-        _studentInput[(int)STUDENT_INFO_TEXT.SCHOOLGRADE].text = DataManager.GetInstance().studentInfo.schoolGrade;
-        _studentInput[(int)STUDENT_INFO_TEXT.GRADE].text = DataManager.GetInstance().studentInfo.grade.ToString();
-        _studentInput[(int)STUDENT_INFO_TEXT.CLASS].text = DataManager.GetInstance().studentInfo.classNum.ToString();
-        _studentInput[(int)STUDENT_INFO_TEXT.NUMBER].text = DataManager.GetInstance().studentInfo.number.ToString();
-        _studentInput[(int)STUDENT_INFO_TEXT.NAME].text = DataManager.GetInstance().studentInfo.name;
-        _studentInput[(int)STUDENT_INFO_TEXT.GENDER].text = DataManager.GetInstance().studentInfo.gender;
+        _studentInput[(int)STUDENT_INFO_TEXT.SCHOOLNAME].text = NetworkManager.GetInstance().studentInfo.schoolName;
+        _studentInput[(int)STUDENT_INFO_TEXT.SCHOOLGRADE].text = NetworkManager.GetInstance().studentInfo.schoolGrade;
+        _studentInput[(int)STUDENT_INFO_TEXT.GRADE].text = NetworkManager.GetInstance().studentInfo.grade.ToString();
+        _studentInput[(int)STUDENT_INFO_TEXT.CLASS].text = NetworkManager.GetInstance().studentInfo.classNum.ToString();
+        _studentInput[(int)STUDENT_INFO_TEXT.NUMBER].text = NetworkManager.GetInstance().studentInfo.number.ToString();
+        _studentInput[(int)STUDENT_INFO_TEXT.NAME].text = NetworkManager.GetInstance().studentInfo.name;
+        _studentInput[(int)STUDENT_INFO_TEXT.GENDER].text = NetworkManager.GetInstance().studentInfo.gender;
     }
 
     private List<Button> _dateButtonList;
@@ -652,14 +651,14 @@ public class UIManager : MonoBehaviour {
         }
         _dateButtonList.Clear();
 
-        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("LittleTitle").gameObject;
+        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
         Text titleTxt = titleObj.GetComponent<Text>();
         titleTxt.text = "심폐지구력";
-        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("MeterTitle").gameObject;
+        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
         Text meterTxt = meterObj.GetComponent<Text>();
         meterTxt.text = count.ToString() + "바퀴, 총 " + meter.ToString() + "m";
 
-        List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
+        List<CardiRecordDBInfo> list = NetworkManager.GetInstance().cardiRecordList;
         for (int i = 0; i < list.Count; ++i)
         {
             if (list[i].totalTrackCount != count || list[i].totalMeter != meter)
@@ -675,56 +674,56 @@ public class UIManager : MonoBehaviour {
             button.onClick.AddListener(
                 () =>
                 {
-                    if (!DataManager.GetInstance().GetTrackRecord(cardiRecordUnique))
+                    if (!NetworkManager.GetInstance().GetTrackRecord(cardiRecordUnique))
                         return;
 
-                    if (!DataManager.GetInstance().GetCardiAvgRecord(meter, count))
+                    if (!NetworkManager.GetInstance().GetCardiAvgRecord(meter, count))
                         return;
 
-                    if (!DataManager.GetInstance().GetCardiNorDistRecord(cardiRecordUnique, meter, count, totalElapsedTime))
+                    if (!NetworkManager.GetInstance().GetCardiNorDistRecord(cardiRecordUnique, meter, count, totalElapsedTime))
                         return;
 
-                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
+                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
                     Text tTxt = tObj.GetComponent<Text>();
                     tTxt.text = titleTxt.text;
-                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
+                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
                     Text mTxt = mObj.GetComponent<Text>();
                     mTxt.text = meterTxt.text;
-                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
+                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("DateTitle").gameObject;
                     Text dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
-                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LineButton").gameObject;
+                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("LineButton").gameObject;
                     nObj.SetActive(true);
 
-                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("LittleTitle").gameObject;
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_LINE_GRAPH].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
                     tTxt.text = titleTxt.text;
-                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("MeterTitle").gameObject;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_LINE_GRAPH].transform.Find("MeterTitle").gameObject;
                     mTxt = mObj.GetComponent<Text>();
                     mTxt.text = meterTxt.text;
-                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("DateTitle").gameObject;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_LINE_GRAPH].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
-                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_LINE_GRAPH].transform.Find("LineButton").gameObject;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_LINE_GRAPH].transform.Find("LineButton").gameObject;
                     nObj.SetActive(true);
 
-                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
                     tTxt.text = titleTxt.text;
-                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
                     mTxt = mObj.GetComponent<Text>();
                     mTxt.text = meterTxt.text;
-                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
-                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
                     nObj.SetActive(true);
 
-                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
+                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
-                    t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
+                    t.text = "나의 기록은 상위 " + NetworkManager.GetInstance().normalDistMyPercent + "%입니다";
                     Vector2 vector = _percentileLine.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta;
-                    float f = vector.x / 100 * (100 - DataManager.GetInstance().normalDistMyPercent);
+                    float f = vector.x / 100 * (100 - NetworkManager.GetInstance().normalDistMyPercent);
                     Debug.Log(f);
                     _percentileLine.GetComponent<RectTransform>().localPosition = new Vector3(_percentLineStandard.GetComponent<RectTransform>().localPosition.x + f,
                         _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
@@ -748,14 +747,14 @@ public class UIManager : MonoBehaviour {
         }
         _dateButtonList.Clear();
 
-        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("LittleTitle").gameObject;
+        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
         Text titleTxt = titleObj.GetComponent<Text>();
         titleTxt.text = "순발력";
-        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("MeterTitle").gameObject;
+        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
         Text meterTxt = meterObj.GetComponent<Text>();
         meterTxt.text = meter.ToString() + "m";
 
-        List<AgileRecord> list = DataManager.GetInstance().agileRecordList;
+        List<AgileRecordDBInfo> list = NetworkManager.GetInstance().agileRecordList;
         for (int i = 0; i < list.Count; ++i)
         {
             if (list[i].meter != meter)
@@ -771,41 +770,41 @@ public class UIManager : MonoBehaviour {
             button.onClick.AddListener(
                 () =>
                 {
-                    if (!DataManager.GetInstance().GetAgileAvgRecord(meter))
+                    if (!NetworkManager.GetInstance().GetAgileAvgRecord(meter))
                         return;
 
-                    if (!DataManager.GetInstance().GetAgileNorDistRecord(agileRecordUnique, meter, elapsedTime))
+                    if (!NetworkManager.GetInstance().GetAgileNorDistRecord(agileRecordUnique, meter, elapsedTime))
                         return;
 
-                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
+                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
                     Text tTxt = tObj.GetComponent<Text>();
                     tTxt.text = titleTxt.text;
-                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
+                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
                     Text mTxt = mObj.GetComponent<Text>();
                     mTxt.text = meterTxt.text;
-                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
+                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("DateTitle").gameObject;
                     Text dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
-                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LineButton").gameObject;
+                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("LineButton").gameObject;
                     nObj.SetActive(false);
 
-                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
                     tTxt.text = titleTxt.text;
-                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
                     mTxt = mObj.GetComponent<Text>();
                     mTxt.text = meterTxt.text;
-                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
-                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
                     nObj.SetActive(false);
 
-                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
+                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
-                    t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
+                    t.text = "나의 기록은 상위 " + NetworkManager.GetInstance().normalDistMyPercent + "%입니다";
                     Vector2 vector = _percentileLine.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta;
-                    float f = vector.x / 100 * (100 - DataManager.GetInstance().normalDistMyPercent);
+                    float f = vector.x / 100 * (100 - NetworkManager.GetInstance().normalDistMyPercent);
                     Debug.Log(f);
                     _percentileLine.GetComponent<RectTransform>().localPosition = new Vector3(_percentLineStandard.GetComponent<RectTransform>().localPosition.x + f,
                         _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
@@ -829,14 +828,14 @@ public class UIManager : MonoBehaviour {
         }
         _dateButtonList.Clear();
 
-        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("LittleTitle").gameObject;
+        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
         Text titleTxt = titleObj.GetComponent<Text>();
         titleTxt.text = "근력근지구력";
-        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_DATE].transform.Find("MeterTitle").gameObject;
+        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
         Text meterTxt = meterObj.GetComponent<Text>();
         meterTxt.text = "";
 
-        List<MuscRecord> list = DataManager.GetInstance().muscRecordList;
+        List<MuscRecordDBInfo> list = NetworkManager.GetInstance().muscRecordList;
         for (int i = 0; i < list.Count; ++i)
         {
             Button button = Instantiate(_dateButton, _dateButton.transform);
@@ -849,41 +848,41 @@ public class UIManager : MonoBehaviour {
             button.onClick.AddListener(
                 () =>
                 {
-                    if (!DataManager.GetInstance().GetMuscAvgRecord())
+                    if (!NetworkManager.GetInstance().GetMuscAvgRecord())
                         return;
 
-                    if (!DataManager.GetInstance().GetMuscNorDistRecord(muscRecordUnique, count))
+                    if (!NetworkManager.GetInstance().GetMuscNorDistRecord(muscRecordUnique, count))
                         return;
 
-                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
+                    GameObject tObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("LittleTitle").gameObject;
                     Text tTxt = tObj.GetComponent<Text>();
                     tTxt.text = titleTxt.text;
-                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
+                    GameObject mObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("MeterTitle").gameObject;
                     Text mTxt = mObj.GetComponent<Text>();
                     mTxt.text = meterTxt.text;
-                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("DateTitle").gameObject;
+                    GameObject dObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("DateTitle").gameObject;
                     Text dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
-                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_BAR_GRAPH].transform.Find("LineButton").gameObject;
+                    GameObject nObj = _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH].transform.Find("LineButton").gameObject;
                     nObj.SetActive(false);
 
-                    tObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
+                    tObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("LittleTitle").gameObject;
                     tTxt = tObj.GetComponent<Text>();
                     tTxt.text = titleTxt.text;
-                    mObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
+                    mObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("MeterTitle").gameObject;
                     mTxt = mObj.GetComponent<Text>();
                     mTxt.text = meterTxt.text;
-                    dObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
+                    dObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("DateTitle").gameObject;
                     dTxt = dObj.GetComponent<Text>();
                     dTxt.text = dateText.text;
-                    nObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
+                    nObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("LineButton").gameObject;
                     nObj.SetActive(false);
 
-                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_CARDI_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
+                    GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
                     Text t = percentObj.GetComponent<Text>();
-                    t.text = "나의 기록은 상위 " + DataManager.GetInstance().normalDistMyPercent + "%입니다";
+                    t.text = "나의 기록은 상위 " + NetworkManager.GetInstance().normalDistMyPercent + "%입니다";
                     Vector2 vector = _percentileLine.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta;
-                    float f = vector.x / 100 * (100-DataManager.GetInstance().normalDistMyPercent);
+                    float f = vector.x / 100 * (100- NetworkManager.GetInstance().normalDistMyPercent);
                     Debug.Log(f);
                     _percentileLine.GetComponent<RectTransform>().localPosition = new Vector3(_percentLineStandard.GetComponent<RectTransform>().localPosition.x+f,
                         _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
@@ -909,12 +908,12 @@ public class UIManager : MonoBehaviour {
         {
             case RECORD_TYPE.CARDI:
                 {
-                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_CARDI].transform.Find("LittleTitle").gameObject;
+                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_METER].transform.Find("LittleTitle").gameObject;
                     Text txt = obj.GetComponent<Text>();
                     txt.text = "심폐지구력";
 
                     Dictionary<Key, int> dic = new Dictionary<Key, int>();
-                    List<CardiRecord> list = DataManager.GetInstance().cardiRecordList;
+                    List<CardiRecordDBInfo> list = NetworkManager.GetInstance().cardiRecordList;
                     for (int i = 0; i < list.Count; ++i)
                     {
                         Key key = new Key(list[i].totalTrackCount, list[i].totalMeter);
@@ -942,11 +941,11 @@ public class UIManager : MonoBehaviour {
                 break;
             case RECORD_TYPE.AGILE:
                 {
-                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_CARDI].transform.Find("LittleTitle").gameObject;
+                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_METER].transform.Find("LittleTitle").gameObject;
                     Text txt = obj.GetComponent<Text>();
                     txt.text = "순발력";
 
-                    List<AgileRecord> list = DataManager.GetInstance().agileRecordList;
+                    List<AgileRecordDBInfo> list = NetworkManager.GetInstance().agileRecordList;
                     Dictionary<int, int> dic = new Dictionary<int, int>();
                     for (int i = 0; i < list.Count; ++i)
                     {
@@ -986,7 +985,7 @@ public class UIManager : MonoBehaviour {
         }
         _schoolMissionObjList.Clear();
 
-        List<SchoolMission> schoolMission = DataManager.GetInstance().schoolMissionList;
+        List<SchoolMissionDBInfo> schoolMission = NetworkManager.GetInstance().schoolMissionList;
         for(int i = 0; i < schoolMission.Count; ++i)
         {
             GameObject obj = Instantiate(_schoolMissionObj, _schoolMissionObj.transform);
@@ -995,7 +994,7 @@ public class UIManager : MonoBehaviour {
             Button btn = obj.transform.Find("Button").gameObject.GetComponent<Button>();
             GameObject isClear = obj.transform.Find("IsClear").gameObject;
             int missionUnique = (int)schoolMission[i].missionUnique;
-            if(DataManager.GetInstance().ExistFinMissionOfStudent(missionUnique))
+            if(NetworkManager.GetInstance().ExistFinMissionOfStudent(missionUnique))
             {
                 btn.gameObject.SetActive(false);
                 isClear.SetActive(true);
@@ -1005,7 +1004,7 @@ public class UIManager : MonoBehaviour {
                 btn.onClick.AddListener(
                     () =>
                     {
-                        if(DataManager.GetInstance().SetFinMissionOfStudent(missionUnique))
+                        if(NetworkManager.GetInstance().SetFinMissionOfStudent(missionUnique))
                         {
                             btn.gameObject.SetActive(false);
                             isClear.SetActive(true);
