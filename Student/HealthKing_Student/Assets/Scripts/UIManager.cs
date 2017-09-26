@@ -422,6 +422,42 @@ public class UIManager : MonoBehaviour {
             case PAGE_TYPE.MY_MISSION:
                 AppManager.GetInstance().SetMissionInfo(_listString);
                 break;
+            case PAGE_TYPE.RECORD_CARDI:
+                {
+                    switch(_selRecordType)
+                    {
+                        case RECORD_TYPE.CARDI:
+                            {
+                                if(DataManager.GetInstance().cardiRecordList.Count == 0)
+                                {
+                                    ShowMessageBox("심폐지구력 측정 기록이 없습니다.");
+                                    return false;
+                                }
+                            }
+                            break;
+                        case RECORD_TYPE.AGILE:
+                            {
+                                if (DataManager.GetInstance().agileRecordList.Count == 0)
+                                {
+                                    ShowMessageBox("순발력 측정 기록이 없습니다.");
+                                    return false;
+                                }
+                            }
+                            break;
+                        case RECORD_TYPE.MUSC:
+                            {
+                                if (DataManager.GetInstance().muscRecordList.Count == 0)
+                                {
+                                    ShowMessageBox("근력근지구력 측정 기록이 없습니다.");
+                                    return false;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
             default:
                 break;
         }
