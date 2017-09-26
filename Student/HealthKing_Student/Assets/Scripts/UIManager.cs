@@ -265,6 +265,12 @@ public class UIManager : MonoBehaviour {
             {
                 _missionInput[i].text = _listString[i] = PlayerPrefs.GetString("Mission" + i);
             }
+
+            if(PlayerPrefs.HasKey("ClearMission" + i))
+            {
+                Debug.Log(System.Convert.ToBoolean(PlayerPrefs.GetString("ClearMission" + i)));
+                AppManager.GetInstance().missionInfo.SetClearMission(i, System.Convert.ToBoolean(PlayerPrefs.GetString("ClearMission" + i)));
+            }
         }
         AppManager.GetInstance().SetMissionInfo(_listString);
         _listString.Clear();
@@ -364,14 +370,33 @@ public class UIManager : MonoBehaviour {
         _selRecordType = (RECORD_TYPE)recordType;
     }
 
-    public void ClearMission(int index)
+    public void DeleteMission(int index)
     {
         if (_listString.Count < index)
             return;
 
         _listString[index] = "";
         _missionInput[index].text = "";
+        GameObject obj = _missionInput[index].transform.parent.gameObject;
+        GameObject isClear = obj.transform.Find("IsClear").gameObject;
+        isClear.SetActive(false);
+        AppManager.GetInstance().missionInfo.SetClearMission(index, false);
     }
+
+    public void ClearMission(int index)
+    {
+        if (_listString.Count < index)
+            return;
+
+        if (_missionInput[index].text == "")
+            return;
+
+        GameObject obj = _missionInput[index].transform.parent.gameObject;
+        GameObject isClear = obj.transform.Find("IsClear").gameObject;
+        isClear.SetActive(true);
+        AppManager.GetInstance().missionInfo.SetClearMission(index, true);
+    }
+
     //
 
     bool PreSettingPage(int sel)
@@ -491,7 +516,11 @@ public class UIManager : MonoBehaviour {
                 _listString = AppManager.GetInstance().papsInfo._BMI.GetInfo();
                 break;
             case PAGE_TYPE.MY_MISSION:
-                SetSchoolMission();
+                {
+                    _listString = AppManager.GetInstance().missionInfo.GetInfo();
+                    SetMissionUI();
+                    SetSchoolMission();
+                }
                 break;
             case PAGE_TYPE.PAPS_RESULT:
                 PAPSResultUISetting();
@@ -975,6 +1004,20 @@ public class UIManager : MonoBehaviour {
             obj.transform.SetParent(_schoolMissionContent.transform);
             obj.gameObject.SetActive(true);
             _schoolMissionObjList.Add(obj);
+        }
+    }
+
+    void SetMissionUI()
+    {
+        for(int i = 0; i < _MAX_MISSION; ++i)
+        {
+            if (!AppManager.GetInstance().missionInfo.GetClearMission(i))
+                continue;
+
+            GameObject obj = _missionInput[i].transform.parent.gameObject;
+            GameObject isClear = obj.transform.Find("IsClear").gameObject;
+            isClear.SetActive(true);
+            AppManager.GetInstance().missionInfo.SetClearMission(i, true);
         }
     }
 }

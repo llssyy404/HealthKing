@@ -82,14 +82,35 @@ public class UserInfo {
 public class MissionInfo
 {
     private List<string> _mission;
+    private List<bool> _clearMission;
 
     public MissionInfo()
     {
         _mission = new List<string>();
-        for(int i = 0; i < 4; ++i)
+        _clearMission = new List<bool>();
+        for (int i = 0; i < 4; ++i)
+        {
             _mission.Add("");
+            _clearMission.Add(false);
+        }
 
         Debug.Log(_mission.Count);
+    }
+
+    public bool GetClearMission(int index)
+    {
+        if (index >= 4)
+            return false;
+
+        return _clearMission[index];
+    }
+
+    public void SetClearMission(int index, bool isClear)
+    {
+        if (index >= 4)
+            return;
+
+        _clearMission[index] = isClear;
     }
 
     public void InitMissionInfo(List<string> listString)

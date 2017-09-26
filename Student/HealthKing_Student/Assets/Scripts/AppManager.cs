@@ -143,7 +143,10 @@ public class AppManager : MonoBehaviour {
         }
 
         for(int i = 0; i < _MAX_MISSION_COUNT; ++i)
-            PlayerPrefs.SetString("Mission"+i, listString[i]);
+        {
+            PlayerPrefs.SetString("Mission" + i, listString[i]);
+            PlayerPrefs.SetString("ClearMission" + i, missionInfo.GetClearMission(i).ToString());
+        }
 
         _missionInfo.InitMissionInfo(listString);
     }
