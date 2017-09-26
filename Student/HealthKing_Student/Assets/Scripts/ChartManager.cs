@@ -36,6 +36,8 @@ public class ChartManager : MonoBehaviour
     private List<Text> _lineXLabels;
     private List<Text> _lineYLabels;
 
+    private RECORD_TYPE recordType = RECORD_TYPE.CARDI;
+
     private void Awake()
     {
         _barLabels = new List<Text>();
@@ -64,17 +66,11 @@ public class ChartManager : MonoBehaviour
         _dataSet[0, 2] = _dataSetLine[0, 2] = 30;
         _dataSet[0, 3] = _dataSetLine[0, 3] = 40;
         _dataSet[0, 4] = _dataSetLine[0, 4] = 50;
-        //_dataSet[0, 5] = 60;
-        //_dataSet[0, 6] = 50;
-        //_dataSet[0, 7] = 40;
         _dataSet[1, 0] = _dataSetLine[1, 0] = 40;
         _dataSet[1, 1] = _dataSetLine[1, 1] = 25;
         _dataSet[1, 2] = _dataSetLine[1, 2] = 53;
         _dataSet[1, 3] = _dataSetLine[1, 3] = 12;
         _dataSet[1, 4] = _dataSetLine[1, 4] = 37;
-        //_dataSet[1, 5] = 58;
-        //_dataSet[1, 6] = 50;
-        //_dataSet[1, 7] = 42;
         _barChart.SetValues(ref _dataSet);
         _lineChart.SetValues(ref _dataSetLine);
 
@@ -193,8 +189,9 @@ public class ChartManager : MonoBehaviour
                 LabelPosition labelPos = _barChart.GetLabelPosition(i, j, 1.0f);
                 if (labelPos != null)
                 {
+                    string str = recordType == RECORD_TYPE.MUSC ? labelPos.value.ToString("0") : StringHourMinSecondMiliSecond((int)labelPos.value);
                     _barLabels[i * _dataSet.Columns + j].transform.parent.gameObject.SetActive(true);
-                    _barLabels[i * _dataSet.Columns + j].text = labelPos.value.ToString("0.00");
+                    _barLabels[i * _dataSet.Columns + j].text = str;
                     _barLabels[i * _dataSet.Columns + j].transform.parent.gameObject.GetComponent<RectTransform>().anchoredPosition = labelPos.position;
                 }
             }
@@ -207,8 +204,9 @@ public class ChartManager : MonoBehaviour
                 LabelPosition labelPos = _lineChart.GetLabelPosition(i, j);
                 if (labelPos != null)
                 {
+                    string str = recordType == RECORD_TYPE.MUSC ? labelPos.value.ToString("0") : StringHourMinSecondMiliSecond((int)labelPos.value);
                     _lineLabels[i * _dataSetLine.Columns + j].gameObject.SetActive(true);
-                    _lineLabels[i * _dataSetLine.Columns + j].text = labelPos.value.ToString("0.00");
+                    _lineLabels[i * _dataSetLine.Columns + j].text = str;
                     _lineLabels[i * _dataSetLine.Columns + j].rectTransform.anchoredPosition = labelPos.position;
                 }
             }
@@ -235,8 +233,9 @@ public class ChartManager : MonoBehaviour
                 }
                 else
                 {
+                    string str = recordType == RECORD_TYPE.MUSC ? positions[i].value.ToString("0") : StringHourMinSecondMiliSecond((int)positions[i].value);
                     _barYLabels[i].gameObject.SetActive(true);
-                    _barYLabels[i].text = positions[i].value.ToString("0.0");
+                    _barYLabels[i].text = str;
                     _barYLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
                 }
             }
@@ -263,16 +262,18 @@ public class ChartManager : MonoBehaviour
                 }
                 else
                 {
+                    string str = recordType == RECORD_TYPE.MUSC ? positions[i].value.ToString("0") : StringHourMinSecondMiliSecond((int)positions[i].value);
                     _lineYLabels[i].gameObject.SetActive(true);
-                    _lineYLabels[i].text = positions[i].value.ToString("0.0");
+                    _lineYLabels[i].text = str;
                     _lineYLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
                 }
             }
         }
     }
 
-    public void SetCardiTrackRecordBarAndLineGraph()
+    public void SetCardiTrackRecordGraph()
     {
+        recordType = RECORD_TYPE.CARDI;
         List<TrackRecord> trackRecord = DataManager.GetInstance().trackRecordList;
         List<int> avgTrackRecordList = DataManager.GetInstance().avgTrackRecordList;
         if (trackRecord.Count != avgTrackRecordList.Count)
@@ -281,6 +282,7 @@ public class ChartManager : MonoBehaviour
             return;
         }
 
+        _barChart.Thickness = 1.0f;
         _dataSet.Clear();
         _dataSetLine.Clear();
         _dataSet = new ChartData2D();
@@ -387,11 +389,16 @@ public class ChartManager : MonoBehaviour
             t.text = t.gameObject.name;
             _lineYLabels.Add(t);
         }
+
+        SetCardiRecordNormalGraph();
     }
 
-    public void SetAgileRecordBarGraph(int elapsedTime)
+    public void SetAgileRecordGraph(int elapsedTime)
     {
+        recordType = RECORD_TYPE.AGILE;
         int avgElapsedTime = DataManager.GetInstance().avgAgileRecord;
+
+        _barChart.Thickness = 0.5f;
         _dataSet.Clear();
         _dataSet = new ChartData2D();
         _dataSet[0, 0] = elapsedTime;
@@ -426,16 +433,6 @@ public class ChartManager : MonoBehaviour
             }
         }
 
-        //for (int i = 0; i < _dataSet.Columns; i++)
-        //{
-        //    GameObject obj = Instantiate(_axisXLabel);
-        //    obj.name = "Label" + i;
-        //    obj.transform.SetParent(_barChart.transform, false);
-        //    Text t = obj.GetComponent<Text>();
-        //    t.text = (i + 1) + "바퀴";
-        //    _barXLabels.Add(t);
-        //}
-
         for (int i = 0; i < _dataSet.Columns; i++)
         {
             GameObject obj = Instantiate(_axisYLabel);
@@ -445,11 +442,16 @@ public class ChartManager : MonoBehaviour
             t.text = t.gameObject.name;
             _barYLabels.Add(t);
         }
+
+        SetAgileRecordNormalGraph();
     }
 
-    public void SetMuscRecordBarGraph(int count)
+    public void SetMuscRecordGraph(int count)
     {
+        recordType = RECORD_TYPE.MUSC;
         int avgCount = DataManager.GetInstance().avgMuscRecord;
+
+        _barChart.Thickness = 0.5f;
         _dataSet.Clear();
         _dataSet = new ChartData2D();
         _dataSet[0, 0] = count;
@@ -484,16 +486,6 @@ public class ChartManager : MonoBehaviour
             }
         }
 
-        //for (int i = 0; i < _dataSet.Columns; i++)
-        //{
-        //    GameObject obj = Instantiate(_axisXLabel);
-        //    obj.name = "Label" + i;
-        //    obj.transform.SetParent(_barChart.transform, false);
-        //    Text t = obj.GetComponent<Text>();
-        //    t.text = (i + 1) + "바퀴";
-        //    _barXLabels.Add(t);
-        //}
-
         for (int i = 0; i < _dataSet.Columns; i++)
         {
             GameObject obj = Instantiate(_axisYLabel);
@@ -503,6 +495,61 @@ public class ChartManager : MonoBehaviour
             t.text = t.gameObject.name;
             _barYLabels.Add(t);
         }
+
+        SetMuscRecordNormalGraph();
     }
 
+    void SetCardiRecordNormalGraph()
+    {
+        _nomalDataSet[0, 0] = 5;
+        _nomalDataSet[0, 1] = 10;
+        _nomalDataSet[0, 2] = 35;
+        _nomalDataSet[0, 3] = 75;
+        _nomalDataSet[0, 4] = 35;
+        _nomalDataSet[0, 5] = 10;
+        _nomalDataSet[0, 6] = 5;
+    }
+
+    void SetAgileRecordNormalGraph()
+    {
+        _nomalDataSet[0, 0] = 5;
+        _nomalDataSet[0, 1] = 10;
+        _nomalDataSet[0, 2] = 50;
+        _nomalDataSet[0, 3] = 90;
+        _nomalDataSet[0, 4] = 35;
+        _nomalDataSet[0, 5] = 20;
+        _nomalDataSet[0, 6] = 5;
+    }
+
+    void SetMuscRecordNormalGraph()
+    {
+        _nomalDataSet[0, 0] = 5;
+        _nomalDataSet[0, 1] = 15;
+        _nomalDataSet[0, 2] = 45;
+        _nomalDataSet[0, 3] = 80;
+        _nomalDataSet[0, 4] = 45;
+        _nomalDataSet[0, 5] = 15;
+        _nomalDataSet[0, 6] = 5;
+    }
+
+    string StringHourMinSecondMiliSecond(int miliSecondTime)
+    {
+        int nowSec = miliSecondTime / 1000;
+        int hour = nowSec / 3600;
+        int min = (nowSec % 3600) / 60;
+        int sec = nowSec % 60;
+        int milSec = miliSecondTime % 1000;
+
+        string str = "";
+        if (hour > 0)
+            str += hour.ToString() + "시";
+        if (min > 0)
+            str += min.ToString() + "분";
+        if (sec > 0)
+            str += sec.ToString() + "초";
+        if(milSec > 0)
+            str += milSec.ToString();
+
+        return str;
+    }
 }

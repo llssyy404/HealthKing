@@ -752,7 +752,7 @@ public class UIManager : MonoBehaviour {
                         _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
-                    obj.SetCardiTrackRecordBarAndLineGraph();
+                    obj.SetCardiTrackRecordGraph();
                 });
             _dateButtonList.Add(button);
         }
@@ -833,7 +833,7 @@ public class UIManager : MonoBehaviour {
                         _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
-                    obj.SetAgileRecordBarGraph(elapsedTime);
+                    obj.SetAgileRecordGraph(elapsedTime);
                 });
             _dateButtonList.Add(button);
         }
@@ -911,7 +911,7 @@ public class UIManager : MonoBehaviour {
                         _percentileLine.GetComponent<RectTransform>().localPosition.y, 0);
 
                     ChartManager obj = FindObjectOfType<ChartManager>();
-                    obj.SetMuscRecordBarGraph(count);
+                    obj.SetMuscRecordGraph(count);
                 });
             _dateButtonList.Add(button);
         }
