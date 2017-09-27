@@ -189,7 +189,7 @@ public class ChartManager : MonoBehaviour
                 LabelPosition labelPos = _barChart.GetLabelPosition(i, j, 1.0f);
                 if (labelPos != null)
                 {
-                    string str = recordType == RECORD_TYPE.MUSC ? labelPos.value.ToString("0") : StringHourMinSecondMiliSecond((int)labelPos.value);
+                    string str = recordType == RECORD_TYPE.MUSC ? labelPos.value.ToString("0") : PublicFunction.ConvertTimeToString((int)labelPos.value);
                     _barLabels[i * _dataSet.Columns + j].transform.parent.gameObject.SetActive(true);
                     _barLabels[i * _dataSet.Columns + j].text = str;
                     _barLabels[i * _dataSet.Columns + j].transform.parent.gameObject.GetComponent<RectTransform>().anchoredPosition = labelPos.position;
@@ -204,7 +204,7 @@ public class ChartManager : MonoBehaviour
                 LabelPosition labelPos = _lineChart.GetLabelPosition(i, j);
                 if (labelPos != null)
                 {
-                    string str = recordType == RECORD_TYPE.MUSC ? labelPos.value.ToString("0") : StringHourMinSecondMiliSecond((int)labelPos.value);
+                    string str = recordType == RECORD_TYPE.MUSC ? labelPos.value.ToString("0") : PublicFunction.ConvertTimeToString((int)labelPos.value);
                     _lineLabels[i * _dataSetLine.Columns + j].gameObject.SetActive(true);
                     _lineLabels[i * _dataSetLine.Columns + j].text = str;
                     _lineLabels[i * _dataSetLine.Columns + j].rectTransform.anchoredPosition = labelPos.position;
@@ -233,7 +233,7 @@ public class ChartManager : MonoBehaviour
                 }
                 else
                 {
-                    string str = recordType == RECORD_TYPE.MUSC ? positions[i].value.ToString("0") : StringHourMinSecondMiliSecond((int)positions[i].value);
+                    string str = recordType == RECORD_TYPE.MUSC ? positions[i].value.ToString("0") : PublicFunction.ConvertTimeToString((int)positions[i].value);
                     _barYLabels[i].gameObject.SetActive(true);
                     _barYLabels[i].text = str;
                     _barYLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
@@ -262,7 +262,7 @@ public class ChartManager : MonoBehaviour
                 }
                 else
                 {
-                    string str = recordType == RECORD_TYPE.MUSC ? positions[i].value.ToString("0") : StringHourMinSecondMiliSecond((int)positions[i].value);
+                    string str = recordType == RECORD_TYPE.MUSC ? positions[i].value.ToString("0") : PublicFunction.ConvertTimeToString((int)positions[i].value);
                     _lineYLabels[i].gameObject.SetActive(true);
                     _lineYLabels[i].text = str;
                     _lineYLabels[i].GetComponent<RectTransform>().anchoredPosition = positions[i].position;
@@ -541,24 +541,4 @@ public class ChartManager : MonoBehaviour
         _nomalDataSet[0, 6] = 5;
     }
 
-    string StringHourMinSecondMiliSecond(int miliSecondTime)
-    {
-        int nowSec = miliSecondTime / 1000;
-        int hour = nowSec / 3600;
-        int min = (nowSec % 3600) / 60;
-        int sec = nowSec % 60;
-        int milSec = miliSecondTime % 1000;
-
-        string str = "";
-        if (hour > 0)
-            str += hour.ToString() + "시";
-        if (min > 0)
-            str += min.ToString() + "분";
-        if (sec > 0)
-            str += sec.ToString() + "초";
-        if(milSec > 0)
-            str += milSec.ToString();
-
-        return str;
-    }
 }

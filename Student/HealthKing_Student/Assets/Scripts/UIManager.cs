@@ -666,7 +666,8 @@ public class UIManager : MonoBehaviour {
 
             Button button = Instantiate(_dateButton, _dateButton.transform);
             Text dateText = button.GetComponentInChildren<Text>();
-            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd")+ " " + list[i].dateTime.Hour + "시 : " + list[i].totalElapsedTime;
+            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd")+ " " + list[i].dateTime.Hour + "시 : " 
+                + PublicFunction.ConvertTimeToString(list[i].totalElapsedTime);
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
             int cardiRecordUnique = (int)list[i].recordUnique;
@@ -762,7 +763,8 @@ public class UIManager : MonoBehaviour {
 
             Button button = Instantiate(_dateButton, _dateButton.transform);
             Text dateText = button.GetComponentInChildren<Text>();
-            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].elapsedTime;
+            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " 
+                + PublicFunction.ConvertTimeToString(list[i].elapsedTime);
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
             int agileRecordUnique = (int)list[i].recordUnique;
@@ -840,7 +842,7 @@ public class UIManager : MonoBehaviour {
         {
             Button button = Instantiate(_dateButton, _dateButton.transform);
             Text dateText = button.GetComponentInChildren<Text>();
-            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].count;
+            dateText.text = System.Convert.ToDateTime(list[i].dateTime).ToString("yyyy-MM-dd") + " " + list[i].dateTime.Hour + "시 : " + list[i].count + "개";
             button.transform.SetParent(_dateContent.transform);
             button.gameObject.SetActive(true);
             int muscRecordUnique = (int)list[i].recordUnique;
