@@ -388,18 +388,15 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return true;
 
-            long recordUnique;
-            DateTime dateTime;
-            int totalMeter, totalTrackCount, totalElapsedTime;
             int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
-                recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
-                dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
-                totalMeter = System.Convert.ToInt32(jObject.GetString("TotalMeter"));
-                totalTrackCount = System.Convert.ToInt32(jObject.GetString("TotalTrackCount"));
-                totalElapsedTime = System.Convert.ToInt32(jObject.GetString("TotalElapsedTime"));
+                long recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
+                DateTime dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
+                int totalMeter = System.Convert.ToInt32(jObject.GetString("TotalMeter"));
+                int totalTrackCount = System.Convert.ToInt32(jObject.GetString("TotalTrackCount"));
+                int totalElapsedTime = System.Convert.ToInt32(jObject.GetString("TotalElapsedTime"));
 
                 CardiRecordDBInfo cardiRecord = new CardiRecordDBInfo(recordUnique, dateTime, totalMeter, totalTrackCount, totalElapsedTime);
                 _cardiRecordList.Add(cardiRecord);
@@ -426,17 +423,14 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return true;
 
-            long recordUnique;
-            DateTime dateTime;
-            int meter, elapsedTime;
             int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
-                recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
-                dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
-                meter = System.Convert.ToInt32(jObject.GetString("Meter"));
-                elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
+                long recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
+                DateTime dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
+                int meter = System.Convert.ToInt32(jObject.GetString("Meter"));
+                int elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
 
                 AgileRecordDBInfo agileRecord = new AgileRecordDBInfo(recordUnique, dateTime, meter, elapsedTime);
                 _agileRecordList.Add(agileRecord);
@@ -463,16 +457,13 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return true;
 
-            long recordUnique;
-            DateTime dateTime;
-            int count;
             int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
-                recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
-                dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
-                count = System.Convert.ToInt32(jObject.GetString("Count"));
+                long recordUnique = System.Convert.ToInt64(jObject.GetString("RecordUnique"));
+                DateTime dateTime = System.Convert.ToDateTime(jObject.GetString("Date"));
+                int count = System.Convert.ToInt32(jObject.GetString("Count"));
 
                 MuscRecordDBInfo muscRecord = new MuscRecordDBInfo(recordUnique, dateTime, count);
                 _muscRecordList.Add(muscRecord);
@@ -499,16 +490,14 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return false;
 
-            long trackRecordUnique, cardiRecordUnique;
-            int trackIndex, elapsedTime;
             int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
-                trackRecordUnique = System.Convert.ToInt64(jObject.GetString("TrackRecordUnique"));
-                cardiRecordUnique = System.Convert.ToInt64(jObject.GetString("CardiRecordUnique"));
-                trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
-                elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
+                long trackRecordUnique = System.Convert.ToInt64(jObject.GetString("TrackRecordUnique"));
+                long cardiRecordUnique = System.Convert.ToInt64(jObject.GetString("CardiRecordUnique"));
+                int trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
+                int elapsedTime = System.Convert.ToInt32(jObject.GetString("ElapsedTime"));
 
                 TrackRecordDBInfo trackRecord = new TrackRecordDBInfo(trackRecordUnique, cardiRecordUnique, trackIndex, elapsedTime);
                 _trackRecordList.Add(trackRecord);
@@ -535,13 +524,12 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return false;
 
-            int trackIndex, perTrackElapsedTime;
             int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
-                trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
-                perTrackElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("PerTrackElapsedTime"));
+                int trackIndex = System.Convert.ToInt32(jObject.GetString("TrackIndex"));
+                int perTrackElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("PerTrackElapsedTime"));
                 _avgTrackRecordList.Add(perTrackElapsedTime);
                 ++i;
             }
@@ -564,9 +552,8 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return false;
 
-            int avgElapsedTime;
             JSONObject jObject = jsonArray[0].Obj;
-            avgElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("AvgElapsedTime"));
+            int avgElapsedTime = (int)System.Convert.ToDouble(jObject.GetString("AvgElapsedTime"));
             _avgAgileRecord = avgElapsedTime;
         }
         catch (Exception e)
@@ -587,9 +574,8 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return false;
 
-            int avgCount;
             JSONObject jObject = jsonArray[0].Obj;
-            avgCount = (int)System.Convert.ToDouble(jObject.GetString("AvgCount"));
+            int avgCount = (int)System.Convert.ToDouble(jObject.GetString("AvgCount"));
             _avgMuscRecord = avgCount;
         }
         catch (Exception e)
@@ -610,9 +596,8 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return false;
 
-            int percentile = 0;
             JSONObject jObject = jsonArray[0].Obj;
-            percentile = System.Convert.ToInt32(jObject.GetNumber("Percentile"));
+            int percentile = System.Convert.ToInt32(jObject.GetNumber("Percentile"));
             _normalDistMyPercent = percentile;
         }
         catch (Exception e)
@@ -634,14 +619,12 @@ public class NetworkManager
             if (jsonArray.Length == 0)
                 return false;
 
-            long missionUnique;
-            string missionDesc;
             int i = 0;
             while (i < jsonArray.Length)
             {
                 JSONObject jObject = jsonArray[i].Obj;
-                missionUnique = System.Convert.ToInt64(jObject.GetString("MissionUnique"));
-                missionDesc = jObject.GetString("MissionDesc");
+                long missionUnique = System.Convert.ToInt64(jObject.GetString("MissionUnique"));
+                string missionDesc = jObject.GetString("MissionDesc");
                 SchoolMissionDBInfo mission = new SchoolMissionDBInfo(missionUnique, missionDesc);
                 _schoolMissionList.Add(mission);
                 ++i;
@@ -660,10 +643,9 @@ public class NetworkManager
     {
         try
         {
-            bool exist = false;
             JSONObject jsonObject = JSONObject.Parse(data);
             JSONObject obj = jsonObject.GetObject("response");
-            exist = obj.GetBoolean("Exist");
+            bool exist = obj.GetBoolean("Exist");
             return exist;
         }
         catch (Exception e)

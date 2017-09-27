@@ -289,10 +289,19 @@ public class ChartManager : MonoBehaviour
         _dataSetLine = new ChartData2D();
         for (int i = 0; i < trackRecord.Count; ++i)
         {
-            _dataSet[0, i] = _dataSetLine[0, i] = trackRecord[i].elapsedTime;
-            _dataSet[1, i] = _dataSetLine[1, i] = avgTrackRecordList[i];
+            _dataSet[0, i] = trackRecord[i].elapsedTime;
+            _dataSet[1, i] = avgTrackRecordList[i];
         }
         _barChart.SetValues(ref _dataSet);
+
+        int accumulateTime = 0, accumulateAvgTime = 0;
+        for (int i = 0; i < trackRecord.Count; ++i)
+        {
+            accumulateTime += trackRecord[i].elapsedTime;
+            accumulateAvgTime += avgTrackRecordList[i];
+            _dataSetLine[0, i] = accumulateTime;
+            _dataSetLine[1, i] = accumulateAvgTime;
+        }
         _lineChart.SetValues(ref _dataSetLine);
 
         for (int i = 0; i < _barLabels.Count; ++i)
