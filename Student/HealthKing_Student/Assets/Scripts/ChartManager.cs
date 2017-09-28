@@ -89,79 +89,8 @@ public class ChartManager : MonoBehaviour
         _axisXLabel.SetActive(false);
         _axisYLabel.SetActive(false);
 
-        _barLabels.Clear();
-        _lineLabels.Clear();
-
-        for (int i = 0; i < _dataSet.Rows; i++)
-        {
-            for (int j = 0; j < _dataSet.Columns; j++)
-            {
-                GameObject obj = Instantiate(_labelBar);
-                obj.name = "Label" + i + "_" + j;
-                obj.transform.SetParent(_barChart.transform, false);
-                Text t = obj.GetComponentInChildren<Text>();
-                _barLabels.Add(t);
-
-            }
-        }
-
-        for (int i = 0; i < _dataSetLine.Rows; i++)
-        {
-            for (int j = 0; j < _dataSetLine.Columns; j++)
-            {
-                GameObject obj = Instantiate(_labelLine);
-                obj.name = "Label" + i + "_" + j;
-                obj.transform.SetParent(_lineChart.transform, false);
-                Text t = obj.GetComponent<Text>();
-                _lineLabels.Add(t);
-            }
-        }
-
-        _barXLabels.Clear();
-        _lineXLabels.Clear();
-
-        for (int i = 0; i < _dataSet.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisXLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_barChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = (i + 1) + "바퀴";
-            _barXLabels.Add(t);
-        }
-
-        for (int i = 0; i < _dataSetLine.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisXLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_lineChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = (i + 1) + "바퀴";
-            _lineXLabels.Add(t);
-        }
-
-        _barYLabels.Clear();
-        _lineYLabels.Clear();
-
-        for (int i = 0; i < _dataSet.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisYLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_barChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = t.gameObject.name;
-            _barYLabels.Add(t);
-        }
-
-        for (int i = 0; i < _dataSetLine.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisYLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_lineChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = t.gameObject.name;
-            _lineYLabels.Add(t);
-        }
+        SetBarGraph();
+        SetLineGraph("바퀴");
     }
 
     ///<summary>
@@ -271,6 +200,110 @@ public class ChartManager : MonoBehaviour
         }
     }
 
+    public void SetBarGraph()
+    {
+        for (int i = 0; i < _barLabels.Count; ++i)
+        {
+            Destroy(_barLabels[i].rectTransform.parent.gameObject);
+        }
+        _barLabels.Clear();
+        for (int i = 0; i < _barXLabels.Count; ++i)
+        {
+            Destroy(_barXLabels[i].gameObject);
+        }
+        _barXLabels.Clear();
+        for (int i = 0; i < _barYLabels.Count; ++i)
+        {
+            Destroy(_barYLabels[i].gameObject);
+        }
+        _barYLabels.Clear();
+
+        for (int i = 0; i < _dataSet.Rows; i++)
+        {
+            for (int j = 0; j < _dataSet.Columns; j++)
+            {
+                GameObject obj = Instantiate(_labelBar);
+                obj.name = "Label" + i + "_" + j;
+                obj.transform.SetParent(_barChart.transform, false);
+                Text t = obj.GetComponentInChildren<Text>();
+                _barLabels.Add(t);
+            }
+        }
+
+        if(recordType == RECORD_TYPE.CARDI)
+        {
+            for (int i = 0; i < _dataSet.Columns; i++)
+            {
+                GameObject obj = Instantiate(_axisXLabel);
+                obj.name = "Label" + i;
+                obj.transform.SetParent(_barChart.transform, false);
+                Text t = obj.GetComponent<Text>();
+                t.text = (i + 1) + "바퀴";
+                _barXLabels.Add(t);
+            }
+        }
+
+        for (int i = 0; i < _dataSet.Columns; i++)
+        {
+            GameObject obj = Instantiate(_axisYLabel);
+            obj.name = "Label" + i;
+            obj.transform.SetParent(_barChart.transform, false);
+            Text t = obj.GetComponent<Text>();
+            t.text = t.gameObject.name;
+            _barYLabels.Add(t);
+        }
+    }
+
+    void SetLineGraph(string axisXLabelText)
+    {
+        for (int i = 0; i < _lineLabels.Count; ++i)
+        {
+            Destroy(_lineLabels[i].gameObject);
+        }
+        for (int i = 0; i < _lineXLabels.Count; ++i)
+        {
+            Destroy(_lineXLabels[i].gameObject);
+        }
+        _lineXLabels.Clear();
+        for (int i = 0; i < _lineYLabels.Count; ++i)
+        {
+            Destroy(_lineYLabels[i].gameObject);
+        }
+        _lineYLabels.Clear();
+
+        for (int i = 0; i < _dataSetLine.Rows; i++)
+        {
+            for (int j = 0; j < _dataSetLine.Columns; j++)
+            {
+                GameObject obj = Instantiate(_labelLine);
+                obj.name = "Label" + i + "_" + j;
+                obj.transform.SetParent(_lineChart.transform, false);
+                Text t = obj.GetComponent<Text>();
+                _lineLabels.Add(t);
+            }
+        }
+
+        for (int i = 0; i < _dataSetLine.Columns; i++)
+        {
+            GameObject obj = Instantiate(_axisXLabel);
+            obj.name = "Label" + i;
+            obj.transform.SetParent(_lineChart.transform, false);
+            Text t = obj.GetComponent<Text>();
+            t.text = (i + 1) + axisXLabelText;
+            _lineXLabels.Add(t);
+        }
+
+        for (int i = 0; i < _dataSetLine.Columns; i++)
+        {
+            GameObject obj = Instantiate(_axisYLabel);
+            obj.name = "Label" + i;
+            obj.transform.SetParent(_lineChart.transform, false);
+            Text t = obj.GetComponent<Text>();
+            t.text = t.gameObject.name;
+            _lineYLabels.Add(t);
+        }
+    }
+
     public void SetCardiTrackRecordGraph()
     {
         recordType = RECORD_TYPE.CARDI;
@@ -304,101 +337,8 @@ public class ChartManager : MonoBehaviour
         }
         _lineChart.SetValues(ref _dataSetLine);
 
-        for (int i = 0; i < _barLabels.Count; ++i)
-        {
-            Destroy(_barLabels[i].rectTransform.parent.gameObject);
-        }
-        _barLabels.Clear();
-        for (int i = 0; i < _lineLabels.Count; ++i)
-        {
-            Destroy(_lineLabels[i].gameObject);
-        }
-        _lineLabels.Clear();
-        for (int i = 0; i < _barXLabels.Count; ++i)
-        {
-            Destroy(_barXLabels[i].gameObject);
-        }
-        _barXLabels.Clear();
-        for (int i = 0; i < _lineXLabels.Count; ++i)
-        {
-            Destroy(_lineXLabels[i].gameObject);
-        }
-        _lineXLabels.Clear();
-        for (int i = 0; i < _barYLabels.Count; ++i)
-        {
-            Destroy(_barYLabels[i].gameObject);
-        }
-        _barYLabels.Clear();
-        for (int i = 0; i < _lineYLabels.Count; ++i)
-        {
-            Destroy(_lineYLabels[i].gameObject);
-        }
-        _lineYLabels.Clear();
-
-        for (int i = 0; i < _dataSet.Rows; i++)
-        {
-            for (int j = 0; j < _dataSet.Columns; j++)
-            {
-                GameObject obj = Instantiate(_labelBar);
-                obj.name = "Label" + i + "_" + j;
-                obj.transform.SetParent(_barChart.transform, false);
-                Text t = obj.GetComponentInChildren<Text>();
-                _barLabels.Add(t);
-            }
-        }
-
-        for (int i = 0; i < _dataSetLine.Rows; i++)
-        {
-            for (int j = 0; j < _dataSetLine.Columns; j++)
-            {
-                GameObject obj = Instantiate(_labelLine);
-                obj.name = "Label" + i + "_" + j;
-                obj.transform.SetParent(_lineChart.transform, false);
-                Text t = obj.GetComponent<Text>();
-                _lineLabels.Add(t);
-            }
-        }
-
-        for (int i = 0; i < _dataSet.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisXLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_barChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = (i + 1) + "바퀴";
-            _barXLabels.Add(t);
-        }
-
-        for (int i = 0; i < _dataSetLine.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisXLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_lineChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = (i + 1) + "바퀴";
-            _lineXLabels.Add(t);
-        }
-
-        for (int i = 0; i < _dataSet.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisYLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_barChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = t.gameObject.name;
-            _barYLabels.Add(t);
-        }
-
-        for (int i = 0; i < _dataSetLine.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisYLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_lineChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = t.gameObject.name;
-            _lineYLabels.Add(t);
-        }
-
+        SetBarGraph();
+        SetLineGraph("바퀴");
         SetCardiRecordNormalGraph();
     }
 
@@ -414,44 +354,7 @@ public class ChartManager : MonoBehaviour
         _dataSet[1, 0] = avgElapsedTime;
         _barChart.SetValues(ref _dataSet);
 
-        for (int i = 0; i < _barLabels.Count; ++i)
-        {
-            Destroy(_barLabels[i].rectTransform.parent.gameObject);
-        }
-        _barLabels.Clear();
-        for (int i = 0; i < _barXLabels.Count; ++i)
-        {
-            Destroy(_barXLabels[i].gameObject);
-        }
-        _barXLabels.Clear();
-        for (int i = 0; i < _barYLabels.Count; ++i)
-        {
-            Destroy(_barYLabels[i].gameObject);
-        }
-        _barYLabels.Clear();
-
-        for (int i = 0; i < _dataSet.Rows; i++)
-        {
-            for (int j = 0; j < _dataSet.Columns; j++)
-            {
-                GameObject obj = Instantiate(_labelBar);
-                obj.name = "Label" + i + "_" + j;
-                obj.transform.SetParent(_barChart.transform, false);
-                Text t = obj.GetComponentInChildren<Text>();
-                _barLabels.Add(t);
-            }
-        }
-
-        for (int i = 0; i < _dataSet.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisYLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_barChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = t.gameObject.name;
-            _barYLabels.Add(t);
-        }
-
+        SetBarGraph();
         SetAgileRecordNormalGraph();
     }
 
@@ -467,44 +370,7 @@ public class ChartManager : MonoBehaviour
         _dataSet[1, 0] = avgCount;
         _barChart.SetValues(ref _dataSet);
 
-        for (int i = 0; i < _barLabels.Count; ++i)
-        {
-            Destroy(_barLabels[i].rectTransform.parent.gameObject);
-        }
-        _barLabels.Clear();
-        for (int i = 0; i < _barXLabels.Count; ++i)
-        {
-            Destroy(_barXLabels[i].gameObject);
-        }
-        _barXLabels.Clear();
-        for (int i = 0; i < _barYLabels.Count; ++i)
-        {
-            Destroy(_barYLabels[i].gameObject);
-        }
-        _barYLabels.Clear();
-
-        for (int i = 0; i < _dataSet.Rows; i++)
-        {
-            for (int j = 0; j < _dataSet.Columns; j++)
-            {
-                GameObject obj = Instantiate(_labelBar);
-                obj.name = "Label" + i + "_" + j;
-                obj.transform.SetParent(_barChart.transform, false);
-                Text t = obj.GetComponentInChildren<Text>();
-                _barLabels.Add(t);
-            }
-        }
-
-        for (int i = 0; i < _dataSet.Columns; i++)
-        {
-            GameObject obj = Instantiate(_axisYLabel);
-            obj.name = "Label" + i;
-            obj.transform.SetParent(_barChart.transform, false);
-            Text t = obj.GetComponent<Text>();
-            t.text = t.gameObject.name;
-            _barYLabels.Add(t);
-        }
-
+        SetBarGraph();
         SetMuscRecordNormalGraph();
     }
 
@@ -540,5 +406,4 @@ public class ChartManager : MonoBehaviour
         _nomalDataSet[0, 5] = 15;
         _nomalDataSet[0, 6] = 5;
     }
-
 }
