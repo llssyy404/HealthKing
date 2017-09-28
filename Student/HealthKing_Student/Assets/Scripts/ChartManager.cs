@@ -260,6 +260,7 @@ public class ChartManager : MonoBehaviour
         {
             Destroy(_lineLabels[i].gameObject);
         }
+        _lineLabels.Clear();
         for (int i = 0; i < _lineXLabels.Count; ++i)
         {
             Destroy(_lineXLabels[i].gameObject);
