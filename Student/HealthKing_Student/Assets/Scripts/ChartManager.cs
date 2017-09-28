@@ -200,7 +200,7 @@ public class ChartManager : MonoBehaviour
         }
     }
 
-    public void SetBarGraph()
+    void SetBarGraph()
     {
         for (int i = 0; i < _barLabels.Count; ++i)
         {
