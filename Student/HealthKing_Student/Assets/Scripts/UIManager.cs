@@ -400,10 +400,10 @@ public class UIManager : MonoBehaviour {
         switch ((PAGE_TYPE)_selNum)
         {
             case PAGE_TYPE.LOGIN:
-                SetLoginData();
+                if (!SetLoginData()) return false;
                 break;
             case PAGE_TYPE.PAPS:
-                CheckStudentGrade();
+                if (!CheckStudentGrade()) return false;
                 break;
             case PAGE_TYPE.CARDI_ENDU:
                 AppManager.GetInstance().SetCardiovascularEnduranceInfo(_listString);
@@ -421,7 +421,7 @@ public class UIManager : MonoBehaviour {
                 AppManager.GetInstance().SetBMIInfo(_listString);
                 break;
             case PAGE_TYPE.MY_RECORD:
-                CheckRecordCount();
+                if (!CheckRecordCount()) return false;
                 break;
             case PAGE_TYPE.MY_MISSION:
                 AppManager.GetInstance().SetMissionInfo(_listString);

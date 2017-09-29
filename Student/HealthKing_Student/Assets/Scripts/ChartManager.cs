@@ -290,7 +290,7 @@ public class ChartManager : MonoBehaviour
             obj.name = "Label" + i;
             obj.transform.SetParent(_lineChart.transform, false);
             Text t = obj.GetComponent<Text>();
-            t.text = (i + 1) + axisXLabelText;
+            t.text = i == 0 ? "" : i + "바퀴";
             _lineXLabels.Add(t);
         }
 
@@ -329,12 +329,13 @@ public class ChartManager : MonoBehaviour
         _barChart.SetValues(ref _dataSet);
 
         int accumulateTime = 0, accumulateAvgTime = 0;
+        _dataSetLine[0, 0] = _dataSetLine[1, 0] = 0;
         for (int i = 0; i < trackRecord.Count; ++i)
         {
             accumulateTime += trackRecord[i].elapsedTime;
             accumulateAvgTime += avgTrackRecordList[i];
-            _dataSetLine[0, i] = accumulateTime;
-            _dataSetLine[1, i] = accumulateAvgTime;
+            _dataSetLine[0, i + 1] = accumulateTime;
+            _dataSetLine[1, i + 1] = accumulateAvgTime;
         }
         _lineChart.SetValues(ref _dataSetLine);
 
