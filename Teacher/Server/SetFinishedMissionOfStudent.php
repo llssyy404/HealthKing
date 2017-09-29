@@ -9,7 +9,12 @@ FROM STUDENT_FIN_MISSION sfm)+1,
 $MissionUnique, '$StudentID')");
 
 $response = array();
-$response["Success"] = true;
+$response["Success"] = false;
+
+if($result)
+{
+    $response["Success"] = true;
+}
 
 echo json_encode(array("response" => $response), JSON_UNESCAPED_UNICODE);
 mysqli_close($con);
