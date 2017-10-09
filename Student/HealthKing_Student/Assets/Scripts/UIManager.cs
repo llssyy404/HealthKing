@@ -98,7 +98,7 @@ public class UIManager : MonoBehaviour {
     public GameObject _percentileLine;
     public GameObject _percentLineStandard;
 
-    private GameObject[] _obj = null;
+    private GameObject[] _pageObj = null;
     private GameObject[] _missionObj = null;
     private int _selNum = 0;
     private int _prevSelNum = 0;
@@ -132,25 +132,25 @@ public class UIManager : MonoBehaviour {
     // Init
     void InitObject()
     {
-        _obj = new GameObject[(int)PAGE_TYPE.MAX_PAGE_TYPE];
-        _obj[(int)PAGE_TYPE.LOGIN] = GameObject.Find("Canvas").transform.Find("Login").gameObject;
-        _obj[(int)PAGE_TYPE.MAIN] = GameObject.Find("Canvas").transform.Find("Main").gameObject;
-        _obj[(int)PAGE_TYPE.BASE_INFORM] = GameObject.Find("Canvas").transform.Find("BaseInform").gameObject;
-        _obj[(int)PAGE_TYPE.PAPS] = GameObject.Find("Canvas").transform.Find("PAPS").gameObject;
-        _obj[(int)PAGE_TYPE.CARDI_ENDU] = GameObject.Find("Canvas").transform.Find("CardiovascularEndurance").gameObject;
-        _obj[(int)PAGE_TYPE.AGILITY] = GameObject.Find("Canvas").transform.Find("Agility").gameObject;
-        _obj[(int)PAGE_TYPE.MUSC_ENDU] = GameObject.Find("Canvas").transform.Find("MuscularEndurance").gameObject;
-        _obj[(int)PAGE_TYPE.FLEXIBILITY] = GameObject.Find("Canvas").transform.Find("Flexibility").gameObject;
-        _obj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject;
-        _obj[(int)PAGE_TYPE.PAPS_RESULT] = GameObject.Find("Canvas").transform.Find("PAPSResult").gameObject;
-        _obj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
-        _obj[(int)PAGE_TYPE.MY_RECORD] = GameObject.Find("Canvas").transform.Find("MyRecord").gameObject;
-        _obj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_METER] = GameObject.Find("Canvas").transform.Find("Record_Meter").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_DATE] = GameObject.Find("Canvas").transform.Find("Record_Date").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_BarGraph").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_LINE_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_LineGraph").gameObject;
-        _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Normal_Distribution").gameObject;
+        _pageObj = new GameObject[(int)PAGE_TYPE.MAX_PAGE_TYPE];
+        _pageObj[(int)PAGE_TYPE.LOGIN] = GameObject.Find("Canvas").transform.Find("Login").gameObject;
+        _pageObj[(int)PAGE_TYPE.MAIN] = GameObject.Find("Canvas").transform.Find("Main").gameObject;
+        _pageObj[(int)PAGE_TYPE.BASE_INFORM] = GameObject.Find("Canvas").transform.Find("BaseInform").gameObject;
+        _pageObj[(int)PAGE_TYPE.PAPS] = GameObject.Find("Canvas").transform.Find("PAPS").gameObject;
+        _pageObj[(int)PAGE_TYPE.CARDI_ENDU] = GameObject.Find("Canvas").transform.Find("CardiovascularEndurance").gameObject;
+        _pageObj[(int)PAGE_TYPE.AGILITY] = GameObject.Find("Canvas").transform.Find("Agility").gameObject;
+        _pageObj[(int)PAGE_TYPE.MUSC_ENDU] = GameObject.Find("Canvas").transform.Find("MuscularEndurance").gameObject;
+        _pageObj[(int)PAGE_TYPE.FLEXIBILITY] = GameObject.Find("Canvas").transform.Find("Flexibility").gameObject;
+        _pageObj[(int)PAGE_TYPE.BMI] = GameObject.Find("Canvas").transform.Find("BMI").gameObject;
+        _pageObj[(int)PAGE_TYPE.PAPS_RESULT] = GameObject.Find("Canvas").transform.Find("PAPSResult").gameObject;
+        _pageObj[(int)PAGE_TYPE.FITNESS_UP_TIP] = GameObject.Find("Canvas").transform.Find("FitnessUpTip").gameObject;
+        _pageObj[(int)PAGE_TYPE.MY_RECORD] = GameObject.Find("Canvas").transform.Find("MyRecord").gameObject;
+        _pageObj[(int)PAGE_TYPE.MY_MISSION] = GameObject.Find("Canvas").transform.Find("MyMission").gameObject;
+        _pageObj[(int)PAGE_TYPE.RECORD_METER] = GameObject.Find("Canvas").transform.Find("Record_Meter").gameObject;
+        _pageObj[(int)PAGE_TYPE.RECORD_DATE] = GameObject.Find("Canvas").transform.Find("Record_Date").gameObject;
+        _pageObj[(int)PAGE_TYPE.RECORD_BAR_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_BarGraph").gameObject;
+        _pageObj[(int)PAGE_TYPE.RECORD_LINE_GRAPH] = GameObject.Find("Canvas").transform.Find("Record_LineGraph").gameObject;
+        _pageObj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB] = GameObject.Find("Canvas").transform.Find("Record_Normal_Distribution").gameObject;
 
         // 미션
         _missionObj = new GameObject[_MAX_MISSION];
@@ -347,7 +347,7 @@ public class UIManager : MonoBehaviour {
         if (_selNum == sel || sel >= (int)PAGE_TYPE.MAX_PAGE_TYPE)
             return;
 
-        if (_obj[_prevSelNum] == null || _obj[_selNum] == null)
+        if (_pageObj[_prevSelNum] == null || _pageObj[_selNum] == null)
             return;
 
         if (!PreSettingPage(sel))
@@ -355,8 +355,8 @@ public class UIManager : MonoBehaviour {
 
         _prevSelNum = _selNum;
         _selNum = sel;
-        _obj[_prevSelNum].SetActive(false);
-        _obj[_selNum].SetActive(true);
+        _pageObj[_prevSelNum].SetActive(false);
+        _pageObj[_selNum].SetActive(true);
         _listString.Clear();
 
         AfterSettingPage();
@@ -649,7 +649,7 @@ public class UIManager : MonoBehaviour {
     }
     //
 
-    void BackPage()     // 0 - 1 - 2, 3, 10 / 3 - 4, 5, 6, 7, 8, 9 / 10 - 11, 12, 13, 14
+    void BackPage()
     {
         switch ((PAGE_TYPE)_selNum)
         {
@@ -729,7 +729,7 @@ public class UIManager : MonoBehaviour {
         {
             case RECORD_TYPE.CARDI:
                 {
-                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_METER].transform.Find("LittleTitle").gameObject;
+                    GameObject obj = _pageObj[(int)PAGE_TYPE.RECORD_METER].transform.Find("LittleTitle").gameObject;
                     Text txt = obj.GetComponent<Text>();
                     txt.text = "심폐지구력";
 
@@ -762,7 +762,7 @@ public class UIManager : MonoBehaviour {
                 break;
             case RECORD_TYPE.AGILE:
                 {
-                    GameObject obj = _obj[(int)PAGE_TYPE.RECORD_METER].transform.Find("LittleTitle").gameObject;
+                    GameObject obj = _pageObj[(int)PAGE_TYPE.RECORD_METER].transform.Find("LittleTitle").gameObject;
                     Text txt = obj.GetComponent<Text>();
                     txt.text = "순발력";
 
@@ -804,10 +804,10 @@ public class UIManager : MonoBehaviour {
 
         DestroyDateButton();
 
-        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
+        GameObject titleObj = _pageObj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
         Text titleTxt = titleObj.GetComponent<Text>();
         titleTxt.text = "심폐지구력";
-        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
+        GameObject meterObj = _pageObj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
         Text meterTxt = meterObj.GetComponent<Text>();
         meterTxt.text = count.ToString() + "바퀴, 총 " + meter.ToString() + "m";
 
@@ -854,10 +854,10 @@ public class UIManager : MonoBehaviour {
 
         DestroyDateButton();
 
-        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
+        GameObject titleObj = _pageObj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
         Text titleTxt = titleObj.GetComponent<Text>();
         titleTxt.text = "순발력";
-        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
+        GameObject meterObj = _pageObj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
         Text meterTxt = meterObj.GetComponent<Text>();
         meterTxt.text = meter.ToString() + "m";
 
@@ -900,10 +900,10 @@ public class UIManager : MonoBehaviour {
 
         DestroyDateButton();
 
-        GameObject titleObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
+        GameObject titleObj = _pageObj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("LittleTitle").gameObject;
         Text titleTxt = titleObj.GetComponent<Text>();
         titleTxt.text = "근력근지구력";
-        GameObject meterObj = _obj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
+        GameObject meterObj = _pageObj[(int)PAGE_TYPE.RECORD_DATE].transform.Find("MeterTitle").gameObject;
         Text meterTxt = meterObj.GetComponent<Text>();
         meterTxt.text = "";
 
@@ -947,12 +947,9 @@ public class UIManager : MonoBehaviour {
 
     bool IsGraphPage(PAGE_TYPE pageType)
     {
-        if (pageType == PAGE_TYPE.RECORD_BAR_GRAPH)
-            return true;
-        if (pageType == PAGE_TYPE.RECORD_LINE_GRAPH)
-            return true;
-        if (pageType == PAGE_TYPE.RECORD_NORMAL_DISTRIB)
-            return true;
+        if (pageType == PAGE_TYPE.RECORD_BAR_GRAPH)         return true;
+        if (pageType == PAGE_TYPE.RECORD_LINE_GRAPH)        return true;
+        if (pageType == PAGE_TYPE.RECORD_NORMAL_DISTRIB)    return true;
 
         return false;
     }
@@ -962,22 +959,22 @@ public class UIManager : MonoBehaviour {
         if (!IsGraphPage(pageType))
             return;
 
-        GameObject tObj = _obj[(int)pageType].transform.Find("LittleTitle").gameObject;
+        GameObject tObj = _pageObj[(int)pageType].transform.Find("LittleTitle").gameObject;
         Text tTxt = tObj.GetComponent<Text>();
         tTxt.text = titleTxt;
-        GameObject mObj = _obj[(int)pageType].transform.Find("MeterTitle").gameObject;
+        GameObject mObj = _pageObj[(int)pageType].transform.Find("MeterTitle").gameObject;
         Text mTxt = mObj.GetComponent<Text>();
         mTxt.text = meterTxt;
-        GameObject dObj = _obj[(int)pageType].transform.Find("DateTitle").gameObject;
+        GameObject dObj = _pageObj[(int)pageType].transform.Find("DateTitle").gameObject;
         Text dTxt = dObj.GetComponent<Text>();
         dTxt.text = dateText;
-        GameObject nObj = _obj[(int)pageType].transform.Find("LineButton").gameObject;
+        GameObject nObj = _pageObj[(int)pageType].transform.Find("LineButton").gameObject;
         nObj.SetActive(enableLineButton);
     }
 
     void SetNormalDistMyPercent()
     {
-        GameObject percentObj = _obj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
+        GameObject percentObj = _pageObj[(int)PAGE_TYPE.RECORD_NORMAL_DISTRIB].transform.Find("PercentileText").gameObject;
         Text t = percentObj.GetComponent<Text>();
         t.text = "나의 기록은 상위 " + NetworkManager.GetInstance().normalDistMyPercent + "%입니다";
         Vector2 vector = _percentileLine.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta;

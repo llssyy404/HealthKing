@@ -514,7 +514,7 @@ public class NetworkManager
         return true;
     }
 
-    public bool SetCardiAvgRecordInfo(string data)
+    public bool SetCardiAvgRecordInfo(string data)      // 같은 학교, 학년, 성별, 기준인 학생들 평균 기록
     {
         _avgTrackRecordList.Clear();
         try
@@ -587,7 +587,7 @@ public class NetworkManager
         return true;
     }
 
-    public bool SetNorDistRecordInfo(string data)   // 정규분포 기준 학생의 퍼센트
+    public bool SetNorDistRecordInfo(string data)   // 같은 학교, 학년, 성별, 기록인 학생들 중 해당 학생의 백분위
     {
         try
         {
